@@ -9,7 +9,7 @@ let httpUrl = ''
 let api = ''
 const VERSION = process.env.VERSION
 switch (VERSION) {
-  case 'dev': 
+  case 'dev':
     // npm run dev
     // httpUrl = 'https://jfapitest.cmyynet.com'
     // api = '/api'
@@ -18,11 +18,13 @@ switch (VERSION) {
     api = '/api'
     break
   case 'pre': // 预部署环境,同域名下不用跨域https://jifenpre.cmyynet.com
-    httpUrl = ''
+    // httpUrl = ''
+    httpUrl = 'http://localhost:8086'
     api = ''
     break
   case 'prod': // 正式环境,同域名下不用跨域https://jifen.cmyynet.com
-    httpUrl = ''
+    // httpUrl = ''
+    httpUrl = 'http://localhost:8086'
     api = ''
     break
   default:

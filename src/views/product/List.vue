@@ -162,6 +162,8 @@ export default {
           {
             label: '产品编号',
             field: 'number',
+            type: 'link',
+            click: this.handleDblclick,
           },
           {
             label: '品列ID',
@@ -174,18 +176,17 @@ export default {
           {
             label: '工艺',
             field: 'craftNames',
+            width: 200,
           },
           {
             label: '分类',
             field: 'categoryNames',
+            width: 200,
           },
           {
             label: '关联产品',
             field: 'contactNames',
-          },
-          {
-            label: '关联产品ID',
-            field: 'contactNumbers',
+            width: 200,
           },
           {
             label: '是否折扣库商品',

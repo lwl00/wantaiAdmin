@@ -12,8 +12,7 @@
             <el-form-item label="产品名称" prop="name" :label-width="formLabelWidth">
               <el-input
                 v-model="addForm.name"
-                placeholder="请填写产品名称"
-                maxlength="60"></el-input>
+                placeholder="请填写产品名称"></el-input>
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" v-if="isShow.number">
@@ -21,7 +20,6 @@
               <el-input
                 v-model="addForm.number"
                 placeholder="请填写产品编号"
-                maxlength="60"
                 disabled></el-input>
             </el-form-item>
           </el-col>
@@ -56,14 +54,6 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
-            <el-form-item label="商品主图" prop="imgMain" :label-width="formLabelWidth">
-              <el-input
-                v-model="addForm.imgMain"
-                placeholder="请填写商品主图"
-                maxlength="60"></el-input>
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
@@ -120,12 +110,12 @@
           </el-col>
 
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
-            <el-form-item label="关联产品" prop="contactNumbers" :label-width="formLabelWidth">
+            <el-form-item label="关联产品" prop="contactNames" :label-width="formLabelWidth">
               <el-tooltip class="item" effect="light"  placement="bottom" popper-class="searchWarp_tooltip">
-                <div slot="content">{{addForm.contactNumbers ? addForm.contactNumbers : '暂无内容'}}</div>
+                <div slot="content">{{addForm.contactNames ? addForm.contactNames : '暂无内容'}}</div>
                 <el-input
                   placeholder="请选择商品"
-                  v-model="addForm.contactNumbers"
+                  v-model="addForm.contactNames"
                   disabled>
                   <template slot="append">
                     <el-button @click="showProduct">选择</el-button>
@@ -133,9 +123,43 @@
                 </el-input>
               </el-tooltip>
             </el-form-item>
-
           </el-col>
 
+          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+            <el-form-item label="商品主图" prop="imgMain" :label-width="formLabelWidth">
+                <el-upload
+                  class="avatar-uploader"
+                  :action="upload.imageUploadAction"
+                  :before-upload="beforeUpload"
+                  :show-file-list="false"
+                  :on-success="handleMianSuccess"
+                  :on-error="handleErrorUpload">
+                  <img v-if="upload.mainImage" :src="upload.mainImage" class="avatar">
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+            </el-form-item>
+          </el-col>
+
+          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+            <el-form-item label="场景图(多张)" prop="imgMain" :label-width="formLabelWidth">
+                <el-upload
+                  ref="upload"
+                  :action="upload.imageUploadAction"
+                  :on-preview="handlePreview"
+                  :before-upload="beforeUpload"
+                  :on-remove="handleEffectRemove"
+                  :on-success="handleEffectSuccess"
+                  :on-error="handleErrorUpload"
+                  :file-list="upload.effectFileList"
+                  :multiple="false"
+                  list-type="picture-card">
+                  <i class="el-icon-plus"></i>
+                </el-upload>
+                <el-dialog :visible.sync="dialogVisible">
+                  <img width="100%" :src="dialogImageUrl" alt="">
+                </el-dialog>
+            </el-form-item>
+          </el-col>
         </el-row>
 
       </el-form>
@@ -169,25 +193,24 @@
                     <el-input size="mini" placeholder="请输入内容" v-model="detail.addRow[item.field]">
                     </el-input>
                   </span>
-                  <span v-else>{{scope.row[item.field]}}</span>
+                  <span v-if="!scope.row.isEdit">{{scope.row[item.field]}}</span>
                 </div>
 
                 <!-- upload -->
                 <div v-if="item.type == 'upload'">
                   <span v-if="scope.row.isEdit">
                     <el-upload
-                      name="file"
-                      :action="searchImportAction"
-                      :before-upload="beforeAvatarUpload"
-                      :file-list="fileList"
-                      :on-success="uploadSuccess"
-                      :on-error="handleErrorPreviary"
-                      :on-change="handleFileChange"
-                      :multiple="false">
-                      <el-button size="mini">上传</el-button>
+                      class="avatar-uploader"
+                      :action="upload.imageUploadAction"
+                      :before-upload="beforeUpload"
+                      :show-file-list="false"
+                      :on-success="handleDetailSuccess"
+                      :on-error="handleErrorUpload">
+                      <img v-if="upload.detailImage" :src="upload.detailImage" class="avatar">
+                      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                   </span>
-                  <span v-else>查看(2)</span>
+                  <span v-if="!scope.row.isEdit"><img v-if="scope.row.url" :src="scope.row.url" class="avatar"></span>
                 </div>
 
               </template>
@@ -200,7 +223,7 @@
                 <span v-if="!scope.row.isEdit" class="el-tag el-tag--danger el-tag--mini" style="cursor: pointer;" @click="handleDetailDelete(scope.row, scope.$index)">
                   删除
                 </span>
-                <span v-else class="el-tag  el-tag--mini" style="cursor: pointer;" @click="pwdChange(scope.row, scope.$index, false)">
+                <span v-if="scope.row.isEdit" class="el-tag  el-tag--mini" style="cursor: pointer;" @click="pwdChange(scope.row, scope.$index, false)">
                   取消
                 </span>
               </template>
@@ -233,8 +256,7 @@ import Table from '@/components/Table'
 import Dialog from 'base/Dialog';
 import DialogProduct from '@/components/DialogProduct';
 import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissions, routerLinkPage, arrToString, formatBrandTreeData, delTableDataDetailReturn } from 'common/js/dom';
-import { getDictsData, getProduct, addProduct, editProduct, getBrandTree } from 'api/interface';
-import { searchImportAction } from 'api/interface';
+import { getDictsData, getProduct, addProduct, editProduct, getBrandTree, imageUploadAction, imagesUploadAction, imageHttpsUrlPTF } from 'api/interface';
 
 export default {
   components: {
@@ -288,16 +310,6 @@ export default {
           loading: false,
           click: this.handleDetailAdd,
         },
-        {
-          name: 'cancel',
-          type: '',
-          icon: '',
-          text: '获取明细行数据',
-          class: '',
-          show: true,
-          loading: false,
-          click: this.handleDetailData,
-        },
       ],
 
       // 表单数据
@@ -315,7 +327,8 @@ export default {
         instructions: '',  //
         specificationList: [],  // 明细表
         imgEffectList: [],  // 实景效果图表
-        contactNumbers: '',  // 关联产品
+        contactNames: '',  // 关联产品名称
+        contactNumbers: '',  // 关联产品编号
       },
 
       // 表单展示
@@ -337,7 +350,7 @@ export default {
 
         unitOptions: [],
 
-        brandId: [],  //
+        brandId: [],  // [10, 11]
         brandTree: [],
       },
 
@@ -397,17 +410,9 @@ export default {
         ],
         tableData: [
           // 自定义 字段isEdit  默认为false，true为编辑状态
-          { modelNumber: 'modelNumber', size: 'size', unitPrice: 'unitPrice', volume: 'volume', image: 'image', id: 1, "isEdit": false },
-          { modelNumber: '2', size: '1', unitPrice: '3', volume: '2', image: 'image', id: 2, "isEdit": false },
-          { modelNumber: '1', size: 'si23ze', unitPrice: 'unitPrice', volume: '3', image: '3', id: 3, "isEdit": false },
+          { modelNumber: 'modelNumber', size: 'size', unitPrice: 'unitPrice', volume: 'volume', image: '', id: 1, "isEdit": false }
         ],
       },
-
-      // 上传图片
-      searchImportAction: searchImportAction(),
-      isExcel: false,
-      fileList: [],
-      uploadSuccess: [],
 
 
       /*
@@ -485,7 +490,7 @@ export default {
       ],
       searchDialogProduct: {},
 
-      // 表格
+      // 弹窗表格
       tableDialogProduct: {
         title: [
           {
@@ -550,6 +555,23 @@ export default {
         selectionChange: [],  // 多选行数据
       },
 
+      /*
+       * 图片上传
+       */
+      upload: {
+        imageUploadAction: imageUploadAction(),   // 上传单图action
+        imagesUploadAction: imagesUploadAction(),   // 上传多图action
+        mainLimitNum: 1,    // 主图/明细图最多一张，其他图可以多张
+        mainImage: '',  // 主图
+        mainFileList: [],
+
+        effectFileList: [],  // 实景图
+
+        detailImage: '',  // 明细图
+        detailFileList: [],
+      },
+      dialogImageUrl: '',
+      dialogVisible: false,
     }
   },
   created() {
@@ -557,9 +579,10 @@ export default {
     this._getDictsData()
     this._getBrandTree()
     if(this.id) {
-      this._getProduct()
+      this._getProduct(this.id)
       this.isShow.number = true
     }else {
+      this._getProduct("")
       this.isShow.number = false
     }
   },
@@ -611,12 +634,78 @@ export default {
       })
     },
     // 获取数据
-    _getProduct() {
-      this.loading = true
-      getProduct(this.id).then(res => {
+    _getProduct(id) {
+      let _this = this
+      this.loading = id ? true : false
+      getProduct(id).then(res => {
         this.loading = false
         if (res.status == 200) {
-          console.log(res)
+          if(id) {  // 获取编辑数据
+            this.addForm = res.data.product
+            this.addForm.status = res.data.product.status ? 'true' : 'false'
+            this.addForm.discount = res.data.product.discount ? 'true' : 'false'
+            // 品列
+            let brandIdArr = []
+            brandIdArr.push(res.data.product.brandId)
+            brandIdArr.push(res.data.product.seriesId)
+            this.options.brandId = brandIdArr
+
+            // 工艺
+            let crafts = res.data.product.crafts
+            if(crafts.indexOf(",") >= 0) {
+              this.options.crafts = crafts.split(',')
+            }else {
+              this.options.crafts.push(crafts)
+            }
+
+            // 分类
+            let categorys = res.data.product.categorys
+            if(categorys.indexOf(",") >= 0) {
+              this.options.categorys = categorys.split(',')
+            }else {
+              this.options.categorys.push(categorys)
+            }
+
+            // 明细表
+            if(res.data.product.specificationList.length > 0) {
+              res.data.product.specificationList.forEach(function(item, index) {
+                item.isEdit = false
+                if(item.image) {
+                  item.url = imageHttpsUrlPTF()+item.image
+                }
+              })
+              this.detail.tableData = res.data.product.specificationList
+            }else {
+              this.detail.tableData = []
+            }
+
+            // 主图图片 TODO
+            let imgMain = res.data.product.imgMain
+            let response = {
+              data: imageHttpsUrlPTF()+imgMain
+            }
+            this.upload.mainImage = response.data
+            this.upload.mainFileList.push(response)
+
+            // 实景图
+            if(res.data.product.imgEffectList.length > 0) {
+              res.data.product.imgEffectList.forEach(function(item, index) {
+                let obj = {
+                  url: imageHttpsUrlPTF()+item.image,
+                  response: {
+                    data: imageHttpsUrlPTF()+item.image,
+                  }
+
+                }
+                _this.upload.effectFileList.push(obj)
+              })
+            }else {
+              this.upload.effectFileList = []
+            }
+
+          }else {  // 新增时，自动生成产品编号
+            this.addForm.number = res.data.product.number
+          }
         }
       })
     },
@@ -635,17 +724,33 @@ export default {
     // 保存
     handleSave() {
       let _this = this
-      console.log('明细行数据', this.detail.tableData)
       this.addForm.crafts = arrToString(this.options.crafts)
       this.addForm.categorys = arrToString(this.options.categorys)
       this.addForm.brandId = this.options.brandId[0]
       this.addForm.seriesId = this.options.brandId[1]
 
+      // 主图
+      if(this.upload.mainImage.indexOf("/") >= 0) {
+        this.addForm.imgMain = this.upload.mainImage.split("/").pop()
+      }else {
+        this.addForm.imgMain = this.upload.mainImage
+      }
+
+      // 实景图
+      this.addForm.imgEffectList = []
+      this.upload.effectFileList.forEach(function(item, index) {
+        item.responseData = item.response.data.split("/").pop()
+        let img = {
+          image: item.response.data.split("/").pop()
+        }
+        _this.addForm.imgEffectList.push(img)
+      })
+
       let params  = this.addForm
-      console.log('保存参数', params)
       let formName = 'addProductForm'
 
-      this.saveLoading = true
+      console.log('保存参数', params)
+      this.buttonList.filter(item => item.name === 'save')[0].loading = true
       this.$refs[formName].validate((valid) => {
         if (valid) {
 
@@ -667,29 +772,46 @@ export default {
           })
 
           params.specificationList = this.detail.tableData
-          console.log(params)
+          if(this.id) {
+            editProduct(params).then(res => {
+              if (res.status == 200) {
+                this.$message({
+                  message: '编辑成功',
+                  type: 'success'
+                })
+                this.handleCancel() // 跳转至列表页
+              } else {
+                this.$message({
+                  type: 'error',
+                  message: res.message
+                })
+              }
+              this.buttonList.filter(item => item.name === 'save')[0].loading = false
+            })
+          }else {
+            addProduct(params).then(res => {
+              if (res.status == 200) {
+                this.$message({
+                  message: '新增成功',
+                  type: 'success'
+                })
+                this.handleCancel() // 跳转至列表页
+              } else {
+                this.$message({
+                  type: 'error',
+                  message: res.message
+                })
+              }
+              this.buttonList.filter(item => item.name === 'save')[0].loading = false
+            })
+          }
 
-          addProduct(params).then(res => {
-            if (res.status == 200) {
-              this.$message({
-                message: '新增成功',
-                type: 'success'
-              })
-              this.handleCancel() // 跳转至列表页
-            } else {
-              this.$message({
-                type: 'error',
-                message: res.message
-              })
-            }
-            this.saveLoading = false
-          })
         } else {
           this.$message({
             type: 'warning',
             message: '请完善信息'
           })
-          this.saveLoading = false
+          this.buttonList.filter(item => item.name === 'save')[0].loading = false
           return false;
         }
       })
@@ -704,18 +826,11 @@ export default {
 
     /* 明细表 */
     // 双击行
-    handleDblclick(row) {
-      console.log(row)
-      this.pwdChange(row, row.row_index, true)
-    },
+    handleDblclick(row) {},
 
     // 把每一行的索引放进row.row_index
     rowClassName({row, rowIndex}) {
-        row.row_index = rowIndex+1;
-    },
-    // 获取明细行数据
-    handleDetailData() {
-      console.log('获取明细行数据', this.detail.tableData)
+      row.row_index = rowIndex+1;
     },
 
     // 新增行
@@ -723,10 +838,12 @@ export default {
       for (let i of this.detail.tableData) {
         if (i.isEdit) return this.$message.warning("请先保存当前编辑项");
       }
-      let j = { id: null, modelNumber: '1', size: '', unitPrice: '', volume: '', image: '', "isEdit": true }
+      let j = { id: null, modelNumber: '', size: '', unitPrice: '', volume: '', image: '', "isEdit": true }
       this.detail.tableData.push(j);
       this.detail.addRow = JSON.parse(JSON.stringify(j));
-      console.log(this.detail.addRow)
+
+      this.upload.detailImage = ''
+      this.upload.detailFileList = []
     },
 
     // 删除行  √
@@ -735,12 +852,11 @@ export default {
     },
     //修改
     pwdChange(row, index, cg) {
-      console.log('行号---', index+1)
       console.log('行数据---', row)
 
       // 点击修改 判断是否已经保存所有操作
       for(let i of this.detail.tableData) {
-        if (i.isEdit && i.id != row.id) {
+        if (i.isEdit && i.row_index != row.row_index) {
           this.$message.warning("请先保存当前编辑项");
           return false;
         }
@@ -754,47 +870,29 @@ export default {
       if(row.isEdit) {  // 保存操作
         let data = JSON.parse(JSON.stringify(this.detail.addRow));
         for (let k in data) row[k] = data[k];
+
+        // 明细图
+        row.url = this.upload.detailImage
+        if(this.upload.detailImage.indexOf("/") >= 0) {
+          row.image = this.upload.detailImage.split("/").pop()
+        }
         this.$message({
             type: 'success',
             message: "保存成功!"
         });
         row.isEdit = false;
       }else {  // 编辑
-        this.detail.addRow = JSON.parse(JSON.stringify(row));
+        if(row.image) {
+          // 明细图
+          let obj = {
+            data: imageHttpsUrlPTF()+row.image
+          }
+          this.upload.detailImage = obj.data
+          this.upload.detailFileList.push(obj)
+        }
+        this.detail.addRow = JSON.parse(JSON.stringify(row))
         row.isEdit = true;
       }
-    },
-
-
-
-    // 上传之前
-    beforeAvatarUpload: function (file) {
-      //验证上传文件的类型
-      if (file.type === "application/vnd.ms-excel" || file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
-          this.isExcel = true
-      } else {
-          this.isExcel = false
-      }
-
-      if (!this.isExcel) {
-          this.$message({
-              message: '上传文件只能是 xls或xlsx 格式',
-              type: 'error'
-          })
-      }
-
-      return this.isExcel;
-    },
-    // 上传失败
-    handleErrorPreviary: function (err, file, fileList) {
-      this.$message({
-        message: file.name + '上传失败',
-        type: 'error'
-      })
-    },
-    // 多次上传，只保留最后一次文件
-    handleFileChange(file, fileList) {
-      // console.log('多次上传，只保留最后一次文件')
     },
 
     /*
@@ -813,11 +911,14 @@ export default {
     // 商品弹窗确定
     handleDialogYes(e) {
       this.hide('dialog-model-product')
-      let ids = ''
+      let contactNumbers = ''
+      let contactNames = ''
       e.forEach(function(item, index) {
-        ids += item.id+','
+        contactNumbers += item.number+','
+        contactNames += item.name+','
       })
-      this.addForm.contactNumbers = ids.substring(0, ids.length - 1)
+      this.addForm.contactNumbers = contactNumbers.substring(0, contactNumbers.length - 1)
+      this.addForm.contactNames = contactNames.substring(0, contactNames.length - 1)
     },
     // 商品弹窗取消
     handleDialogNo(type) {
@@ -826,13 +927,107 @@ export default {
     },
 
 
+    /*
+     * 图片上传
+     */
+    // 主图
+    // 点击图片上传
+    handlePreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    // 删除主图
+    handleMianRemove(file, fileList) {
+      this.upload.mainImage = ''
+      this.upload.mainFileList = fileList
+    },
+    // 主图上传成功
+    handleMianSuccess: function (response, file, fileList) {
+      if(response.status == 200) {
+        this.upload.mainImage = response.data
+        this.upload.mainFileList = fileList
+      }
+    },
+    // 主图超出限制回调
+    handleMianExceed: function (files, fileList) {
+      this.$message({
+        type: 'error',
+        message: '产品主图最多只能上传一张'
+      })
+    },
+    // 删除实景图
+    handleEffectRemove(file, fileList) {
+      this.upload.effectFileList = fileList
+    },
+    // 实景图上传成功(多张)
+    handleEffectSuccess: function (response, file, fileList) {
+      if(response.status == 200) {
+        this.upload.effectFileList = fileList
+      }
+    },
+    // 明细图上传成功
+    handleDetailSuccess: function (response, file, fileList) {
+      if(response.status == 200) {
+        this.upload.detailImage = response.data
+        this.upload.detailFileList = fileList
+      }
+    },
+    // 上传之前
+    beforeUpload: function (file) {
+      const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
+
+      if (!isJPG) {
+        this.$message.error('上传图片格式之能是 JPG/PNG !');
+      }
+      return isJPG
+    },
+    // 上传失败
+    handleErrorUpload: function (err, file, fileList) {
+      this.$message({
+        message: file.name + '上传失败',
+        type: 'error'
+      })
+    },
 
   }
 }
 </script>
 
 <style>
-
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+  }
+  .avatar {
+    width: 100px;
+    height: 100px;
+    display: block;
+  }
+  .el-upload-list--picture-card .el-upload-list__item,
+  .el-upload--picture-card {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+  }
+  .el-upload-list--picture-card .el-upload-list__item-status-label i {
+    position: absolute;
+    top: 0;
+    right: 15px;
+  }
 </style>
 <!--
 {

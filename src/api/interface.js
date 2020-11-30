@@ -22,6 +22,12 @@ const system = '/system'
 
 // ==================后期,当前页面中(主要指导出功能)的httpUrl将全部替换为api========2020.11.25======
 
+// 图片FTP地址
+export function imageHttpsUrlPTF() {
+  let imageHttpsUrlPTF = `https://point.cmyynet.com/images/`
+
+  return imageHttpsUrlPTF
+}
 
 /* 登录
  * 相关数据接口*/
@@ -261,6 +267,7 @@ export function getProductList(params) {
 }
 // 新增
 export function addProduct(params) {
+  console.log('// 新增', params)
   const url = `${base}/product`
 
   return ajaxPostnotUrl(url, params)
@@ -292,7 +299,7 @@ export function getProduct(id) {
 // 列表
 export function getProjectList(params) {
   let url = `${base}/project/number=${params.number}/name=${params.name}/companyName=${params.companyName}/contact=${params.contact}/createdTime=${params.createdTime}/pageNum=${params.pageNum}/pageSize=${params.pageSize}`
-  
+
   if (params.export) {
     // 导出表格数据(跨域添加 /api)
     return (
@@ -334,6 +341,38 @@ export function getProject(id) {
 
   return ajaxGet(url)
 }
+
+
+
+/*
+ * 图片上传
+ *
+ */
+// 单图
+export function imageUploadAction() {
+  const url = `${base}/upload/uploadImage`
+
+  return httpUrl + url
+}
+// 多图
+export function imagesUploadAction() {
+  const url = `/${base}/upload/uploadImages`
+
+  return httpUrl + url
+}
+// 单图
+export function productImport() {
+  const url = httpUrl + `/${base}/upload/productImport`
+
+  return url
+}
+
+
+
+
+
+
+
 
 
 
