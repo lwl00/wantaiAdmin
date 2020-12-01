@@ -44,34 +44,10 @@
 
 
       <div class="detailListTitle">商品明细</div>
-      <el-row>
-        <el-col span="24">
-          <el-table
-            size="mini"
-            :data="detail.tableData"
-            border
-            style="width: 100%"
-            highlight-current-row
-            :row-class-name="rowClassName"
-            @cell-dblclick="handleDblclick">
-            <el-table-column type="index"></el-table-column>
-            <el-table-column
-              v-for="(item, index) in detail.title"
-              :key="index"
-              :prop="item.field"
-              :label="item.label"
-              :width="item.width">
-              <template slot-scope="scope">
-                <!-- 图片 -->
-                <span v-if="item.field == 'imgMain'"><img v-if="scope.row.imgMain" :src="scope.row.imgMain" class="avatar"></span>
+      <div class="cmyyTable">
+        <Table :table="table" @dblclick="handleDblclick" @handleSelectionChange="handleSelectionChange"></Table>
+      </div>
 
-                <!-- 其他 -->
-                <span v-else>{{scope.row[item.field]}}</span>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-col>
-      </el-row>
     </div>
   </div>
 </template>
@@ -167,30 +143,75 @@ export default {
       },
 
 
-      detail: {
+      table: {
         detailRowIndex: null, // 选中行好
         addRow: null, // 选中行
         title: [
           {
-            label: '商品ID',
-            field: 'id',
-          },
-          {
-            label: '商品名称',
+            label: '产品名称',
             field: 'name',
+            width: 200,
           },
           {
-            label: '商品编号',
+            label: '产品编号',
             field: 'number',
+            type: 'link',
+            click: this.handleDblclick,
+          },
+          {
+            label: '数量',
+            field: 'quantity',
+          },
+          {
+            label: '小计',
+            field: 'subtotal',
+          },
+          {
+            label: '品牌',
+            field: 'brandName',
+          },
+          {
+            label: '系列',
+            field: 'seriesName',
+          },
+          {
+            label: '工艺',
+            field: 'craftNames',
+            width: 200,
+          },
+          {
+            label: '分类',
+            field: 'categoryNames',
+            width: 200,
+          },
+          {
+            label: '关联产品',
+            field: 'contactNames',
+            width: 200,
+          },
+          {
+            label: '商品状态',
+            field: 'status',
+            type: 'radioProductStatus',
+          },
+          {
+            label: '材质说明',
+            field: 'instructions',
+            width: '150px',
           },
           {
             label: '图片',
             field: 'imgMain',
+            type: 'image',
           },
         ],
-        tableData: [
-          // { id: '', name: '', number: '', imgMain: '' }
-        ],
+        tableData: [],
+        totalPage: 20,
+        pageSize: 20,
+        pageNum: 1,
+        tableLoading: false,
+        tableHeight: '450px',
+        selectionChange: [],  // 多选行数据
       },
 
       /*
@@ -248,9 +269,9 @@ export default {
                   item.imgMain = imageHttpsUrlPTF()+item.imgMain
                 }
               })
-              this.detail.tableData = res.data.space.productList
+              this.table.tableData = res.data.space.productList
             }else {
-              this.detail.tableData = []
+              this.table.tableData = []
             }
 
             // 实景图
@@ -284,7 +305,12 @@ export default {
 
     /* 明细表 */
     // 双击行
-    handleDblclick(row) {},
+    handleDblclick(row) {
+      let query = {
+          id: row.id
+      }
+      routerLinkPage(this, row.discount ? 'ProductDiscountDetail' : 'ProductNormalDetail', query)
+    },
 
     // 把每一行的索引放进row.row_index
     rowClassName({row, rowIndex}) {
@@ -296,29 +322,6 @@ export default {
 </script>
 
 <style>
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
-    text-align: center;
-  }
-  .avatar {
-    width: 100px;
-    height: 100px;
-    display: block;
-  }
   .el-upload-list--picture-card .el-upload-list__item,
   .el-upload--picture-card {
     width: 100px;

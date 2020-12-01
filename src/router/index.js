@@ -92,23 +92,66 @@ export const constantRouterMap = [
     name: 'Product',
     meta: { title: '产品管理', icon: 'huiyuan' },
     children: [
+      // {
+      //   path: '/product/list',
+      //   name: 'ProductList',
+      //   component: () => import('@/views/product/List'),
+      //   meta: { title: '产品管理', icon: '' }
+      // },
+      // {
+      //   path: '/product/add',
+      //   name: 'ProductAdd',
+      //   component: () => import('@/views/product/Add'),
+      //   meta: { title: '新增产品', icon: '' }
+      // },
+      // {
+      //   path: '/product/detail',
+      //   name: 'ProductDetail',
+      //   component: () => import('@/views/product/Detail'),
+      //   meta: { title: '产品详情', icon: '' }
+      // },
+
+
+
       {
-        path: '/product/list',
-        name: 'ProductList',
-        component: () => import('@/views/product/List'),
-        meta: { title: '产品管理', icon: '' }
+        path: '/product/normal/list',
+        name: 'ProductNormalList',
+        component: () => import('@/views/product/normal/List'),
+        meta: { title: '正价产品', icon: '' }
       },
       {
-        path: '/product/add',
-        name: 'ProductAdd',
-        component: () => import('@/views/product/Add'),
-        meta: { title: '新增产品', icon: '' }
+        path: '/product/normal/add',
+        name: 'ProductNormalAdd',
+        component: () => import('@/views/product/normal/Add'),
+        meta: { title: '新增正价产品', icon: '' },
+        hidden: true
       },
       {
-        path: '/product/detail',
-        name: 'ProductDetail',
-        component: () => import('@/views/product/Detail'),
-        meta: { title: '产品详情', icon: '' }
+        path: '/product/normal/detail',
+        name: 'ProductNormalDetail',
+        component: () => import('@/views/product/normal/Detail'),
+        meta: { title: '正价产品详情', icon: '', noCache: true },
+        hidden: true
+      },
+      {
+        path: '/product/discount/list',
+        name: 'ProductDiscountList',
+        component: () => import('@/views/product/discount/List'),
+        meta: { title: '折扣产品', icon: '' }
+      },
+      {
+        path: '/product/discount/add',
+        name: 'ProductDiscountAdd',
+        component: () => import('@/views/product/discount/Add'),
+        meta: { title: '新增折扣产品', icon: '' },
+        hidden: true
+      },
+      {
+        path: '/product/discount/detail',
+        name: 'ProductDiscountDetail',
+        component: () => import('@/views/product/discount/Detail'),
+        meta: { title: '折扣产品详情', icon: '', noCache: true },
+        hidden: true
       },
       {
         path: '/product/brand/list',
@@ -135,7 +178,8 @@ export const constantRouterMap = [
         path: '/project/detail',
         name: 'ProjectDetail',
         component: () => import('@/views/project/Detail'),
-        meta: { title: '方案详情', icon: '' }
+        meta: { title: '方案详情', icon: '', noCache: true },
+        hidden: true
       },
     ]
   },
@@ -156,13 +200,15 @@ export const constantRouterMap = [
         path: '/space/add',
         name: 'SpaceAdd',
         component: () => import('@/views/space/Add'),
-        meta: { title: '新增空间', icon: '' }
+        meta: { title: '新增空间', icon: '' },
+        hidden: true
       },
       {
         path: '/space/detail',
         name: 'SpaceDetail',
         component: () => import('@/views/space/Detail'),
-        meta: { title: '空间详情', icon: '' }
+        meta: { title: '空间详情', icon: '', noCache: true },
+        hidden: true
       },
     ]
   },

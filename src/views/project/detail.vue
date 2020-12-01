@@ -68,10 +68,6 @@
       <div class="cmyyTable">
         <Table :table="table" @dblclick="handleDblclick" @handleSelectionChange="handleSelectionChange"></Table>
       </div>
-
-
-
-
     </div>
   </div>
 </template>
@@ -81,7 +77,7 @@ import ButtonGroup from '@/components/ButtonGroup'
 import Table from '@/components/Table'
 import Dialog from 'base/Dialog';
 import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissions, routerLinkPage,  } from 'common/js/dom';
-import { getProject } from 'api/interface';
+import { getProject, imageHttpsUrlPTF } from 'api/interface';
 
 export default {
   components: {
@@ -127,12 +123,15 @@ export default {
       table: {
         title: [
           {
-            label: '商品ID',
-            field: 'productId',
+            label: '产品名称',
+            field: 'name',
+            width: 200,
           },
           {
-            label: '方案ID',
-            field: 'projectId',
+            label: '产品编号',
+            field: 'number',
+            type: 'link',
+            click: this.handleDblclick,
           },
           {
             label: '数量',
@@ -141,6 +140,44 @@ export default {
           {
             label: '小计',
             field: 'subtotal',
+          },
+          {
+            label: '品牌',
+            field: 'brandName',
+          },
+          {
+            label: '系列',
+            field: 'seriesName',
+          },
+          {
+            label: '工艺',
+            field: 'craftNames',
+            width: 200,
+          },
+          {
+            label: '分类',
+            field: 'categoryNames',
+            width: 200,
+          },
+          {
+            label: '关联产品',
+            field: 'contactNames',
+            width: 200,
+          },
+          {
+            label: '商品状态',
+            field: 'status',
+            type: 'radioProductStatus',
+          },
+          {
+            label: '材质说明',
+            field: 'instructions',
+            width: '150px',
+          },
+          {
+            label: '图片',
+            field: 'imgMain',
+            type: 'image',
           },
         ],
         tableData: [],
@@ -153,31 +190,31 @@ export default {
       },
 
       // 新增json,创建时，需先调用详情接口/base/project/id=  生成方案编号，再保存传number
-      // {
-      //   "amount": 3100,
-      //   "number": 20201128153808751,
-      //   "companyName": "创美药业",
-      //   "contact": "李汶龙",
-      //   "createdTime": "2020-11-26T07:13:07.802Z",
-      //   "customerName": "业务员1",
-      //   "name": "创美活动室方案",
-      //   "phone": "18924540017",
-      //   "projectDetailList": [
-      //     {
-      //       "indexes": 0,
-      //       "productId": "5",
-      //       "quantity": 2,
-      //       "subtotal": 1000
-      //     },
-      //     {
-      //       "indexes": 1,
-      //       "productId": "7",
-      //       "quantity": 3,
-      //       "subtotal": 2100
-      //     }
-      //   ],
-      //   "remark": "string"
-      // }
+// {
+//   "amount": 30000,
+//   "companyName": "创美药业有限公司",
+//   "contact": "李汶龙2",
+//   "createdTime": "2020-12-01T09:09:58.950Z",
+//   "creator": "string",
+//   "customerName": "业务员名称",
+//   "name": "创美药业会议室方案",
+//   "number": "2",
+//   "phone": "18924540017",
+//   "productSpecifiList": [],
+//   "projectDetailList": [
+//     {
+//       "productId": 23,
+//       "quantity": 10,
+//       "subtotal": 10000
+//     },
+//     {
+//       "productId": 20,
+//       "quantity": 2,
+//       "subtotal": 20000
+//     }
+//   ],
+//   "remark": "string"
+// }
 
     }
   },
@@ -199,8 +236,20 @@ export default {
         this.loading = false
         if (res.status == 200) {
           console.log(res)
-          this.addForm = res.project
-          this.table.tableData = res.productSpecifiList
+          this.addForm = res.data.project
+          // this.table.tableData = res.data.project.productSpecifiList
+
+          // 明细表
+          if(res.data.project.productSpecifiList.length > 0) {
+            res.data.project.productSpecifiList.forEach(function(item, index) {
+              if(item.imgMain) {
+                item.imgMain = imageHttpsUrlPTF()+item.imgMain
+              }
+            })
+            this.table.tableData = res.data.project.productSpecifiList
+          }else {
+            this.table.tableData = []
+          }
         }
       })
     },
@@ -210,7 +259,12 @@ export default {
       routerLinkPage(this, 'ProjectList', query)
     },
     // 双击行
-    handleDblclick(row) {},
+    handleDblclick(row) {
+      let query = {
+          id: row.id
+      }
+      routerLinkPage(this, row.discount ? 'ProductDiscountDetail' : 'ProductNormalDetail', query)
+    },
     // 多选行数据
     handleSelectionChange(e) {},
   }

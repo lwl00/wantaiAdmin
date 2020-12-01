@@ -74,6 +74,11 @@
                         ></el-switch>
                     </div>
 
+                    <!-- image -->
+                    <div v-else-if="item.type == 'image'">
+                        <img v-if="row.imgMain" :src="row.imgMain" class="avatar">
+                    </div>
+
                     <!-- 其他正常 -->
                     <div
                         v-else
@@ -185,6 +190,11 @@ export default {
     }
     .operatBtn:hover {
         text-decoration: underline;
+    }
+    .avatar {
+      display: block;
+      width: 100px;
+      height: 100px;
     }
 }
 </style>
