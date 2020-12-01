@@ -20,7 +20,7 @@ import { httpUrl, api } from './config'
 const base = '/base'
 const system = '/system'
 
-// ==================后期,当前页面中(主要指导出功能)的httpUrl将全部替换为api========2020.11.25======
+// ==================后期,当前页面中(主要指导出功能)的httpUrl将全部替换为api========2020.11.25======buttonList
 
 // 图片FTP地址
 export function imageHttpsUrlPTF() {
@@ -338,6 +338,56 @@ export function delProject(ids) {
 // 详情
 export function getProject(id) {
   const url = `${base}/project/id=${id}`
+
+  return ajaxGet(url)
+}
+
+/*
+ * 空间管理
+ *
+ */
+// 列表
+export function getSpaceList(params) {
+  let url = `${base}/space/name=${params.name}/number=${params.number}/createdTime=${params.createdTime}/pageNum=${params.pageNum}/pageSize=${params.pageSize}`
+
+  if (params.export) {
+    // 导出表格数据(跨域添加 /api)
+    return (
+      httpUrl +
+      url +
+      '?export=' +
+      params.export +
+      '&nameStr=' +
+      params.nameStr +
+      '&fieldStr=' +
+      params.fieldStr +
+      ''
+    )
+  } else {
+    return ajaxGet(url) // 展示表格数据
+  }
+}
+// 新增
+export function addSpace(params) {
+  const url = `${base}/space`
+
+  return ajaxPostnotUrl(url, params)
+}
+// 编辑
+export function editSpace(params) {
+  const url = `${base}/space`
+
+  return ajaxPutnotUrl(url, params)
+}
+// 删除
+export function delSpace(ids) {
+  const url = `${base}/space/ids=${ids}/delete`
+
+  return ajaxGet(url)
+}
+// 详情
+export function getSpace(id) {
+  const url = `${base}/space/id=${id}`
 
   return ajaxGet(url)
 }

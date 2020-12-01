@@ -139,6 +139,33 @@ export const constantRouterMap = [
       },
     ]
   },
+  {
+    path: '/space',
+    component: Layout,
+    redirect: '/space/list',
+    name: 'Space',
+    meta: { title: '空间管理', icon: 'huiyuan' },
+    children: [
+      {
+        path: '/space/list',
+        name: 'SpaceList',
+        component: () => import('@/views/space/List'),
+        meta: { title: '空间管理', icon: '' }
+      },
+      {
+        path: '/space/add',
+        name: 'SpaceAdd',
+        component: () => import('@/views/space/Add'),
+        meta: { title: '新增空间', icon: '' }
+      },
+      {
+        path: '/space/detail',
+        name: 'SpaceDetail',
+        component: () => import('@/views/space/Detail'),
+        meta: { title: '空间详情', icon: '' }
+      },
+    ]
+  },
 
 
 

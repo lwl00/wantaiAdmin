@@ -410,7 +410,7 @@ export default {
         ],
         tableData: [
           // 自定义 字段isEdit  默认为false，true为编辑状态
-          { modelNumber: 'modelNumber', size: 'size', unitPrice: 'unitPrice', volume: 'volume', image: '', id: 1, "isEdit": false }
+          // { modelNumber: 'modelNumber', size: 'size', unitPrice: 'unitPrice', volume: 'volume', image: '', id: 1, "isEdit": false }
         ],
       },
 
@@ -582,7 +582,6 @@ export default {
       this._getProduct(this.id)
       this.isShow.number = true
     }else {
-      this._getProduct("")
       this.isShow.number = false
     }
   },
@@ -640,71 +639,66 @@ export default {
       getProduct(id).then(res => {
         this.loading = false
         if (res.status == 200) {
-          if(id) {  // 获取编辑数据
-            this.addForm = res.data.product
-            this.addForm.status = res.data.product.status ? 'true' : 'false'
-            this.addForm.discount = res.data.product.discount ? 'true' : 'false'
-            // 品列
-            let brandIdArr = []
-            brandIdArr.push(res.data.product.brandId)
-            brandIdArr.push(res.data.product.seriesId)
-            this.options.brandId = brandIdArr
-
-            // 工艺
-            let crafts = res.data.product.crafts
-            if(crafts.indexOf(",") >= 0) {
-              this.options.crafts = crafts.split(',')
-            }else {
-              this.options.crafts.push(crafts)
-            }
-
-            // 分类
-            let categorys = res.data.product.categorys
-            if(categorys.indexOf(",") >= 0) {
-              this.options.categorys = categorys.split(',')
-            }else {
-              this.options.categorys.push(categorys)
-            }
-
-            // 明细表
-            if(res.data.product.specificationList.length > 0) {
-              res.data.product.specificationList.forEach(function(item, index) {
-                item.isEdit = false
-                if(item.image) {
-                  item.url = imageHttpsUrlPTF()+item.image
+          this.addForm = res.data.product
+          this.addForm.status = res.data.product.status ? 'true' : 'false'
+          this.addForm.discount = res.data.product.discount ? 'true' : 'false'
+          // 品列
+          let brandIdArr = []
+          brandIdArr.push(res.data.product.brandId)
+          brandIdArr.push(res.data.product.seriesId)
+          this.options.brandId = brandIdArr
+          
+          // 工艺
+          let crafts = res.data.product.crafts
+          if(crafts.indexOf(",") >= 0) {
+            this.options.crafts = crafts.split(',')
+          }else {
+            this.options.crafts.push(crafts)
+          }
+          
+          // 分类
+          let categorys = res.data.product.categorys
+          if(categorys.indexOf(",") >= 0) {
+            this.options.categorys = categorys.split(',')
+          }else {
+            this.options.categorys.push(categorys)
+          }
+          
+          // 明细表
+          if(res.data.product.specificationList.length > 0) {
+            res.data.product.specificationList.forEach(function(item, index) {
+              item.isEdit = false
+              if(item.image) {
+                item.url = imageHttpsUrlPTF()+item.image
+              }
+            })
+            this.detail.tableData = res.data.product.specificationList
+          }else {
+            this.detail.tableData = []
+          }
+          
+          // 主图图片 TODO
+          let imgMain = res.data.product.imgMain
+          let response = {
+            data: imageHttpsUrlPTF()+imgMain
+          }
+          this.upload.mainImage = response.data
+          this.upload.mainFileList.push(response)
+          
+          // 实景图
+          if(res.data.product.imgEffectList.length > 0) {
+            res.data.product.imgEffectList.forEach(function(item, index) {
+              let obj = {
+                url: imageHttpsUrlPTF()+item.image,
+                response: {
+                  data: imageHttpsUrlPTF()+item.image,
                 }
-              })
-              this.detail.tableData = res.data.product.specificationList
-            }else {
-              this.detail.tableData = []
-            }
-
-            // 主图图片 TODO
-            let imgMain = res.data.product.imgMain
-            let response = {
-              data: imageHttpsUrlPTF()+imgMain
-            }
-            this.upload.mainImage = response.data
-            this.upload.mainFileList.push(response)
-
-            // 实景图
-            if(res.data.product.imgEffectList.length > 0) {
-              res.data.product.imgEffectList.forEach(function(item, index) {
-                let obj = {
-                  url: imageHttpsUrlPTF()+item.image,
-                  response: {
-                    data: imageHttpsUrlPTF()+item.image,
-                  }
-
-                }
-                _this.upload.effectFileList.push(obj)
-              })
-            }else {
-              this.upload.effectFileList = []
-            }
-
-          }else {  // 新增时，自动生成产品编号
-            this.addForm.number = res.data.product.number
+          
+              }
+              _this.upload.effectFileList.push(obj)
+            })
+          }else {
+            this.upload.effectFileList = []
           }
         }
       })
@@ -759,6 +753,7 @@ export default {
               type: 'warning',
               message: '请添加规格明细'
             })
+            this.buttonList.filter(item => item.name === 'save')[0].loading = false
             return false
           }
           this.detail.tableData.forEach(function(item, index) {
@@ -767,6 +762,7 @@ export default {
                 type: 'warning',
                 message: '请保存规格明细'
               })
+              _this.buttonList.filter(item => item.name === 'save')[0].loading = false
               return false
             }
           })
