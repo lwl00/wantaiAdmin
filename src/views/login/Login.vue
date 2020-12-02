@@ -7,9 +7,9 @@
                 </div>
                 <div class="loginMain pull-right">
                     <h2>
-                        创美药业积分管理系统后台
+                        万泰产品管理系统后台
                         <br />
-                        <span>Point management system background</span>
+                        <span>Wantai management system background</span>
                     </h2>
                     <div class="formItem" style="padding-left: 55px;">
                         <span :class="isWarn ? 'warnWarp' : 'errorWarp'">{{errorMsg}}</span>
@@ -197,6 +197,8 @@ export default {
                 padding-right: 45px;
                 border-right: 2px solid #ccc;
                 img {
+                    width: 105px;
+                    height: 105px;
                     margin-top: 50px;
                     margin-left: 20px;
                 }

@@ -3,7 +3,7 @@
         <div class="logo">
             <router-link to="/dashboard">
                 <img src="~common/images/logo.png" />
-            </router-link>创美电商积分管理系统 V1.1.01
+            </router-link>产品管理系统
         </div>
         <div class="userinfo">
             <span class>
@@ -73,7 +73,7 @@ export default {
     width: 100%;
     height: 60px;
     line-height: 60px;
-    background: #0069cf;
+    background: #332c2b;
     color: #fff;
     .userinfo {
         text-align: right;

@@ -102,14 +102,14 @@ export default {
 <style type="text/css" media="screen">
   .el-menu-item.is-active,
   #app .sidebar-container .el-submenu .el-menu-item.is-active {
-    background-color: #0068cf !important;
+    background-color: #ff6633 !important;
   }
   
   .el-submenu .el-submenu__title:hover,
   .el-menu-item:hover,
   #app .sidebar-container .el-submenu .el-menu-item:hover {
     color: #fff !important;
-    background-color: #0068cf !important;
+    background-color: #ff6633 !important;
   }  
 
   .is-opened > .el-submenu__title {

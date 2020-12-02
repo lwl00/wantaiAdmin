@@ -59,7 +59,7 @@ export default {
       buttonList: [
         {
           name: 'delete',
-          type: 'danger',
+          type: '',
           icon: 'el-icon-delete',
           text: '删除',
           class: '',

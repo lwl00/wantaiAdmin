@@ -90,7 +90,7 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/product/list',
     name: 'Product',
-    meta: { title: '产品管理', icon: 'huiyuan' },
+    meta: { title: '产品管理', icon: 'lipin' },
     children: [
       // {
       //   path: '/product/list',
@@ -166,7 +166,7 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/project/list',
     name: 'Project',
-    meta: { title: '方案管理', icon: 'huiyuan' },
+    meta: { title: '方案管理', icon: 'link' },
     children: [
       {
         path: '/project/list',
@@ -188,7 +188,7 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/space/list',
     name: 'Space',
-    meta: { title: '空间管理', icon: 'huiyuan' },
+    meta: { title: '空间管理', icon: 'nested' },
     children: [
       {
         path: '/space/list',
@@ -215,21 +215,21 @@ export const constantRouterMap = [
 
 
 
-  //   {
-  //     path: '/theme',
-  //     component: Layout,
-  //     redirect: '/theme/index',
-  //     name: '',
-  //     meta: { title: '主题', icon: 'example' },
-  //     children: [
-  //       {
-  //         path: 'index',
-  //         name: 'index',
-  //         component: () => import('@/views/theme/index'),
-  //         meta: { title: '主题', icon: '' }
-  //       }
-  //     ]
-  //   }
+    // {
+    //   path: '/theme',
+    //   component: Layout,
+    //   redirect: '/theme/index',
+    //   name: '',
+    //   meta: { title: '主题', icon: 'example' },
+    //   children: [
+    //     {
+    //       path: 'index',
+    //       name: 'index',
+    //       component: () => import('@/views/theme/index'),
+    //       meta: { title: '主题', icon: '' }
+    //     }
+    //   ]
+    // }
 ]
 
 export default new Router({
@@ -239,230 +239,6 @@ export default new Router({
 })
 
 export const asyncRouterMap = [
-  // 积分管理
-  {
-    path: '/pointManage',
-    component: Layout,
-    redirect: '/pointmanage/pointlist',
-    name: 'pointManage',
-    meta: {
-      title: '积分管理',
-      icon: 'nested',
-      roles: ['point:pointRecord:read']
-    },
-    children: [
-      {
-        path: 'pointlist',
-        name: 'pointList',
-        component: () => import('@/views/pointManage/pointList'),
-        meta: {
-          title: '积分流水明细',
-          icon: '',
-          roles: ['point:pointRecord:read']
-        }
-      }
-    ]
-  },
-
-  // 积分规则
-  {
-    path: '/integralRules',
-    component: Layout,
-    redirect: '/integralRules/integralrules',
-    name: 'integralRules',
-    meta: { title: '积分规则管理', icon: 'table', roles: ['point:point:read'] },
-    children: [
-      {
-        path: 'integralrules',
-        name: 'integralRules',
-        component: () => import('@/views/integralRules/integralRules'),
-        meta: {
-          title: '积分规则',
-          icon: '',
-          noCache: true,
-          roles: ['point:pointRule:read']
-        }
-      },
-      {
-        path: 'integralrulesadd',
-        name: 'IntegralRulesAdd',
-        component: () => import('@/views/integralRules/IntegralRulesAdd'),
-        meta: { title: '积分规则新增', icon: '', noCache: false },
-        hidden: true
-      },
-      {
-        path: 'integralrulesdetail',
-        // path: 'integralrulesdetail/:id(\\d+)',
-        name: 'IntegralRulesDetail',
-        component: () => import('@/views/integralRules/IntegralRulesDetail'),
-        meta: { title: '积分规则详情', icon: '', noCache: true },
-        hidden: true
-      },
-      {
-        path: 'integralrulesedit',
-        name: 'IntegralRulesEdit',
-        component: () => import('@/views/integralRules/IntegralRulesEdit'),
-        meta: { title: '积分规则编辑', icon: '', noCache: false },
-        hidden: true
-      }
-    ]
-  },
-
-  // 会员管理
-  {
-    path: '/memberManage',
-    component: Layout,
-    redirect: '/memberManage/member',
-    name: 'memberManage',
-    meta: { title: '会员管理', icon: 'huiyuan', roles: ['point:member:read'] },
-    children: [
-      {
-        path: 'member',
-        name: 'Member',
-        component: () => import('@/views/memberManage/member'),
-        meta: { title: '积分会员', icon: '', roles: ['point:customer:read'] }
-      },
-      {
-        path: 'memberdetail',
-        name: 'MemberDetail',
-        component: () => import('@/views/memberManage/memberdetail'),
-        meta: { title: '会员详情', icon: '', roles: ['point:customer:read'] },
-        hidden: true
-      },
-      {
-        path: 'memberblack',
-        name: 'MemberBlack',
-        component: () => import('@/views/memberManage/memberblack'),
-        meta: { title: '积分黑名单', icon: '', roles: ['point:customer:read'] }
-      }
-    ]
-  },
-
-  // 礼品管理
-  {
-    path: '/integralGift',
-    component: Layout,
-    redirect: '/integralGift/giftcategory',
-    name: 'integralGift',
-    meta: { title: '礼品管理', icon: 'lipin', roles: ['gift:gift:read'] },
-    children: [
-      {
-        path: 'basegift',
-        name: 'BaseGift',
-        component: () => import('@/views/integralGift/BaseGift'),
-        meta: { title: '通用礼品', icon: '', roles: ['point:commonGift:read'] }
-      },
-      {
-        path: 'basegiftadd',
-        name: 'BaseGiftAdd',
-        component: () => import('@/views/integralGift/BaseGiftAdd'),
-        meta: { title: '通用礼品新增', icon: '', roles: ['gift:gifts:read'] },
-        hidden: true
-      },
-      {
-        path: 'basegiftdetail',
-        name: 'BaseGiftDetail',
-        component: () => import('@/views/integralGift/BaseGiftDetail'),
-        meta: { title: '通用礼品详情', icon: '', roles: ['gift:gifts:read'] },
-        hidden: true
-      },
-      {
-        path: 'basegiftedit',
-        name: 'BaseGiftEdit',
-        component: () => import('@/views/integralGift/BaseGiftEdit'),
-        meta: { title: '通用礼品编辑', icon: '', roles: ['gift:gifts:read'] },
-        hidden: true
-      },
-      {
-        path: 'integralgift',
-        name: 'IntegralGift',
-        component: () => import('@/views/integralGift/IntegralGift'),
-        meta: {
-          title: '积分礼品',
-          icon: '',
-          roles: ['point:pointProduct:read']
-        }
-      },
-      {
-        path: 'integralgiftadd',
-        name: 'IntegralGiftAdd',
-        component: () => import('@/views/integralGift/IntegralGiftAdd'),
-        meta: {
-          title: '积分礼品新增',
-          icon: '',
-          roles: ['point:pointProduct:create']
-        },
-        hidden: true
-      },
-      {
-        path: 'integralgiftdetail',
-        name: 'IntegralGiftDetail',
-        component: () => import('@/views/integralGift/IntegralGiftDetail'),
-        meta: {
-          title: '积分礼品详情',
-          icon: '',
-          roles: ['gift:pointGift:read']
-        },
-        hidden: true
-      },
-      {
-        path: 'integralgiftedit',
-        name: 'IntegralGiftEdit',
-        component: () => import('@/views/integralGift/IntegralGiftEdit'),
-        meta: {
-          title: '积分礼品编辑',
-          icon: '',
-          roles: ['point:pointProduct:update']
-        },
-        hidden: true
-      },
-      {
-        path: 'browsinghistory',
-        name: 'BrowsingHistory',
-        component: () => import('@/views/integralGift/BrowsingHistory'),
-        meta: { title: '浏览记录', icon: '' },
-        hidden: true
-      },
-      {
-        path: 'forrecord',
-        name: 'ForRecord',
-        component: () => import('@/views/integralGift/ForRecord'),
-        meta: { title: '兑换记录', icon: '' },
-        hidden: true
-      },
-      {
-        path: 'modifyhistory',
-        name: 'ModifyHistory',
-        component: () => import('@/views/integralGift/ModifyHistory'),
-        meta: { title: '修改历史', icon: '' },
-        hidden: true
-      }
-    ]
-  },
-
-  // 礼品订单管理
-  {
-    path: '/giftOrders',
-    component: Layout,
-    redirect: '/giftOrders/giftorders',
-    name: 'giftOrders',
-    meta: { title: '礼品订单管理', icon: 'link', roles: ['order:orders:read'] },
-    children: [
-      {
-        path: 'giftorders',
-        name: 'GiftOrders',
-        component: () => import('@/views/giftOrders/GiftOrders'),
-        meta: { title: '礼品订单', icon: '', roles: ['order:orders:read'] }
-      },
-      {
-        path: 'giftordersdetail',
-        name: 'GiftOrdersDetail',
-        component: () => import('@/views/giftOrders/GiftOrdersDetail'),
-        meta: { title: '礼品订单详情', icon: '', roles: ['order:orders:read'] },
-        hidden: true
-      }
-    ]
-  },
 
   // 系统管理
   {
@@ -532,60 +308,4 @@ export const asyncRouterMap = [
     redirect: '/404',
     hidden: true
   }
-
-  // 优惠券管理(2020.6.23暂不开发)
-  // {
-  //     path: '/coupons',
-  //     component: Layout,
-  //     redirect: '/coupons/coupontype',
-  //     name: 'coupons',
-  //     meta: { title: '优惠券管理', icon: 'tree' },
-  //     children: [{
-  //         path: 'coupontype',
-  //         name: 'CouponType',
-  //         component: () => import('@/views/coupons/CouponType'),
-  //         meta: { title: '优惠券', icon: '', roles: ['operation:couponType:read'] }
-  //     }, {
-  //         path: 'couponstocustomers',
-  //         name: 'CouponsToCustomers',
-  //         component: () => import('@/views/coupons/CouponsToCustomers'),
-  //         meta: { title: '已发放优惠券', icon: '', roles: ['operation:couponsToCustomers:read'] }
-  //     }, {
-  //         path: 'couponsgiving',
-  //         name: 'CouponsGiving',
-  //         component: () => import('@/views/coupons/CouponsGiving'),
-  //         meta: { title: '赠券记录', icon: '', roles: ['operation:operations:read'] }
-  //     }, {
-  //         path: 'couponstoblackcustomers',
-  //         name: 'CouponsToBlackCustomers',
-  //         component: () => import('@/views/coupons/CouponsToBlackCustomers'),
-  //         meta: { title: '优惠券黑名单', icon: '', roles: ['operation:couponsToBlackCustomers:read'] }
-  //     }, {
-  //         path: 'couponsadd',
-  //         name: 'CouponsAdd',
-  //         component: () => import('@/views/coupons/CouponsAdd'),
-  //         meta: { title: '优惠券新增', icon: '', roles: ['operation:couponType:read'] },
-  //         hidden: true
-  //     }, {
-  //         path: 'couponsdetail',
-  //         name: 'CouponsDetail',
-  //         component: () => import('@/views/coupons/CouponsDetail'),
-  //         meta: { title: '优惠券详情', icon: '', roles: ['operation:couponType:read'] },
-  //         hidden: true
-  //     }, {
-  //         path: 'couponsedit',
-  //         name: 'CouponsEdit',
-  //         component: () => import('@/views/coupons/CouponsEdit'),
-  //         meta: { title: '优惠券编辑', icon: '', roles: ['operation:couponType:read'] },
-  //         hidden: true
-  //     }]
-  // },
-
-  // 礼品分类
-  // {
-  //     path: 'giftcategory',
-  //     name: 'GiftCategory',
-  //     component: () => import('@/views/integralGift/GiftCategory'),
-  //     meta: { title: '礼品分类', icon: '', roles: ['gift:categories:read'] }
-  // },
 ]

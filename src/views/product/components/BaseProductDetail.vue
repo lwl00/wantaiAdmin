@@ -115,7 +115,7 @@
                <img
                  v-for="(item, indx) in upload.effectFileList"
                  :key="index"
-                 :src="item.response.data" class="avatar" style="display: inline-block;margin-left: 5px;">
+                 :src="item.response.data" class="avatar" style="display: inline-block;margin-right: 5px;">
             </el-form-item>
           </el-col>
         </el-row>
@@ -123,42 +123,9 @@
 
 
       <div class="detailListTitle">规格明细</div>
-      <el-row>
-        <el-col span="24">
-          <el-table
-            size="mini"
-            :data="detail.tableData"
-            border
-            style="width: 100%"
-            highlight-current-row
-            :row-class-name="rowClassName"
-            @cell-dblclick="handleDblclick">
-            <el-table-column type="index"></el-table-column>
-            <el-table-column
-              v-for="(item, index) in detail.title"
-              :key="index"
-              :prop="item.field"
-              :label="item.label"
-              :width="item.width">
-              <template slot-scope="scope">
-                <!-- input -->
-                <div v-if="item.type == 'input'">
-                  <span v-if="scope.row.isEdit">
-                    <el-input size="mini" placeholder="请输入内容" v-model="detail.addRow[item.field]">
-                    </el-input>
-                  </span>
-                  <span v-if="!scope.row.isEdit">{{scope.row[item.field]}}</span>
-                </div>
-
-                <!-- upload -->
-                <div v-if="item.type == 'upload'">
-                  <img v-if="scope.row.url" :src="scope.row.url" class="avatar">
-                </div>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-col>
-      </el-row>
+      <div class="cmyyTable">
+        <Table :table="table" @dblclick="handleDblclick" @handleSelectionChange="handleSelectionChange"></Table>
+      </div>
 
     </div>
   </div>
@@ -276,8 +243,7 @@ export default {
       },
 
 
-      detail: {
-        addRow: null, // 选中行
+      table: {
         title: [
           {
             label: '型号',
@@ -302,14 +268,17 @@ export default {
           {
             label: '图片',
             field: 'image',
-            type: 'upload',
+            type: 'image',
           },
 
         ],
-        tableData: [
-          // 自定义 字段isEdit  默认为false，true为编辑状态
-          { modelNumber: 'modelNumber', size: 'size', unitPrice: 'unitPrice', volume: 'volume', image: '', id: 1, "isEdit": false }
-        ],
+        tableData: [],
+        totalPage: 20,
+        pageSize: 20,
+        pageNum: 1,
+        tableLoading: false,
+        tableHeight: '450px',
+        selectionChange: [],  // 多选行数据
       },
 
 
@@ -379,12 +348,12 @@ export default {
             res.data.product.specificationList.forEach(function(item, index) {
               item.isEdit = false
               if(item.image) {
-                item.url = imageHttpsUrlPTF()+item.image
+                item.imgMain = imageHttpsUrlPTF()+item.image
               }
             })
-            this.detail.tableData = res.data.product.specificationList
+            this.table.tableData = res.data.product.specificationList
           }else {
-            this.detail.tableData = []
+            this.table.tableData = []
           }
 
           // 主图图片

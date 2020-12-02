@@ -40,7 +40,7 @@ export default {
             content: '';
             width: 4px;
             height: 20px;
-            background-color: #0068cf;
+            background-color: #ff6633;
             position: absolute;
             top: 50%;
             left: 20px;

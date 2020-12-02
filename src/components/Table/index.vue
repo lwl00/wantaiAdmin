@@ -163,7 +163,7 @@ export default {
 <style lang="scss" scoped>
 .cmyyTable {
     .link {
-        color: #0069cf;
+        color: #ff6633;
         cursor: pointer;
     }
     .link:hover {
@@ -173,7 +173,7 @@ export default {
         margin: 0 2px;
         cursor: pointer;
         &_view {
-            color: #0069cf;
+            color: #ff6633;
         }
         &_update {
             color: #67c23a;
@@ -192,7 +192,7 @@ export default {
         text-decoration: underline;
     }
     .avatar {
-      display: block;
+      display: inline-block;
       width: 100px;
       height: 100px;
     }

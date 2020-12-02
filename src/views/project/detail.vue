@@ -261,7 +261,7 @@ export default {
     // 双击行
     handleDblclick(row) {
       let query = {
-          id: row.id
+          id: row.productId
       }
       routerLinkPage(this, row.discount ? 'ProductDiscountDetail' : 'ProductNormalDetail', query)
     },
