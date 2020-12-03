@@ -156,7 +156,8 @@ export default {
             field: '',
             type: 'operat',
             options: [
-              { name: '编辑', type: 'update', show: true, click: this.handleEdit }
+              { name: '编辑', type: 'update', show: true, click: this.handleEdit },
+              { name: '查看', type: 'view', show: true, click: this.handleView },
             ]
           },
         ],
@@ -174,7 +175,7 @@ export default {
   created() {
     this.search = formatSearch(this.searchOptions)
     this._getDictsData()
-    // this.getPermissions()  // 无按钮权限
+    this.getPermissions()
     this._getSpaceList(this.table.pageNum, this.table.pageSize);
   },
   mounted() {
@@ -188,11 +189,11 @@ export default {
     // 页面权限
     getPermissions: function () {
       var permissionsBtnArr = localStorage.getItem("permissionsBtn");
-      this.buttonList.filter(item => item.name === 'add')[0].show = this.isAddPermission = permissionsBtnArr.includes("point:space:create")     // 无新增功能
+      this.buttonList.filter(item => item.name === 'add')[0].show = this.isAddPermission = permissionsBtnArr.includes("furniture:space:create")     // 新增功能
+      this.buttonList.filter(item => item.name === 'delete')[0].show = this.isAddPermission = permissionsBtnArr.includes("furniture:space:delete")     // 删除功能
 
       // 表格按钮权限
-      tableBtnPermissions(this.table.title, 'update', permissionsBtnArr.includes("point:space:update"))   // 无编辑功能
-      tableBtnPermissions(this.table.title, 'delete', permissionsBtnArr.includes("point:space:delete"))   // 无删除功能
+      tableBtnPermissions(this.table.title, 'update', permissionsBtnArr.includes("furniture:space:update"))   // 编辑功能
     },
     // 获取列表数据
     _getSpaceList: function (pageNum, pageSize) {
@@ -340,6 +341,13 @@ export default {
         id: row.id
       }
       routerLinkPage(this, 'SpaceAdd', query)
+    },
+    // 查看
+    handleView(row) {
+      let query = {
+        id: row.id
+      }
+      routerLinkPage(this, 'SpaceDetail', query)
     },
 
   }

@@ -209,7 +209,7 @@ export default {
   created() {
     this.search = formatSearch(this.searchOptions)
     this._getDictsData()
-    // this.getPermissions()  // 无按钮权限
+    this.getPermissions()
     this._getProjectList(this.table.pageNum, this.table.pageSize);
   },
   mounted() {
@@ -223,11 +223,10 @@ export default {
     // 页面权限
     getPermissions: function () {
       var permissionsBtnArr = localStorage.getItem("permissionsBtn");
-      this.buttonList.filter(item => item.name === 'add')[0].show = this.isAddPermission = permissionsBtnArr.includes("point:product:create")     // 无新增功能
-
+      // this.buttonList.filter(item => item.name === 'add')[0].show = this.isAddPermission = permissionsBtnArr.includes("furniture:project:create")     // 无新增功能
+      this.buttonList.filter(item => item.name === 'delete')[0].show = this.isAddPermission = permissionsBtnArr.includes("furniture:project:delete")     // 删除功能
       // 表格按钮权限
-      tableBtnPermissions(this.table.title, 'update', permissionsBtnArr.includes("point:product:update"))   // 无编辑功能
-      tableBtnPermissions(this.table.title, 'delete', permissionsBtnArr.includes("point:product:delete"))   // 无删除功能
+      // tableBtnPermissions(this.table.title, 'update', permissionsBtnArr.includes("furniture:project:update"))   // 无编辑功能
     },
     // 获取列表数据
     _getProjectList: function (pageNum, pageSize) {

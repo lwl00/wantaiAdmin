@@ -129,35 +129,6 @@
                                     </el-input>
                                 </el-form-item>
 
-                                <!-- 批量导入输入框 -->
-                                <el-form-item
-                                  :label="item.label"
-                                  v-if="item.type == 'inputImport'"
-                                  :prop="'searchOptions.' + index + '.value'"
-                                >
-                                    <el-tooltip class="item" effect="light"  placement="bottom" popper-class="searchWarp_tooltip">
-                                        <div slot="content">{{item.value ? item.value : '暂无内容'}}</div>
-                                        <el-input
-                                          :placeholder="'请输入/导入'+item.label"
-                                          v-model="item.value">
-                                            <template slot="append">
-                                                <el-upload
-                                                    name="file"
-                                                    :action="searchImportAction"
-                                                    :before-upload="beforeAvatarUpload"
-                                                    :file-list="item.fileList"
-                                                    :on-success="item.uploadSuccess"
-                                                    :on-error="handleErrorPreviary"
-                                                    :on-change="handleFileChange"
-                                                    :multiple="false"
-                                                >
-                                                    <el-button>批量导入</el-button>
-                                                </el-upload>
-                                            </template>
-                                        </el-input>
-                                     </el-tooltip>
-                                </el-form-item>
-
                                 <!-- 联动选择 -->
                                 <el-form-item
                                   :label="item.label"
@@ -193,7 +164,6 @@
 <script>
 import ButtonGroup from '@/components/ButtonGroup'
 import { formatSearch, deleteBlankSpace } from 'common/js/dom';
-import { searchImportAction } from 'api/interface';
 export default {
     name: 'Search',
     components: {
@@ -219,7 +189,6 @@ export default {
                 searchOptions: this.searchOptions
             },
 
-            searchImportAction: searchImportAction(),
             isExcel: false,
         }
     },
@@ -249,38 +218,6 @@ export default {
         handleSelectWithInput(item, field, value) {
             item.value[1] = ''
             item.placeholder = item.options.filter(item => item.value === value)[0].name
-        },
-
-
-
-        // 上传之前
-        beforeAvatarUpload: function (file) {
-            //验证上传文件的类型
-            if (file.type === "application/vnd.ms-excel" || file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
-                this.isExcel = true
-            } else {
-                this.isExcel = false
-            }
-
-            if (!this.isExcel) {
-                this.$message({
-                    message: '上传文件只能是 xls或xlsx 格式',
-                    type: 'error'
-                })
-            }
-
-            return this.isExcel;
-        },
-        // 上传失败
-        handleErrorPreviary: function (err, file, fileList) {
-            this.$message({
-                message: file.name + '上传失败',
-                type: 'error'
-            })
-        },
-        // 多次上传，只保留最后一次文件
-        handleFileChange(file, fileList) {
-          // console.log('多次上传，只保留最后一次文件')
         },
     },
     watch: {

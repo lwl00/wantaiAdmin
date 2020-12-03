@@ -67,30 +67,21 @@ export const constantRouterMap = [
       }
     ]
   },
+]
 
+export default new Router({
+  // mode: 'history', //后端支持可开
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRouterMap
+})
 
-  // 客户管理
-  {
-    path: '/customer',
-    component: Layout,
-    redirect: '/customer/list',
-    name: 'Customer',
-    meta: { title: '客户管理', icon: 'huiyuan' },
-    children: [
-      {
-        path: '/customer/list',
-        name: 'MemberList',
-        component: () => import('@/views/customer/List'),
-        meta: { title: '客户管理', icon: '' }
-      },
-    ]
-  },
+export const asyncRouterMap = [
   {
     path: '/product',
     component: Layout,
     redirect: '/product/list',
     name: 'Product',
-    meta: { title: '产品管理', icon: 'lipin' },
+    meta: { title: '产品管理', icon: 'lipin', roles: ['furniture:productMan:read'] },
     children: [
       // {
       //   path: '/product/list',
@@ -117,7 +108,7 @@ export const constantRouterMap = [
         path: '/product/normal/list',
         name: 'ProductNormalList',
         component: () => import('@/views/product/normal/List'),
-        meta: { title: '正价产品', icon: '' }
+        meta: { title: '正价产品', icon: '', roles: ['furniture:norProduct:read'] }
       },
       {
         path: '/product/normal/add',
@@ -137,7 +128,7 @@ export const constantRouterMap = [
         path: '/product/discount/list',
         name: 'ProductDiscountList',
         component: () => import('@/views/product/discount/List'),
-        meta: { title: '折扣产品', icon: '' }
+        meta: { title: '折扣产品', icon: '', roles: ['furniture:disProduct:read'] }
       },
       {
         path: '/product/discount/add',
@@ -157,22 +148,43 @@ export const constantRouterMap = [
         path: '/product/brand/list',
         name: 'ProductBrandList',
         component: () => import('@/views/product/brand/List'),
-        meta: { title: '品列管理', icon: '' }
+        meta: { title: '品列管理', icon: '', roles: ['furniture:brandSer:read'] }
       },
     ]
   },
+
+
+  // 客户管理
+  {
+    path: '/customer',
+    component: Layout,
+    redirect: '/customer/list',
+    name: 'Customer',
+    meta: { title: '客户管理', icon: 'huiyuan', roles: ['furniture:customerMan:read'] },
+    children: [
+      {
+        path: '/customer/list',
+        name: 'MemberList',
+        component: () => import('@/views/customer/List'),
+        meta: { title: '客户管理', icon: '', roles: ['furniture:customer:read'] }
+      },
+    ]
+  },
+
+
+  // 方案管理
   {
     path: '/project',
     component: Layout,
     redirect: '/project/list',
     name: 'Project',
-    meta: { title: '方案管理', icon: 'link' },
+    meta: { title: '方案管理', icon: 'link', roles: ['furniture:projectMan:read'] },
     children: [
       {
         path: '/project/list',
         name: 'ProjectList',
         component: () => import('@/views/project/List'),
-        meta: { title: '方案管理', icon: '' }
+        meta: { title: '方案管理', icon: '', roles: ['furniture:project:read'] }
       },
       {
         path: '/project/detail',
@@ -183,18 +195,20 @@ export const constantRouterMap = [
       },
     ]
   },
+
+  // 空间管理
   {
     path: '/space',
     component: Layout,
     redirect: '/space/list',
     name: 'Space',
-    meta: { title: '空间管理', icon: 'nested' },
+    meta: { title: '空间管理', icon: 'nested', roles: ['furniture:spaceMan:read'] },
     children: [
       {
         path: '/space/list',
         name: 'SpaceList',
         component: () => import('@/views/space/List'),
-        meta: { title: '空间管理', icon: '' }
+        meta: { title: '空间管理', icon: '', roles: ['furniture:space:read'] }
       },
       {
         path: '/space/add',
@@ -213,32 +227,6 @@ export const constantRouterMap = [
     ]
   },
 
-
-
-    // {
-    //   path: '/theme',
-    //   component: Layout,
-    //   redirect: '/theme/index',
-    //   name: '',
-    //   meta: { title: '主题', icon: 'example' },
-    //   children: [
-    //     {
-    //       path: 'index',
-    //       name: 'index',
-    //       component: () => import('@/views/theme/index'),
-    //       meta: { title: '主题', icon: '' }
-    //     }
-    //   ]
-    // }
-]
-
-export default new Router({
-  // mode: 'history', //后端支持可开
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRouterMap
-})
-
-export const asyncRouterMap = [
 
   // 系统管理
   {

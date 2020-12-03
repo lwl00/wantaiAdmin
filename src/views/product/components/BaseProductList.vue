@@ -292,7 +292,8 @@ export default {
             field: '',
             type: 'operat',
             options: [
-              { name: '编辑', type: 'update', show: true, click: this.handleEdit }
+              { name: '编辑', type: 'update', show: true, click: this.handleEdit },
+              { name: '查看', type: 'view', show: true, click: this.handleView },
             ]
           },
         ],
@@ -320,7 +321,7 @@ export default {
     this.search = formatSearch(this.searchOptions)
     this._getDictsData()
     this._getBrandTree()
-    // this.getPermissions()  // 无按钮权限
+    this.getPermissions()
     this._getProductList(this.table.pageNum, this.table.pageSize);
   },
   mounted() {
@@ -365,11 +366,22 @@ export default {
     // 页面权限
     getPermissions: function () {
       var permissionsBtnArr = localStorage.getItem("permissionsBtn");
-      this.buttonList.filter(item => item.name === 'add')[0].show = this.isAddPermission = permissionsBtnArr.includes("point:product:create")     // 无新增功能
+      if(this.isDiscountPage) {   // 折扣
+        this.buttonList.filter(item => item.name === 'add')[0].show = this.isAddPermission = permissionsBtnArr.includes("furniture:disProduct:create")     // 新增功能
+        this.buttonList.filter(item => item.name === 'add')[1].show = this.isAddPermission = permissionsBtnArr.includes("furniture:disProduct:create")     // 批量上传功能
+        this.buttonList.filter(item => item.name === 'delete')[0].show = this.isAddPermission = permissionsBtnArr.includes("furniture:disProduct:delete")     // 删除功能
 
-      // 表格按钮权限
-      tableBtnPermissions(this.table.title, 'update', permissionsBtnArr.includes("point:product:update"))   // 无编辑功能
-      tableBtnPermissions(this.table.title, 'delete', permissionsBtnArr.includes("point:product:delete"))   // 无删除功能
+        // 表格按钮权限
+        tableBtnPermissions(this.table.title, 'update', permissionsBtnArr.includes("furniture:disProduct:update"))   // 编辑功能
+      }else {   // 正价
+        this.buttonList.filter(item => item.name === 'add')[0].show = this.isAddPermission = permissionsBtnArr.includes("furniture:norProduct:create")     // 新增功能
+        this.buttonList.filter(item => item.name === 'add')[1].show = this.isAddPermission = permissionsBtnArr.includes("furniture:norProduct:create")     // 批量上传功能
+        this.buttonList.filter(item => item.name === 'delete')[0].show = this.isAddPermission = permissionsBtnArr.includes("furniture:norProduct:delete")     // 删除功能
+
+        // 表格按钮权限
+        tableBtnPermissions(this.table.title, 'update', permissionsBtnArr.includes("furniture:norProduct:update"))   // 编辑功能
+      }
+
     },
     // 获取列表数据
     _getProductList: function (pageNum, pageSize) {
@@ -522,6 +534,13 @@ export default {
     },
     // 编辑
     handleEdit(row) {
+      let query = {
+        id: row.id
+      }
+      routerLinkPage(this, this.isDiscountPage ? 'ProductDiscountAdd' : 'ProductNormalAdd', query)
+    },
+    // 查看
+    handleView(row) {
       let query = {
         id: row.id
       }

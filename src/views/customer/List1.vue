@@ -268,7 +268,7 @@ import Search from '@/components/Search'
 import Table from '@/components/Table'
 import Dialog from 'base/Dialog'
 import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissions, routerLinkPage } from 'common/js/dom';
-import { getDictsData, getCustomerList, getCustomer, addCustomer, editCustomer, delCustomer, customerImportAPPOINTAction } from 'api/interface';
+import { getDictsData, getCustomerList, getCustomer, addCustomer, editCustomer, delCustomer } from 'api/interface';
 
 export default {
   components: {
@@ -425,7 +425,6 @@ export default {
         selectionChange: [],  // 多选行数据
       },
       batchForm: { fileList1: [], batchData: null },
-      customerImportAPPOINTAction: customerImportAPPOINTAction(),
 
       // 弹窗层
       dialog: {

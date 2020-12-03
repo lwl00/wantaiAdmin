@@ -254,7 +254,7 @@ import Search from '@/components/Search'
 import Table from '@/components/Table'
 import Dialog from 'base/Dialog'
 import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissions, routerLinkPage } from 'common/js/dom';
-import { getDictsData, getCustomerList, getCustomer, addCustomer, editCustomer, delCustomer, customerImportAPPOINTAction } from 'api/interface';
+import { getDictsData, getCustomerList, getCustomer, addCustomer, editCustomer, delCustomer } from 'api/interface';
 
 export default {
   components: {
@@ -411,7 +411,6 @@ export default {
         selectionChange: [],  // 多选行数据
       },
       batchForm: { fileList1: [], batchData: null },
-      customerImportAPPOINTAction: customerImportAPPOINTAction(),
 
       // 弹窗层
       dialog: {
@@ -480,7 +479,7 @@ export default {
   created() {
     this.search = formatSearch(this.searchOptions)
     this._getDictsData()
-    // this.getPermissions()  // 无按钮权限
+    this.getPermissions()
     this._getCustomerList(this.table.pageNum, this.table.pageSize);
   },
   mounted() {
@@ -501,11 +500,11 @@ export default {
     // 页面权限
     getPermissions: function () {
       var permissionsBtnArr = localStorage.getItem("permissionsBtn");
-      this.buttonList.filter(item => item.name === 'add')[0].show = this.isAddPermission = permissionsBtnArr.includes("point:customer:create")     // 无新增功能
-
+      this.buttonList.filter(item => item.name === 'add')[0].show = this.isAddPermission = permissionsBtnArr.includes("furniture:customer:create")     // 新增功能
+      this.buttonList.filter(item => item.name === 'delete')[0].show = this.isAddPermission = permissionsBtnArr.includes("furniture:customer:delete")     // 删除功能
+      
       // 表格按钮权限
-      tableBtnPermissions(this.table.title, 'update', permissionsBtnArr.includes("point:customer:update"))   // 无编辑功能
-      tableBtnPermissions(this.table.title, 'delete', permissionsBtnArr.includes("point:customer:delete"))   // 无删除功能
+      tableBtnPermissions(this.table.title, 'update', permissionsBtnArr.includes("furniture:customer:update"))   // 编辑功能
     },
     // 获取列表数据
     _getCustomerList: function (pageNum, pageSize) {

@@ -22,20 +22,22 @@
               type="text"
               size="mini"
               @click="handleAddSeries(data)"
-              v-if="!data.brandId">
+              v-if="!data.brandId && brandSerCreate">
               新增系列
             </el-button>
             <el-button
               type="text"
               size="mini"
-              @click="handleEdit(data)">
+              @click="handleEdit(data)"
+              v-if="brandSerUpdate">
               编辑
             </el-button>
             <el-popover
               placement="top"
               width="160"
               v-model="data.isDelPopover"
-              style="margin-left: 10px;">
+              style="margin-left: 10px;"
+              v-if="brandSerDelete">
               <p>确定删除吗？</p>
               <div style="text-align: right; margin: 0">
                 <el-button type="text" size="mini" @click="data.isDelPopover = false">取消</el-button>
@@ -168,17 +170,33 @@ export default {
         name: [
           { required: true, message: '请填写名称', trigger: 'blur' }
         ],
-      }
+      },
+
+
+      brandSerCreate: false,  // 新增
+      brandSerDelete: false,  // 删除
+      brandSerUpdate: false,  // 编辑
 
     }
   },
   created() {
+    this.getPermissions()
     this._getBrandTree()
   },
   mounted() {
 
   },
   methods: {
+    // 页面权限
+    getPermissions: function () {
+      var permissionsBtnArr = localStorage.getItem("permissionsBtn");
+      this.buttonList.filter(item => item.name === 'add')[0].show = this.isAddPermission = permissionsBtnArr.includes("furniture:brandSer:create")     // 新增功能
+
+      // 表格按钮权限
+      this.brandSerCreate = permissionsBtnArr.includes("furniture:brandSer:create")
+      this.brandSerDelete = permissionsBtnArr.includes("furniture:brandSer:delete")
+      this.brandSerUpdate = permissionsBtnArr.includes("furniture:brandSer:update")
+    },
     // 品列树
     _getBrandTree() {
       this.loading = true
