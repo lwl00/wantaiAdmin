@@ -389,11 +389,13 @@ export default {
     },
     // 删除
     handleDelete() {
+      this.buttonList.filter(item => item.name === 'delete')[0].loading = true
       if(this.table.selectionChange.length == 0) {
         this.$message({
           type: 'warning',
           message: '请先选择数据'
         })
+        this.buttonList.filter(item => item.name === 'delete')[0].loading = false
         return
       }
 
@@ -408,6 +410,7 @@ export default {
           type: 'info',
           message: '已取消删除'
         });
+        this.buttonList.filter(item => item.name === 'delete')[0].loading = false
       });
     },
     // 删除确定
@@ -418,7 +421,6 @@ export default {
       })
       ids = ids.substring(0, ids.length - 1)
 
-      this.delSaveLoading = true
       delProduct(ids).then(res => {
         if (res.status == 200) {
           this.$message({
@@ -432,7 +434,7 @@ export default {
             message: res.message
           })
         }
-        this.delSaveLoading = false
+        this.buttonList.filter(item => item.name === 'delete')[0].loading = false
       })
     },
     // 新增

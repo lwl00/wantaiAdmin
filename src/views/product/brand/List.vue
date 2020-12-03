@@ -14,7 +14,10 @@
         <div class="custom-tree-node" slot-scope="{ node, data }" style="display: flex;width: 100%;">
           <div style="flex: 1;line-height: 28px;">{{ node.label }}</div>
           <!-- <div style="flex: 1;line-height: 28px;" class="createdTime">{{ data.createdTime }}</div> -->
-          <div style="text-align: right;padding-right: 10px;">
+            <div style="flex: 1;line-height: 28px;padding-right: 10px;">
+              ID: {{data.id}}
+            </div>
+            <div style="text-align: right;padding-right: 10px;">
             <el-button
               type="text"
               size="mini"

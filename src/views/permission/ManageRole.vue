@@ -68,26 +68,6 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item
-                            label="站点:"
-                            :label-width="formLabelWidth"
-                            size="small"
-                            class="lastItem"
-                            prop="companyCode"
-                        >
-                            <el-select
-                                v-model="editRole.companyCode"
-                                placeholder="请选择站点"
-                                class="pull-left"
-                            >
-                                <el-option
-                                    v-for="item in editRole.editSiteData"
-                                    :key="item.value"
-                                    :label="item.name"
-                                    :value="item.value"
-                                ></el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item
                             label="状态:"
                             :label-width="formLabelWidth"
                             style="margin-bottom:0;"
@@ -178,26 +158,6 @@
                                     :key="item.id"
                                     :label="item.name"
                                     :value="item.id"
-                                ></el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item
-                            label="站点:"
-                            :label-width="formLabelWidth"
-                            size="small"
-                            class="lastItem"
-                            prop="companyCode"
-                        >
-                            <el-select
-                                v-model="addForm.companyCode"
-                                placeholder="请选择"
-                                class="pull-left"
-                            >
-                                <el-option
-                                    v-for="item in addForm.site"
-                                    :key="item.value"
-                                    :label="item.name"
-                                    :value="item.value"
                                 ></el-option>
                             </el-select>
                         </el-form-item>
@@ -302,7 +262,6 @@ export default {
                 editRoleData: [],
                 name: '',
                 roles: '',
-                companyCode: '',
                 status: '',
                 pass: '123456',
                 oldPass: '',     //修改前的密码  
@@ -313,11 +272,9 @@ export default {
                 username: '',  //登录账号
                 name: '', //用户名称
                 role: '',  //角色
-                companyCode: '', //站点
                 status: 1, //状态,
                 site: null,
                 roles: null,
-                addSite: '',
                 addRole: '',
 
                 ReUsername: '', //重名
@@ -358,11 +315,6 @@ export default {
                     message: '请选择状态',
                     trigger: 'change'
                 }],
-                companyCode: [{
-                    required: true,
-                    message: '请选择站点',
-                    trigger: 'change'
-                }],
                 pass: [{
                     required: true,
                     message: '请输入密码',
@@ -399,12 +351,6 @@ export default {
                 },
             ],
             searchOptions: [{
-                label: '站点',
-                field: 'companyCode',
-                value: '',
-                type: 'select',
-                options: [],
-            }, {
                 label: '角色',
                 field: 'roleAll',
                 value: '',
@@ -502,13 +448,6 @@ export default {
     methods: {
         //加载列表数据字典
         _getDictsData: function () {
-            let paramsSite = {
-                isAll: true,
-                code: 'CompanyCode'
-            }
-            getDictsData(paramsSite).then(res => {
-                this.searchOptions.filter(item => item.field === 'companyCode')[0].options = res.data
-            })
             let paramsStatus = {
                 isAll: true,
                 code: 'UserStatus'
@@ -525,14 +464,7 @@ export default {
             getRolesData(paramsRole).then(res => {
                 this.searchOptions.filter(item => item.field === 'roleAll')[0].options = res.data
             })
-
-            let editSiteParams = {
-                isAll: false,
-                code: 'CompanyCode'
-            }
-            getDictsData(editSiteParams).then(res => {
-                this.editRole.editSiteData = res.data
-            })
+            
             let editRoleParams = {
                 isAll: false,
                 code: '',
@@ -561,7 +493,7 @@ export default {
         // 获取数据          
         _getUserManage: function (pageNum, pageSize) {    //首次加载请求
             var params = {
-                companyCode: this.newSearch.companyCode,
+                companyCode: '',
                 status: this.newSearch.statusAll,
                 role: this.newSearch.roleAll,
                 username: this.newSearch.accountName,
@@ -618,7 +550,7 @@ export default {
         _getEdit(e) {
             this.editForm = Object.assign({}, e)
             this.editRole.name = e.name
-            this.editRole.companyCode = e.companyCode
+            this.editRole.companyCode = ''
             this.editRole.status = e.status
             this.editRole.oldPass = e.password
 
@@ -635,7 +567,7 @@ export default {
             var params = {
                 name: this.editRole.name,
                 username: this.editForm.username,
-                companyCode: this.editRole.companyCode,
+                companyCode: '',
                 status: this.editRole.status,
                 id: this.editForm.id,
                 password: this.editForm.password,      //this部分是全部拿取返回给后台
@@ -700,7 +632,7 @@ export default {
                     var params = {
                         username: this.addForm.username,
                         name: this.addForm.name,
-                        companyCode: this.addForm.companyCode,
+                        companyCode: '',
                         roles: [{ id: this.addForm.role }],
                         status: this.addForm.status,
                         password: "123456",
@@ -743,15 +675,6 @@ export default {
             this.hide(type)
         },
         handleAddEdit() {      //点击新增
-            if (this.addForm.addSite == '') {
-                var params = {
-                    isAll: false,
-                    code: 'CompanyCode'
-                }
-                getDictsData(params).then(res => {
-                    this.addForm.site = res.data
-                })
-            }
             if (this.addForm.addRole == '') {
                 var params = {
                     isAll: false,

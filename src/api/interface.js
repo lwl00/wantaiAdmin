@@ -410,8 +410,8 @@ export function imagesUploadAction() {
 
   return httpUrl + url
 }
-// 单图
-export function productImport() {
+// 产品批量上传
+export function productImportAPPOINTAction() {
   const url = httpUrl + `/${base}/upload/productImport`
 
   return url

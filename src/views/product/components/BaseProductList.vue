@@ -27,6 +27,53 @@
         ></el-pagination>
       </div>
     </div>
+
+    <!-- 批量导入产品 -->
+    <dialogModel
+      class="check-model successDialog"
+      ref="batch-gift-model"
+      title="批量导入产品"
+      :width="dialog.dialogWidth">
+      <div class="dialog-model-content">
+        <el-upload
+          name="file"
+          class="upload-demo"
+          :action="productImportAPPOINTAction"
+          :before-upload="beforeAvatarUpload"
+          :on-remove="handleRemove"
+          :file-list="batchForm.fileList1"
+          :on-success="handleSuccesBatch"
+          :on-error="handleErrorBatch"
+          :on-change="handleFileChange"
+          width="200px"
+          :multiple="false">
+          批量导入产品：
+          <el-button size="small" type="primary">点击上传</el-button>
+          <span slot="tip" class="el-upload__tip"></span>
+        </el-upload>
+        <div class="tipContent" v-if="batchForm.batchData">
+            <p>
+              成功导入产品：
+              <span class="mianColor">{{batchForm.batchData.importNumSucc}}</span>&nbsp;个
+            </p>
+            <p>
+              导入失败：
+              <span class="errorColor">{{batchForm.batchData.importNumFail}}</span>&nbsp;个
+            </p>
+            <p v-if="batchForm.batchData.failLine">
+              导入失败行：第
+              <span class="errorColor">{{batchForm.batchData.failLine}}</span>&nbsp;行
+            </p>
+            <i
+              class="tip-fail errorColor"
+              v-if="batchForm.batchData.failLine">请检查并修正失败行数据后，重新导入失败行数据</i>
+        </div>
+      </div>
+      <div class="dialog-model-footer">
+        <el-button size="small" @click="dialogBatchHide('batch-gift-model')">知道了</el-button>
+      </div>
+    </dialogModel>
+
   </div>
 </template>
 
@@ -35,7 +82,7 @@ import Search from '@/components/Search'
 import Table from '@/components/Table'
 import Dialog from 'base/Dialog';
 import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissions, routerLinkPage, formatBrandTreeData } from 'common/js/dom';
-import { getDictsData, getProductList, delProduct, getBrandTree } from 'api/interface';
+import { getDictsData, getProductList, delProduct, getBrandTree, productImportAPPOINTAction  } from 'api/interface';
 
 export default {
   components: {
@@ -65,7 +112,7 @@ export default {
       buttonList: [
         {
           name: 'add',
-          type: '',
+          type: 'primary',
           icon: 'el-icon-circle-plus-outline',
           text: this.isDiscountPage ? '新增折扣商品' : '新增',
           class: '',
@@ -85,13 +132,23 @@ export default {
         },
         {
           name: 'export',
-          type: 'primary',
+          type: '',
           icon: 'el-icon-download',
           text: '导出',
           class: '',
           show: true,
           loading: false,
           click: this.handleExport,
+        },
+        {
+          name: 'add',
+          type: '',
+          icon: 'el-icon-circle-plus-outline',
+          text: '批量上传',
+          class: '',
+          show: true,
+          loading: false,
+          click: this.handleUpload,
         }
       ],
 
@@ -162,15 +219,15 @@ export default {
       table: {
         title: [
           {
-            label: '产品名称',
-            field: 'name',
-            width: 200,
-          },
-          {
             label: '产品编号',
             field: 'number',
             type: 'link',
             click: this.handleDblclick,
+          },
+          {
+            label: '产品名称',
+            field: 'name',
+            width: 200,
           },
           {
             label: '品牌',
@@ -248,6 +305,14 @@ export default {
         selectionChange: [],  // 多选行数据
       },
 
+      dialog: {
+        loading: false,
+        dialogWidth: '470px',
+        dialogTitle: '提示',
+      },
+      // 批量导入
+      batchForm: { fileList1: [], batchData: null },
+      productImportAPPOINTAction: productImportAPPOINTAction()
     }
   },
   created() {
@@ -368,6 +433,10 @@ export default {
 
       window.location.href = getProductList(params)
     },
+    // 批量上传
+    handleUpload() {
+      this.$refs['batch-gift-model'].showModel();
+    },
     // 每页显示条数
     handleSizeChange: function (val) {
       this.table.pageSize = val
@@ -397,11 +466,13 @@ export default {
     },
     // 删除
     handleDelete() {
+      this.buttonList.filter(item => item.name === 'delete')[0].loading = true
       if(this.table.selectionChange.length == 0) {
         this.$message({
           type: 'warning',
           message: '请先选择数据'
         })
+        this.buttonList.filter(item => item.name === 'delete')[0].loading = false
         return
       }
 
@@ -416,6 +487,8 @@ export default {
           type: 'info',
           message: '已取消删除'
         });
+
+        this.buttonList.filter(item => item.name === 'delete')[0].loading = false
       });
     },
     // 删除确定
@@ -426,7 +499,6 @@ export default {
       })
       ids = ids.substring(0, ids.length - 1)
 
-      this.delSaveLoading = true
       delProduct(ids).then(res => {
         if (res.status == 200) {
           this.$message({
@@ -440,7 +512,7 @@ export default {
             message: res.message
           })
         }
-        this.delSaveLoading = false
+        this.buttonList.filter(item => item.name === 'delete')[0].loading = false
       })
     },
     // 新增
@@ -481,7 +553,67 @@ export default {
       e.seriesId = chooseOptions.length > 1 ? chooseOptions[1] : ''
 
       return e
-    }
+    },
+
+
+
+    // 上传之前
+    beforeAvatarUpload: function (file) {
+        //验证上传文件的类型
+        // if (file.type === "application/vnd.ms-excel" || file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+        //     this.isExcel = true
+        // } else {
+        //     this.isExcel = false
+        // }
+        var newArr = file.name.split('.')
+        var newType = newArr[1]
+
+        if (newType == 'xls') {
+            this.isExcel = true
+        } else {
+            this.isExcel = false
+        }
+
+        if (!this.isExcel) {
+            this.$message({
+                message: '上传文件只能是 xls 格式',
+                type: 'error'
+            })
+        }
+
+        return this.isExcel;
+    },
+    //批量产品上传成功
+    handleSuccesBatch: function (response, file, fileList) {
+        console.log(response)
+        this.batchForm.batchData = response.data
+        this._getProductList(this.table.pageNum, this.table.pageSize);
+    },
+    // 上传失败
+    handleErrorBatch: function (err, file, fileList) {
+        this.$message({
+            message: file.name + '上传失败',
+            type: 'error'
+        })
+    },
+    // 删除已上传文件
+    handleRemove(file, fileList) {
+        this.batchForm.batchData = null
+        // this.uploadCodesLength = 0
+    },
+    // 多次上传，只保留最后一次文件
+    handleFileChange(file, fileList) {
+        // this.modifyForm.fileList1 = fileList.slice(-1);
+
+
+        // this.batchForm.fileList1 = fileList.slice(-1);
+    },
+    //关闭批量导入积分产品   （知道了）
+    dialogBatchHide: function (type) {
+        this.batchForm.fileList1 = []
+        this.batchForm.batchData = null
+        this.$refs[type].hideModel();
+    },
 
   }
 }

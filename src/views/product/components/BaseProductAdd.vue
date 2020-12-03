@@ -12,6 +12,7 @@
             <el-form-item label="产品名称" prop="name" :label-width="formLabelWidth">
               <el-input
                 v-model="addForm.name"
+                @input="handleDeleteBlankSpacer($event, 'name')"
                 placeholder="请填写产品名称"></el-input>
             </el-form-item>
           </el-col>
@@ -19,6 +20,7 @@
             <el-form-item label="产品编号" prop="number" :label-width="formLabelWidth">
               <el-input
                 v-model="addForm.number"
+                @input="handleDeleteBlankSpacer($event, 'number')"
                 placeholder="请填写产品编号"
                 disabled></el-input>
             </el-form-item>
@@ -29,12 +31,12 @@
                 v-model="options.brandId"
                 :options="options.brandTree"
                 :props="{ expandTrigger: 'hover' }"
-                @change="handleChange"></el-cascader>
+                @change="handleChange($event)"></el-cascader>
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
             <el-form-item label="工艺" prop="crafts" :label-width="formLabelWidth">
-                <el-select v-model="options.crafts" multiple collapse-tags placeholder="请选择工艺">
+                <el-select v-model="options.crafts" multiple collapse-tags placeholder="请选择工艺" @change="changeCrafts($event)">
                   <el-option
                     v-for="item in options.craftsOptions"
                     :key="item.value"
@@ -46,7 +48,7 @@
           </el-col>
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
             <el-form-item label="分类" prop="categorys" :label-width="formLabelWidth">
-                <el-select v-model="options.categorys" multiple collapse-tags placeholder="请选择分类">
+                <el-select v-model="options.categorys" multiple collapse-tags placeholder="请选择分类" @change="changeCategorys($event)">
                   <el-option
                     v-for="item in options.categorysOptions"
                     :key="item.value"
@@ -86,6 +88,7 @@
             <el-form-item label="材质说明" prop="instructions" :label-width="formLabelWidth">
               <el-input
                 v-model="addForm.instructions"
+                @input="handleDeleteBlankSpacer($event, 'instructions')"
                 placeholder="请填写材质说明"></el-input>
             </el-form-item>
           </el-col>
@@ -93,6 +96,7 @@
             <el-form-item label="颜色" prop="color" :label-width="formLabelWidth">
               <el-input
                 v-model="addForm.color"
+                @input="handleDeleteBlankSpacer($event, 'color')"
                 placeholder="请填写颜色"></el-input>
             </el-form-item>
           </el-col>
@@ -141,7 +145,7 @@
           </el-col>
 
           <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-            <el-form-item label="场景图(多张)" prop="imgMain" :label-width="formLabelWidth">
+            <el-form-item label="场景图" prop="imgEffectList" :label-width="formLabelWidth">
                 <el-upload
                   ref="upload"
                   :action="upload.imageUploadAction"
@@ -190,7 +194,11 @@
                 <!-- input -->
                 <div v-if="item.type == 'input'">
                   <span v-if="scope.row.isEdit">
-                    <el-input size="mini" placeholder="请输入内容" v-model="detail.addRow[item.field]">
+                    <el-input
+                      size="mini"
+                      placeholder="请输入内容"
+                      @input="handleDeleteBlankSpacerDetail($event, item.field)"
+                      v-model="detail.addRow[item.field]">
                     </el-input>
                   </span>
                   <span v-if="!scope.row.isEdit">{{scope.row[item.field]}}</span>
@@ -325,7 +333,9 @@ export default {
         brandId: '',  //
         seriesId: '',  //
         crafts: '',  //
+        craftNames: '',  //
         categorys: '',  //
+        categoryNames: '',  //
         imgMain: '',  //
         status: 'true',  //
         discount: 'false',  //
@@ -367,6 +377,9 @@ export default {
         categorys: [{ required: true, message: '请选择分类', trigger: 'change' }],
         status: [{ required: true, message: '请选择商品状态', trigger: 'change' }],
         discount: [{ required: true, message: '请选择是否折扣商品', trigger: 'change' }],
+        unit: [{ required: true, message: '请选择单位', trigger: 'change' }],
+        imgMain: [{ required: true, message: '请选择上传商品主图', trigger: 'change' }],
+        imgEffectList: [{ required: true, message: '请选择上传场景图', trigger: 'change' }],
 
         modelNumber: [{ required: true, message: '请输入型号', trigger: 'blur' }],
         size: [{ required: true, message: '请输入规格', trigger: 'blur' }],
@@ -718,17 +731,19 @@ export default {
       })
     },
     // 品列树选择
-    handleChange(value) {
-      console.log(value);
+    handleChange(e) {
+      console.log(e);
+      this.addForm.brandId = e[0]
+      this.addForm.seriesId = e[1]
     },
     // 保存
     handleSave() {
       let _this = this
-      this.addForm.crafts = arrToString(this.options.crafts)
-      this.addForm.categorys = arrToString(this.options.categorys)
-      this.addForm.brandId = this.options.brandId[0]
-      this.addForm.seriesId = this.options.brandId[1]
-      this.addForm.discount = this.isDiscountPage
+      // this.addForm.crafts = arrToString(this.options.crafts)
+      // this.addForm.categorys = arrToString(this.options.categorys)
+      // this.addForm.brandId = this.options.brandId[0]
+      // this.addForm.seriesId = this.options.brandId[1]
+      this.addForm.discount = this.isDiscountPage  // 页面传值
 
       // 主图
       if(this.upload.mainImage.indexOf("/") >= 0) {
@@ -991,6 +1006,46 @@ export default {
         type: 'error'
       })
     },
+
+    // 输入时去空格
+    handleDeleteBlankSpacer(val, key) {
+      this.addForm[key] = this.addForm[key].replace(/^\s+|\s+$/g, '').replace(/\s/g, '') // 去空格
+    },
+
+    // 输入时去空格（明细表）
+    handleDeleteBlankSpacerDetail(val, key) {
+      this.detail.addRow[key] = this.detail.addRow[key].replace(/^\s+|\s+$/g, '').replace(/\s/g, '') // 去空格
+    },
+    // 工艺选择
+    changeCrafts(e) {
+      let _this = this
+      let nameArr = []
+      e.forEach(function(el, elIndex) {
+        _this.options.craftsOptions.forEach(function(item, index) {
+          if(item.value == el) {
+            nameArr.push(item.name)
+          }
+        })
+      })
+      this.addForm.crafts = arrToString(e)
+      this.addForm.craftNames = arrToString(nameArr)
+    },
+    // 分类选择
+    changeCategorys(e) {
+      let _this = this
+      let nameArr = []
+      e.forEach(function(el, elIndex) {
+        _this.options.categorysOptions.forEach(function(item, index) {
+          if(item.value == el) {
+            nameArr.push(item.name)
+          }
+        })
+      })
+      this.addForm.categorys = arrToString(e)
+      this.addForm.categoryNames = arrToString(nameArr)
+    }
+  },
+  watch: {
 
   }
 }

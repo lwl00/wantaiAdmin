@@ -47,7 +47,6 @@
                 v-model="editRole.name"
                 style="width:200px;"
                 class="pull-left"
-                @input="handleDeleteBlankSpacer($event, 'name')"
                 placeholder="请输入客户名称"
                 :maxlength="10"></el-input>
             </el-form-item>
@@ -60,7 +59,6 @@
                 v-model="editRole.company"
                 style="width:200px;"
                 class="pull-left"
-                @input="handleDeleteBlankSpacer($event, 'company')"
                 placeholder="请输入公司名称"
                 :maxlength="10"></el-input>
             </el-form-item>
@@ -73,7 +71,6 @@
                 v-model="editRole.position"
                 style="width:200px;"
                 class="pull-left"
-                @input="handleDeleteBlankSpacer($event, 'position')"
                 placeholder="请输入职位名称"
                 :maxlength="10"></el-input>
             </el-form-item>
@@ -86,7 +83,6 @@
                 v-model="editRole.phone"
                 style="width:200px;"
                 class="pull-left"
-                @input="handleDeleteBlankSpacer($event, 'phone')"
                 placeholder="请输入联系电话"
                 :maxlength="11"></el-input>
             </el-form-item>
@@ -157,8 +153,7 @@
                 v-model="addForm.username"
                 style="width:200px;"
                 class="pull-left"
-                @input="handleDeleteBlankSpacer($event, 'username')"
-                placeholder="请输入客户账号11"></el-input>
+                placeholder="请输入客户账号"></el-input>
             </el-form-item>
             <el-form-item
               label="客户名称"
@@ -169,7 +164,6 @@
                 v-model="addForm.name"
                 style="width:200px;"
                 class="pull-left"
-                @input="handleDeleteBlankSpacer($event, 'name')"
                 placeholder="请输入客户名称"></el-input>
             </el-form-item>
             <el-form-item
@@ -181,7 +175,6 @@
                 v-model="addForm.company"
                 style="width:200px;"
                 class="pull-left"
-                @input="handleDeleteBlankSpacer($event, 'company')"
                 placeholder="请输入公司名称"></el-input>
             </el-form-item>
             <el-form-item
@@ -193,7 +186,6 @@
                 v-model="addForm.position"
                 style="width:200px;"
                 class="pull-left"
-                @input="handleDeleteBlankSpacer($event, 'position')"
                 placeholder="请输入职位名称"></el-input>
             </el-form-item>
             <el-form-item
@@ -205,7 +197,6 @@
                 v-model="addForm.phone"
                 style="width:200px;"
                 class="pull-left"
-                @input="handleDeleteBlankSpacer($event, 'phone')"
                 placeholder="请输入联系电话"
                 :maxlength="11"></el-input>
             </el-form-item>
@@ -242,6 +233,29 @@
             @click="_addCustomer('dialog-model-add','addForm')"
             :loading="addSaveLoading">确定</el-button>
           <el-button size="small" @click="handleAddHide('dialog-model-add','addForm')">取消</el-button>
+        </div>
+      </dialogModel>
+
+      <!-- 删除 -->
+      <dialogModel
+        class="dialog-model"
+        ref="dialog-model-delete"
+        :title="'提示'"
+        :width="dialog.dialogWidth">
+        <div class="dialog-model-content">
+          <div style="margin-bottom: 15px;">确认删除以下账号？（删除后不能恢复）</div>
+          <div
+            style="margin: 5px 0;color: red;"
+            v-for="(item, index) in table.selectionChange">
+            {{item.username}}  --  {{item.name}}</div>
+        </div>
+        <div class="dialog-model-footer">
+          <el-button
+            :type="search.contentColor"
+            size="small"
+            @click="_getDelCustomer('dialog-model-delete')"
+            :loading="delSaveLoading">确定</el-button>
+          <el-button size="small" @click="handleDeleteHide('dialog-model-delete')">取消</el-button>
         </div>
       </dialogModel>
 
@@ -439,9 +453,9 @@ export default {
         company: '', //公司
         position: '', //职位
         phone: '', //电话
-        failureTime: '2099-12-31T15:59:59.000Z',  //失效时间
+        failureTime: '',  //失效时间
         status: true, //状态,
-        password: '123456',  //默认密码
+        password: '',  //默认密码
       },
       ReUsername: '', //重名
       rules: {
@@ -591,40 +605,32 @@ export default {
     },
     // 删除
     handleDelete() {
-      this.buttonList.filter(item => item.name === 'delete')[0].loading = true
       if(this.table.selectionChange.length == 0) {
         this.$message({
           type: 'warning',
           message: '请先选择数据'
         })
-        this.buttonList.filter(item => item.name === 'delete')[0].loading = false
         return
       }
+      this.show('dialog-model-delete')
+    },
 
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this._getDelCustomer()
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-
-        this.buttonList.filter(item => item.name === 'delete')[0].loading = false
-      });
+    // 删除取消
+    handleDeleteHide: function (type) {
+      this.$message('已取消')
+      this.hide(type)
     },
     // 删除确定
-    _getDelCustomer() {
+    _getDelCustomer(type) {
       let ids = ''
       this.table.selectionChange.forEach(function (item, index) {
         ids += item.id + ','
       })
       ids = ids.substring(0, ids.length - 1)
 
+      this.delSaveLoading = true
       delCustomer(ids).then(res => {
+        this.hide(type)
         if (res.status == 200) {
           this.$message({
             message: '删除成功',
@@ -637,7 +643,7 @@ export default {
             message: res.message
           })
         }
-        this.buttonList.filter(item => item.name === 'delete')[0].loading = false
+        this.delSaveLoading = false
       })
     },
     // 编辑
@@ -712,7 +718,24 @@ export default {
     },
     // 新增
     handleAdd() {
+      let id = ''
       this.show('dialog-model-add')
+      getCustomer(id).then(res => {
+        if (res.status == 200) {
+          let data =  res.data.customer
+          for (var el in data) {
+            if(data[el]) {
+              this.addForm[el] = data[el]
+            }
+          }
+        }else {
+          this.$message({
+            type: 'error',
+            message: res.message
+          })
+          return false
+        }
+      })
     },
     // 新增取消
     handleAddHide: function (type, formName) {
@@ -729,25 +752,24 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let params = this.addForm
-          console.log(params)
-          // addCustomer(params).then(res => {
-          //   if (res.status == 200) {
-          //     this._getCustomerList(this.table.pageNum, this.table.pageSize);
-          //     this.$message({
-          //       message: '添加成功',
-          //       type: 'success'
-          //     })
+          addCustomer(params).then(res => {
+            if (res.status == 200) {
+              this._getCustomerList(this.table.pageNum, this.table.pageSize);
+              this.$message({
+                message: '添加成功',
+                type: 'success'
+              })
 
-          //     this.$refs[formName].resetFields()
-          //     this.hide(type)
-          //   } else {
-          //     this.$message({
-          //       type: 'error',
-          //       message: res.message
-          //     })
-          //   }
-          //   this.addSaveLoading = false
-          // })
+              this.$refs[formName].resetFields()
+              this.hide(type)
+            } else {
+              this.$message({
+                type: 'error',
+                message: res.message
+              })
+            }
+            this.addSaveLoading = false
+          })
         } else {
           this.$message({
             type: 'warning',
@@ -771,10 +793,8 @@ export default {
         }
       })
     },
-    // 输入时去空格
-    handleDeleteBlankSpacer(val, key) {
-      this.addForm[key] = this.addForm[key].replace(/^\s+|\s+$/g, '').replace(/\s/g, '') // 去空格
-    },
+
+
 
   },
 }

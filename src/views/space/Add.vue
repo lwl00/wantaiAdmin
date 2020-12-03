@@ -12,6 +12,7 @@
             <el-form-item label="空间名称" prop="name" :label-width="formLabelWidth">
               <el-input
                 v-model="addForm.name"
+                @input="handleDeleteBlankSpacer($event, 'name')"
                 placeholder="请填写空间名称"></el-input>
             </el-form-item>
           </el-col>
@@ -19,6 +20,7 @@
             <el-form-item label="空间编号" prop="number" :label-width="formLabelWidth">
               <el-input
                 v-model="addForm.number"
+                @input="handleDeleteBlankSpacer($event, 'number')"
                 placeholder="请填写空间编号"
                 disabled></el-input>
             </el-form-item>
@@ -27,6 +29,7 @@
             <el-form-item label="备注" prop="remark" :label-width="formLabelWidth">
               <el-input
                 v-model="addForm.remark"
+                @input="handleDeleteBlankSpacer($event, 'remark')"
                 placeholder="请填写备注"></el-input>
             </el-form-item>
           </el-col>
@@ -71,16 +74,6 @@
             :row-class-name="rowClassName"
             @cell-dblclick="handleDblclick">
             <el-table-column type="index"></el-table-column>
-            <el-table-column label="操作" width="150">
-              <template slot-scope="scope">
-                <span class="el-tag el-tag--info el-tag--mini" style="cursor: pointer;" @click="showProduct(scope.row, scope.$index)">
-                  选择商品
-                </span>
-                <span class="el-tag el-tag--danger el-tag--mini" style="cursor: pointer;" @click="handleDetailDelete(scope.row, scope.$index)">
-                  删除
-                </span>
-              </template>
-            </el-table-column>
             <el-table-column
               v-for="(item, index) in detail.title"
               :key="index"
@@ -93,6 +86,13 @@
 
                 <!-- 其他 -->
                 <span v-else>{{scope.row[item.field]}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" width="150">
+              <template slot-scope="scope">
+                <span class="el-tag el-tag--danger el-tag--mini" style="cursor: pointer;" @click="handleDetailDelete(scope.row, scope.$index)">
+                  删除
+                </span>
               </template>
             </el-table-column>
           </el-table>
@@ -606,11 +606,6 @@ export default {
     hide: function (type) {      //隐藏弹出框
       this.$refs[type].hideModel();
     },
-    // 展示商品弹窗，请求商品第一页数据
-    showProduct(row, index) {
-      this.detailRowIndex = index
-      this.show('dialog-model-product')
-    },
     // 商品弹窗确定
     handleDialogYes(e) {
       let _this = this
@@ -700,6 +695,10 @@ export default {
         message: file.name + '上传失败',
         type: 'error'
       })
+    },
+    // 输入时去空格
+    handleDeleteBlankSpacer(val, key) {
+      this.addForm[key] = this.addForm[key].replace(/^\s+|\s+$/g, '').replace(/\s/g, '') // 去空格
     },
 
   }
