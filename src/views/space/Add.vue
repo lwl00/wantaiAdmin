@@ -123,7 +123,7 @@ import Table from '@/components/Table'
 import Dialog from 'base/Dialog';
 import DialogProduct from '@/components/DialogProduct';
 import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissions, routerLinkPage, arrToString, formatBrandTreeData, delTableDataDetailReturn } from 'common/js/dom';
-import { getDictsData, getSpace, addSpace, editSpace, getBrandTree, imageUploadAction, imagesUploadAction, imageHttpsUrlPTF } from 'api/interface';
+import { getDictsData, getSpace, addSpace, editSpace, getBrandTree, imageUploadAction, imagesUploadAction } from 'api/interface';
 
 export default {
   components: {
@@ -448,7 +448,7 @@ export default {
           if(res.data.space.productList.length > 0) {
             res.data.space.productList.forEach(function(item, index) {
               if(item.imgMain) {
-                item.imgMain = imageHttpsUrlPTF()+item.imgMain
+                item.imgMain = item.imgMainSrc
               }
             })
             this.detail.tableData = res.data.space.productList
@@ -459,13 +459,15 @@ export default {
           // 实景图
           if(res.data.space.spaceImgList.length > 0) {
             res.data.space.spaceImgList.forEach(function(item, index) {
-              let obj = {
-                url: imageHttpsUrlPTF()+item.image,
-                response: {
-                  data: imageHttpsUrlPTF()+item.image,
+              if(item.image) {
+                let obj = {
+                  url: item.imageSrc,
+                  response: {
+                    data: item.imageSrc,
+                  }
                 }
+                _this.upload.effectFileList.push(obj)
               }
-              _this.upload.effectFileList.push(obj)
             })
           }else {
             this.upload.effectFileList = []
@@ -616,7 +618,7 @@ export default {
         if(_this.detail.tableData.length > 0 && _this.detail.tableData.filter(item => item.id === el.id).length > 0) {
           detailString += el.name+','
         }else {
-          el.imgMain = imageHttpsUrlPTF()+el.imgMain
+          el.imgMain = el.imgMainSrc
           _this.detail.tableData.push(el)
         }
       })

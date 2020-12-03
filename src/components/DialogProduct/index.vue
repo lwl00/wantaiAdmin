@@ -161,21 +161,21 @@ import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissio
         table: {
           title: [
             {
+              label: '产品编号',
+              field: 'number',
+            },
+            {
               label: '产品名称',
               field: 'name',
               width: 200,
             },
             {
-              label: '产品编号',
-              field: 'number',
+              label: '品牌',
+              field: 'brandName',
             },
             {
-              label: '品列ID',
-              field: 'brandId',
-            },
-            {
-              label: '系列ID',
-              field: 'seriesId',
+              label: '系列',
+              field: 'seriesName',
             },
             {
               label: '工艺',

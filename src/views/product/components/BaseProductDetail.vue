@@ -138,7 +138,7 @@ import Table from '@/components/Table'
 import Dialog from 'base/Dialog';
 import DialogProduct from '@/components/DialogProduct';
 import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissions, routerLinkPage, arrToString, formatBrandTreeData, delTableDataDetailReturn } from 'common/js/dom';
-import { getDictsData, getProduct, addProduct, editProduct, getBrandTree, imageUploadAction, imagesUploadAction, imageHttpsUrlPTF } from 'api/interface';
+import { getDictsData, getProduct, addProduct, editProduct, getBrandTree, imageUploadAction, imagesUploadAction } from 'api/interface';
 
 export default {
   components: {
@@ -347,8 +347,8 @@ export default {
           if(res.data.product.specificationList.length > 0) {
             res.data.product.specificationList.forEach(function(item, index) {
               item.isEdit = false
-              if(item.image) {
-                item.imgMain = imageHttpsUrlPTF()+item.image
+              if(item.imgMain) {
+                item.imgMain = item.imgMainSrc
               }
             })
             this.table.tableData = res.data.product.specificationList
@@ -357,24 +357,26 @@ export default {
           }
 
           // 主图图片
-          let imgMain = res.data.product.imgMain
-          let response = {
-            data: imageHttpsUrlPTF()+imgMain
+          if(res.data.product.imgMain) {
+            let response = {
+              data: res.data.product.imgMainSrc
+            }
+            this.upload.mainImage = response.data
+            this.upload.mainFileList.push(response)
           }
-          this.upload.mainImage = response.data
-          this.upload.mainFileList.push(response)
 
           // 实景图
           if(res.data.product.imgEffectList.length > 0) {
             res.data.product.imgEffectList.forEach(function(item, index) {
-              let obj = {
-                url: imageHttpsUrlPTF()+item.image,
-                response: {
-                  data: imageHttpsUrlPTF()+item.image,
+              if(item.image) {
+                let obj = {
+                  url: item.imageSrc,
+                  response: {
+                    data: item.imageSrc,
+                  }
                 }
-
+                _this.upload.effectFileList.push(obj)
               }
-              _this.upload.effectFileList.push(obj)
             })
           }else {
             this.upload.effectFileList = []

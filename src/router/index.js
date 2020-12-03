@@ -108,13 +108,13 @@ export const asyncRouterMap = [
         path: '/product/normal/list',
         name: 'ProductNormalList',
         component: () => import('@/views/product/normal/List'),
-        meta: { title: '正价产品', icon: '', roles: ['furniture:norProduct:read'] }
+        meta: { title: '正价产品', icon: '', noCache: true, roles: ['furniture:norProduct:read'] }
       },
       {
         path: '/product/normal/add',
         name: 'ProductNormalAdd',
         component: () => import('@/views/product/normal/Add'),
-        meta: { title: '新增正价产品', icon: '' },
+        meta: { title: '新增正价产品', icon: '', noCache: false },
         hidden: true
       },
       {
@@ -128,13 +128,13 @@ export const asyncRouterMap = [
         path: '/product/discount/list',
         name: 'ProductDiscountList',
         component: () => import('@/views/product/discount/List'),
-        meta: { title: '折扣产品', icon: '', roles: ['furniture:disProduct:read'] }
+        meta: { title: '折扣产品', icon: '', noCache: true, roles: ['furniture:disProduct:read'] }
       },
       {
         path: '/product/discount/add',
         name: 'ProductDiscountAdd',
         component: () => import('@/views/product/discount/Add'),
-        meta: { title: '新增折扣产品', icon: '' },
+        meta: { title: '新增折扣产品', icon: '', noCache: false },
         hidden: true
       },
       {
@@ -166,7 +166,7 @@ export const asyncRouterMap = [
         path: '/customer/list',
         name: 'MemberList',
         component: () => import('@/views/customer/List'),
-        meta: { title: '客户管理', icon: '', roles: ['furniture:customer:read'] }
+        meta: { title: '客户管理', icon: '', noCache: true, roles: ['furniture:customer:read'] }
       },
     ]
   },
@@ -184,7 +184,7 @@ export const asyncRouterMap = [
         path: '/project/list',
         name: 'ProjectList',
         component: () => import('@/views/project/List'),
-        meta: { title: '方案管理', icon: '', roles: ['furniture:project:read'] }
+        meta: { title: '方案管理', icon: '', noCache: true, roles: ['furniture:project:read'] }
       },
       {
         path: '/project/detail',
@@ -208,13 +208,13 @@ export const asyncRouterMap = [
         path: '/space/list',
         name: 'SpaceList',
         component: () => import('@/views/space/List'),
-        meta: { title: '空间管理', icon: '', roles: ['furniture:space:read'] }
+        meta: { title: '空间管理', icon: '', noCache: true, roles: ['furniture:space:read'] }
       },
       {
         path: '/space/add',
         name: 'SpaceAdd',
         component: () => import('@/views/space/Add'),
-        meta: { title: '新增空间', icon: '' },
+        meta: { title: '新增空间', icon: '', noCache: false },
         hidden: true
       },
       {

@@ -91,6 +91,7 @@
                                 placeholder="请输入密码"
                                 @change="handlePassword"
                                 :maxlength="16"
+                                show-password
                             ></el-input>
                         </el-form-item>
                         <!-- <div class="tips">*默认密码为123456</div> -->

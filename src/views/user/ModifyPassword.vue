@@ -1,38 +1,41 @@
 <template>
     <div class="app-container">
         <div class="filter-container">
-            <el-form :model="modifyForm" status-icon :rules="rules" ref="modifyForm" label-width="100px" class="demo-ruleForm modifyWarp" size="small">
+            <el-form :model="modifyForm" :rules="rules" ref="modifyForm" label-width="100px" class="demo-ruleForm modifyWarp" size="small">
                 <el-form-item label="原密码" prop="oldPassword">
-                    <el-input 
-                        type="password" 
-                        v-model="modifyForm.oldPassword" 
-                        placeholder="请输入原登录密码" 
-                        maxlength="16" 
-                        minlength="6"></el-input>
-                </el-form-item>                
+                    <el-input
+                        type="password"
+                        v-model="modifyForm.oldPassword"
+                        placeholder="请输入原登录密码"
+                        maxlength="16"
+                        minlength="6"
+                        show-password></el-input>
+                </el-form-item>
                 <el-form-item label="新密码" prop="pass">
-                    <el-input 
-                        type="password" 
-                        v-model="modifyForm.pass" 
-                        placeholder="请输入6位新登录密码" 
-                        autocomplete="off" 
-                        maxlength="16" 
-                        minlength="6"></el-input>
+                    <el-input
+                        type="password"
+                        v-model="modifyForm.pass"
+                        placeholder="请输入6位新登录密码"
+                        autocomplete="off"
+                        maxlength="16"
+                        minlength="6"
+                        show-password></el-input>
                 </el-form-item>
                 <el-form-item label="确认新密码" prop="checkPass">
-                    <el-input 
-                        type="password" 
-                        v-model="modifyForm.checkPass" 
-                        placeholder="请再次6位输入新登录密码" 
-                        autocomplete="off" 
-                        maxlength="16" 
-                        minlength="6"></el-input>
+                    <el-input
+                        type="password"
+                        v-model="modifyForm.checkPass"
+                        placeholder="请再次6位输入新登录密码"
+                        autocomplete="off"
+                        maxlength="16"
+                        minlength="6"
+                        show-password></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button 
-                        type="primary" 
+                    <el-button
+                        type="primary"
                         @click="submitForm('modifyForm')">保存</el-button>
-                    <el-button 
+                    <el-button
                         type=""
                         @click="resetForm('modifyForm')">重置</el-button>
                 </el-form-item>
@@ -45,7 +48,7 @@
     import { modifyPassword } from 'api/interface';
     import { getToken, setToken, removeToken, getCookiesUserName, setCookiesUserName, removeCookiesUserName } from '@/utils/auth'
 
-    export default {     
+    export default {
         name: '',
         data () {
             var checkOldPassword = (rule, value, callback) => {
@@ -94,7 +97,7 @@
                     checkPass: [
                         { validator: validatePass2, trigger: 'blur' },
                         { pattern: /^[0-9a-zA-Z]+$/, message: '密码只能为数字或者英文',}
-                    ]                    
+                    ]
                 }
             }
         },
@@ -123,7 +126,7 @@
                                 this.$message({
                                     type: 'error',
                                     message: res.message
-                                });                                
+                                });
                             }
                         })
 
