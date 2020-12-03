@@ -1,13 +1,15 @@
 <template>
   <div class="cmyy">
     <div class="dialog-model-content">
-      <Search
-        :buttonList="buttonList"
-        :searchOptions="searchOptions"
-        @search="handleSearch"
-        @reset="handleReset"
-        @change="handleChange"
-      ></Search>
+      <div ref="searchToolbar" class="searchToolbar">
+        <Search
+          :buttonList="buttonList"
+          :searchOptions="searchOptions"
+          @search="handleSearch"
+          @reset="handleReset"
+          @change="handleChange"
+        ></Search>
+      </div>
 
       <div class="cmyyTable">
         <Table :table="table" @dblclick="handleDblclick" @handleSelectionChange="handleSelectionChange"></Table>
@@ -88,6 +90,7 @@ import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissio
           loading: false,
           dialogTitle: '选择商品',    //编辑弹窗标题
           dialogWidth: '1200px',   //弹窗宽度
+          dialogHeight: 700,   //弹窗宽度（必须为number）
         },
         // 操作栏按钮（主表）
         buttonList: [],
@@ -285,10 +288,11 @@ import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissio
             this.table.totalPage = res.pageVO.total
 
             // 需要计算table高度（暂时不用）
-            // calculateTableHeight(this)
-            // window.onresize = () => {   // 缩放窗口实时计算
-            //   calculateTableHeight(this)
-            // };
+            this.calculateTableHeightDialog()
+            window.onresize = () => {   // 缩放窗口实时计算
+              this.calculateTableHeightDialog()
+            };
+
           }
         })
       },
@@ -310,11 +314,11 @@ import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissio
       // 查询条件是否展开(暂时不用)
       handleChange(e) {
         var _this = this
-        // this.$nextTick(function () {
-        //   setTimeout(function () {
-        //     calculateTableHeight(_this)
-        //   }, 500)
-        // })
+        this.$nextTick(function () {
+          setTimeout(function () {
+            this.calculateTableHeightDialog()
+          }, 500)
+        })
       },
       // 每页显示条数
       handleSizeChange: function (val) {
@@ -348,6 +352,15 @@ import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissio
       // 商品弹窗取消
       handleDialogNo(type) {
         this.$emit('handleDialogNo')
+      },
+
+      // 管理列表页面动态计算table高度
+      calculateTableHeightDialog(_this) {
+        var homePageHeight = this.dialog.dialogHeight
+        var searchToolbarHeight = this.$refs.searchToolbar.offsetHeight
+        var cmyyPpaginationHeight = this.$refs.cmyyPpagination.offsetHeight
+
+        this.table.tableHeight = homePageHeight - searchToolbarHeight - cmyyPpaginationHeight - 192
       },
     }
   }

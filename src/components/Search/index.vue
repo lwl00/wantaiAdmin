@@ -21,7 +21,7 @@
                         <el-col
                             :xs="24"
                             :sm="(item.type == 'inputImport' || item.type === 'datetimerange') ? 24 : 12"
-                            :md="(item.type == 'inputImport' || item.type === 'datetimerange') ? 12 : 8"
+                            :md="(item.type == 'inputImport' || item.type === 'datetimerange') ? 24 : 12"
                             :lg="(item.type == 'inputImport' || item.type === 'datetimerange') ? 12 : 6"
                             :xl="(item.type == 'inputImport' || item.type === 'datetimerange') ? 8 : 4"
                             v-for="(item, index) in dynamicValidateForm.searchOptions"

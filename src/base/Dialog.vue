@@ -4,7 +4,7 @@
       :title="title"
       :visible.sync="centerDialogVisible"
       :width="width"
-      top="25vh"
+      top="20vh"
       left>
         <slot></slot>
     </el-dialog>
@@ -21,7 +21,7 @@
                 type: String,
                 default: ''
             },
-        },        
+        },
         name: "",
         data () {
             return {
@@ -46,7 +46,7 @@
             .el-dialog__header {
                 height: 40px;
                 line-height: 40px;
-                padding: 0 15px; 
+                padding: 0 15px;
                 background-color: #59697b;
                 text-align: left;
                 border-top-left-radius: 5px;
@@ -69,7 +69,7 @@
                 }
             }
         }
-        
+
     }
-    
+
 </style>
