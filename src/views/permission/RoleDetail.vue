@@ -46,7 +46,7 @@
                             <div class="roleList">
                                 <ul>
                                     <li>
-                                        积分管理
+                                        产品管理
                                         <ul class="listItem" v-if="Permiss.pointList.length!==0">
                                             <el-checkbox-group v-model="power.pointList">
                                                 <li
@@ -67,7 +67,7 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        会员管理
+                                        客户管理
                                         <ul class="listItem" v-if="Permiss.customerList.length!==0">
                                             <el-checkbox-group v-model="power.customerList">
                                                 <li
@@ -88,7 +88,7 @@
                                         </ul>
                                     </li>
                                     <li style="width:170px;">
-                                        礼品管理
+                                        方案管理
                                         <ul class="listItem" v-if="Permiss.giftList.length!==0">
                                             <el-checkbox-group v-model="power.giftList">
                                                 <li
@@ -109,36 +109,12 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        礼品订单管理
+                                        空间管理
                                         <ul class="listItem" v-if="Permiss.orderList.length!==0">
                                             <el-checkbox-group v-model="power.orderList">
                                                 <li
                                                     style="width:134.4px;"
                                                     v-for="item in Permiss.orderList"
-                                                    :key="item.id"
-                                                    :value="item.id"
-                                                >
-                                                    v-model="item.checked"
-                                                    <el-checkbox
-                                                        v-model="item.checked"
-                                                        :label="item.id"
-                                                        :key="item.id"
-                                                        disabled
-                                                    >{{item.name}}</el-checkbox>
-                                                </li>
-                                            </el-checkbox-group>
-                                        </ul>
-                                    </li>
-                                    <li style="width: 163.4px;">
-                                        运营管理
-                                        <ul
-                                            class="listItem"
-                                            v-if="Permiss.operationList.length!==0"
-                                        >
-                                            <el-checkbox-group v-model="power.operationList">
-                                                <li
-                                                    style="width:162.4px;"
-                                                    v-for="item in Permiss.operationList"
                                                     :key="item.id"
                                                     :value="item.id"
                                                 >
@@ -175,28 +151,7 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        独立积分商城
-                                        <ul class="listItem" v-if="Permiss.storeList.length!==0">
-                                            <el-checkbox-group v-model="power.storeList">
-                                                <li
-                                                    style="width:134.4px;"
-                                                    v-for="item in Permiss.storeList"
-                                                    :key="item.id"
-                                                    :value="item.id"
-                                                >
-                                                    v-model="item.checked"
-                                                    <el-checkbox
-                                                        v-model="item.checked"
-                                                        :label="item.id"
-                                                        :key="item.id"
-                                                        disabled
-                                                    >{{item.name}}</el-checkbox>
-                                                </li>
-                                            </el-checkbox-group>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        独立积分商城
+                                        其他管理
                                         <ul class="listItem" v-if="Permiss.otherList.length!==0">
                                             <el-checkbox-group v-model="power.otherList">
                                                 <li
@@ -274,12 +229,12 @@
                     <el-form-item label="角色权限:" required>
                         <div class="cmyyTable">
                             <el-table stripe style="width: 100%">
-                                <el-table-column prop="date" label="积分规则管理" align="center"></el-table-column>
-                                <el-table-column prop="name" label="会员管理" align="center"></el-table-column>
-                                <el-table-column prop="address" align="center" label="礼品管理"></el-table-column>
-                                <el-table-column prop="address" align="center" label="礼品订单管理"></el-table-column>
-                                <el-table-column prop="address" align="center" label="运营管理"></el-table-column>
+                                <el-table-column prop="date" label="产品管理" align="center"></el-table-column>
+                                <el-table-column prop="name" label="客户管理" align="center"></el-table-column>
+                                <el-table-column prop="address" align="center" label="方案管理"></el-table-column>
+                                <el-table-column prop="address" align="center" label="空间管理"></el-table-column>
                                 <el-table-column prop="address" align="center" label="系统管理"></el-table-column>
+                                <el-table-column prop="address" align="center" label="其他管理"></el-table-column>
                             </el-table>
                         </div>
                     </el-form-item>
@@ -380,21 +335,17 @@ export default {
             Permiss: {
                 customerList: [],
                 giftList: [],
-                operationList: [],
                 orderList: [],
                 pointList: [],
                 systemList: [],
-                storeList: [],
                 otherList: [],
             },
             power: {
                 customerList: [],
                 giftList: [],
-                operationList: [],
                 orderList: [],
                 pointList: [],
                 systemList: [],
-                storeList: [],
                 otherList: [],
             },
             dialog: {
@@ -494,7 +445,7 @@ export default {
             this.$router.push({
                 path: index,
                 query: {
-                    //id: row.id,   
+                    //id: row.id,
                     code: this.$route.query.code
                 }
             })
@@ -507,14 +458,12 @@ export default {
             getPermissions(params).then(res => {
                 this.Permiss.customerList = res.data.customerList
                 this.Permiss.giftList = res.data.giftList
-                this.Permiss.operationList = res.data.operationList
                 this.Permiss.orderList = res.data.orderList
                 this.Permiss.pointList = res.data.pointList
                 this.Permiss.systemList = res.data.systemList
-                this.Permiss.storeList = res.data.storeList
                 this.Permiss.otherList = res.data.otherList
 
-                //积分规则管理获取当前被选中的id
+                //产品管理获取当前被选中的id
                 if (this.Permiss.pointList.length != 0) {
                     for (var key in this.Permiss.pointList) {
                         if (this.Permiss.pointList[key].checked == true) {
@@ -522,7 +471,7 @@ export default {
                         }
                     }
                 }
-                //会员管理获取当前被选中的id
+                //客户管理获取当前被选中的id
                 if (this.Permiss.customerList.length != 0) {
                     for (var key in this.Permiss.customerList) {
                         if (this.Permiss.customerList[key].checked == true) {
@@ -530,7 +479,7 @@ export default {
                         }
                     }
                 }
-                //礼品管理获取当前被选中的id
+                //方案管理获取当前被选中的id
                 if (this.Permiss.giftList.length != 0) {
                     for (var key in this.Permiss.giftList) {
                         if (this.Permiss.giftList[key].checked == true) {
@@ -538,19 +487,11 @@ export default {
                         }
                     }
                 }
-                //礼品订单管理获取当前被选中的id
+                //空间管理获取当前被选中的id
                 if (this.Permiss.orderList.length != 0) {
                     for (var key in this.Permiss.orderList) {
                         if (this.Permiss.orderList[key].checked == true) {
                             this.power.orderList.push(this.Permiss.orderList[key].id)
-                        }
-                    }
-                }
-                //运营管理获取当前被选中的id
-                if (this.Permiss.operationList.length != 0) {
-                    for (var key in this.Permiss.operationList) {
-                        if (this.Permiss.operationList[key].checked == true) {
-                            this.power.operationList.push(this.Permiss.operationList[key].id)
                         }
                     }
                 }
@@ -559,14 +500,6 @@ export default {
                     for (var key in this.Permiss.systemList) {
                         if (this.Permiss.systemList[key].checked == true) {
                             this.power.systemList.push(this.Permiss.systemList[key].id)
-                        }
-                    }
-                }
-                //独立积分商城取当前被选中的id
-                if (this.Permiss.storeList.length != 0) {
-                    for (var key in this.Permiss.storeList) {
-                        if (this.Permiss.storeList[key].checked == true) {
-                            this.power.storeList.push(this.Permiss.storeList[key].id)
                         }
                     }
                 }

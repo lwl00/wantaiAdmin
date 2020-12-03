@@ -36,8 +36,8 @@ router.beforeEach((to, from, next) => {
               'permissionsBtn',
               JSON.stringify(permissionsBtnArr)
             )
-            // console.log(permissionsMenuArr)
-            // console.log(permissionsBtnArr)
+            console.log('菜单权限', permissionsMenuArr)
+            console.log('按钮权限', permissionsBtnArr)
             store
               .dispatch('GenerateRoutes', { permissionsMenuArr })
               .then(() => {

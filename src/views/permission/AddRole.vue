@@ -56,7 +56,7 @@
                                             :indeterminate="Permiss.pointIsIndeterminate"
                                             v-model="Permiss.pointCheckAll"
                                             @change="CheckAllChange($event,Permiss.pointList, power.pointList, 'pointList')"
-                                        >积分管理</el-checkbox>
+                                        >产品管理</el-checkbox>
                                         <ul class="listItem" v-if="Permiss.pointList.length!==0">
                                             <el-checkbox-group
                                                 v-model="power.pointList"
@@ -84,7 +84,7 @@
                                             :indeterminate="Permiss.customerIsIndeterminate"
                                             v-model="Permiss.customerCheckAll"
                                             @change="CheckAllChange($event, Permiss.customerList, power.customerList, 'customerList')"
-                                        >会员管理</el-checkbox>
+                                        >客户管理</el-checkbox>
                                         <ul class="listItem" v-if="Permiss.customerList.length!==0">
                                             <el-checkbox-group
                                                 v-model="power.customerList"
@@ -111,7 +111,7 @@
                                             :indeterminate="Permiss.giftIsIndeterminate"
                                             v-model="Permiss.giftCheckAll"
                                             @change="CheckAllChange($event, Permiss.giftList, power.giftList, 'giftList')"
-                                        >礼品管理</el-checkbox>
+                                        >方案管理</el-checkbox>
                                         <ul class="listItem" v-if="Permiss.giftList.length!==0">
                                             <el-checkbox-group
                                                 v-model="power.giftList"
@@ -138,7 +138,7 @@
                                             :indeterminate="Permiss.orderIsIndeterminate"
                                             v-model="Permiss.orderCheckAll"
                                             @change="CheckAllChange($event, Permiss.orderList, power.orderList, 'orderList')"
-                                        >礼品订单管理</el-checkbox>
+                                        >空间管理</el-checkbox>
                                         <ul class="listItem" v-if="Permiss.orderList.length!==0">
                                             <el-checkbox-group
                                                 v-model="power.orderList"
@@ -147,36 +147,6 @@
                                                 <li
                                                     style="width:134.4px;"
                                                     v-for="item in Permiss.orderList"
-                                                    :key="item.id"
-                                                    :value="item.id"
-                                                >
-                                                    v-model="item.checked"
-                                                    <el-checkbox
-                                                        v-model="item.checked"
-                                                        :label="item.id"
-                                                        :key="item.id"
-                                                    >{{item.name}}</el-checkbox>
-                                                </li>
-                                            </el-checkbox-group>
-                                        </ul>
-                                    </li>
-                                    <li style="width: 163.4px;">
-                                        <el-checkbox
-                                            :indeterminate="Permiss.operationIsIndeterminate"
-                                            v-model="Permiss.operationCheckAll"
-                                            @change="CheckAllChange($event, Permiss.operationList, power.operationList, 'operationList')"
-                                        >运营管理</el-checkbox>
-                                        <ul
-                                            class="listItem"
-                                            v-if="Permiss.operationList.length!==0"
-                                        >
-                                            <el-checkbox-group
-                                                v-model="power.operationList"
-                                                @change="operationCheckChange"
-                                            >
-                                                <li
-                                                    style="width:162.4px;"
-                                                    v-for="item in Permiss.operationList"
                                                     :key="item.id"
                                                     :value="item.id"
                                                 >
@@ -204,33 +174,6 @@
                                                 <li
                                                     style="width:162px;"
                                                     v-for="item in Permiss.systemList"
-                                                    :key="item.id"
-                                                    :value="item.id"
-                                                >
-                                                    v-model="item.checked"
-                                                    <el-checkbox
-                                                        v-model="item.checked"
-                                                        :label="item.id"
-                                                        :key="item.id"
-                                                    >{{item.name}}</el-checkbox>
-                                                </li>
-                                            </el-checkbox-group>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <el-checkbox
-                                            :indeterminate="Permiss.storeIsIndeterminate"
-                                            v-model="Permiss.storeCheckAll"
-                                            @change="CheckAllChange($event, Permiss.storeList, power.storeList, 'storeList')"
-                                        >独立积分商城</el-checkbox>
-                                        <ul class="listItem" v-if="Permiss.storeList.length!==0">
-                                            <el-checkbox-group
-                                                v-model="power.storeList"
-                                                @change="storeCheckChange"
-                                            >
-                                                <li
-                                                    style="width:134px;"
-                                                    v-for="item in Permiss.storeList"
                                                     :key="item.id"
                                                     :value="item.id"
                                                 >
@@ -345,40 +288,32 @@ export default {
             Permiss: {
                 customerList: '',
                 giftList: '',
-                operationList: '',
                 orderList: '',
                 pointList: '',
                 systemList: '',
-                storeList: '',
                 otherList: '',
 
                 pointIsIndeterminate: false,
                 customerIsIndeterminate: false,
                 giftIsIndeterminate: false,
-                operationIsIndeterminate: false,
                 orderIsIndeterminate: false,
                 systemIsIndeterminate: false,
-                storeIndeterminate: false,
                 otherIsIndeterminate: false,
 
                 pointCheckAll: false,
                 customerCheckAll: false,
                 giftCheckAll: false,
-                operationCheckAll: false,
                 orderCheckAll: false,
                 systemCheckAll: false,
-                storeCheckAll: false,
                 otherCheckAll: false,
             },
 
             power: {
                 customerList: [],
                 giftList: [],
-                operationList: [],
                 orderList: [],
                 pointList: [],
                 systemList: [],
-                storeList: [],
                 otherList: [],
 
                 nullList: [],
@@ -402,7 +337,7 @@ export default {
                 this.isAddPermission = false
             }
         },
-        // 获取数据            
+        // 获取数据
         _addRolesDetail(formName) {
             this.saveLoading = true
             this.$refs[formName].validate((valid) => {
@@ -415,38 +350,31 @@ export default {
                         permissions: []
                     }
 
-                    //积分管理
+                    //产品管理
                     if (this.power.pointList) {
                         for (var i = 0; i < this.power.pointList.length; i++) {
                             let permiss = { id: this.power.pointList[i] }
                             params.permissions.push(permiss)
                         }
                     }
-                    //会员管理
+                    //客户管理
                     if (this.power.customerList) {
                         for (var i = 0; i < this.power.customerList.length; i++) {
                             let permiss = { id: this.power.customerList[i] }
                             params.permissions.push(permiss)
                         }
                     }
-                    //礼品管理
+                    //方案管理
                     if (this.power.giftList) {
                         for (var i = 0; i < this.power.giftList.length; i++) {
                             let permiss = { id: this.power.giftList[i] }
                             params.permissions.push(permiss)
                         }
                     }
-                    //礼品订单管理
+                    //空间管理
                     if (this.power.orderList) {
                         for (var i = 0; i < this.power.orderList.length; i++) {
                             let permiss = { id: this.power.orderList[i] }
-                            params.permissions.push(permiss)
-                        }
-                    }
-                    //运营管理
-                    if (this.power.operationList) {
-                        for (var i = 0; i < this.power.operationList.length; i++) {
-                            let permiss = { id: this.power.operationList[i] }
                             params.permissions.push(permiss)
                         }
                     }
@@ -454,13 +382,6 @@ export default {
                     if (this.power.systemList) {
                         for (var i = 0; i < this.power.systemList.length; i++) {
                             let permiss = { id: this.power.systemList[i] }
-                            params.permissions.push(permiss)
-                        }
-                    }
-                    //独立积分商城
-                    if (this.power.storeList) {
-                        for (var i = 0; i < this.power.storeList.length; i++) {
-                            let permiss = { id: this.power.storeList[i] }
                             params.permissions.push(permiss)
                         }
                     }
@@ -530,15 +451,13 @@ export default {
                 //this.Permiss. = res.data
                 this.Permiss.customerList = res.data.customerList
                 this.Permiss.giftList = res.data.giftList
-                this.Permiss.operationList = res.data.operationList
                 this.Permiss.orderList = res.data.orderList
                 this.Permiss.pointList = res.data.pointList
                 this.Permiss.systemList = res.data.systemList
-                this.Permiss.storeList = res.data.storeList
                 this.Permiss.otherList = res.data.otherList
                 //console.log(this.Permiss.giftList.length != 0)
 
-                //积分规则管理获取当前被选中的id
+                //产品管理获取当前被选中的id
                 if (this.Permiss.pointList.length != 0) {
                     for (var key in this.Permiss.pointList) {
                         if (this.Permiss.pointList[key].checked == true) {
@@ -546,7 +465,7 @@ export default {
                         }
                     }
                 }
-                //会员管理获取当前被选中的id
+                //客户管理获取当前被选中的id
                 if (this.Permiss.customerList.length != 0) {
                     for (var key in this.Permiss.customerList) {
                         if (this.Permiss.customerList[key].checked == true) {
@@ -554,7 +473,7 @@ export default {
                         }
                     }
                 }
-                //礼品管理获取当前被选中的id
+                //方案管理获取当前被选中的id
                 if (this.Permiss.giftList.length != 0) {
                     for (var key in this.Permiss.giftList) {
                         if (this.Permiss.giftList[key].checked == true) {
@@ -562,19 +481,11 @@ export default {
                         }
                     }
                 }
-                //礼品订单管理获取当前被选中的id
+                //空间管理获取当前被选中的id
                 if (this.Permiss.orderList.length != 0) {
                     for (var key in this.Permiss.orderList) {
                         if (this.Permiss.orderList[key].checked == true) {
                             this.power.orderList.push(this.Permiss.orderList[key].id)
-                        }
-                    }
-                }
-                //运营管理获取当前被选中的id
-                if (this.Permiss.operationList.length != 0) {
-                    for (var key in this.Permiss.operationList) {
-                        if (this.Permiss.operationList[key].checked == true) {
-                            this.power.operationList.push(this.Permiss.operationList[key].id)
                         }
                     }
                 }
@@ -583,14 +494,6 @@ export default {
                     for (var key in this.Permiss.systemList) {
                         if (this.Permiss.systemList[key].checked == true) {
                             this.power.systemList.push(this.Permiss.systemList[key].id)
-                        }
-                    }
-                }
-                //独立积分商城管理获取当前被选中的id
-                if (this.Permiss.storeList.length != 0) {
-                    for (var key in this.Permiss.storeList) {
-                        if (this.Permiss.storeList[key].checked == true) {
-                            this.power.storeList.push(this.Permiss.storeList[key].id)
                         }
                     }
                 }
@@ -631,14 +534,10 @@ export default {
                     this.Permiss.customerIsIndeterminate = false
                 } else if (pointName == 'giftList') {
                     this.Permiss.giftIsIndeterminate = false
-                } else if (pointName == 'operationList') {
-                    this.Permiss.operationIsIndeterminate = false
                 } else if (pointName == 'orderList') {
                     this.Permiss.orderIsIndeterminate = false
                 } else if (pointName == 'systemList') {
                     this.Permiss.systemIsIndeterminate = false
-                } else if (pointName == 'storeList') {
-                    this.Permiss.storeIsIndeterminate = false
                 } else if (pointName == 'otherList') {
                     this.Permiss.otherIsIndeterminate = false
                 }
@@ -653,14 +552,10 @@ export default {
                     this.power.customerList = []
                 } else if (pointName == 'giftList') {
                     this.power.giftList = []
-                } else if (pointName == 'operationList') {
-                    this.power.operationList = []
                 } else if (pointName == 'orderList') {
                     this.power.orderList = []
                 } else if (pointName == 'systemList') {
                     this.power.systemList = []
-                } else if (pointName == 'storeList') {
-                    this.power.storeList = []
                 } else if (pointName == 'otherList') {
                     this.power.otherList = []
                 }
@@ -684,12 +579,6 @@ export default {
             this.Permiss.giftCheckAll = checkedCount === this.Permiss.giftList.length;
             this.Permiss.giftIsIndeterminate = checkedCount > 0 && checkedCount < this.Permiss.giftList.length;
         },
-        operationCheckChange: function (value) {
-            //console.log(value.length)
-            let checkedCount = value.length;
-            this.Permiss.operationCheckAll = checkedCount === this.Permiss.operationList.length;
-            this.Permiss.operationIsIndeterminate = checkedCount > 0 && checkedCount < this.Permiss.operationList.length;
-        },
         orderCheckChange: function (value) {
             //console.log(value.length)
             let checkedCount = value.length;
@@ -701,12 +590,6 @@ export default {
             let checkedCount = value.length;
             this.Permiss.systemCheckAll = checkedCount === this.Permiss.systemList.length;
             this.Permiss.systemIsIndeterminate = checkedCount > 0 && checkedCount < this.Permiss.systemList.length;
-        },
-        storeCheckChange: function (value) {
-            //console.log(value.length)
-            let checkedCount = value.length;
-            this.Permiss.storeCheckAll = checkedCount === this.Permiss.storeList.length;
-            this.Permiss.storeIsIndeterminate = checkedCount > 0 && checkedCount < this.Permiss.storeList.length;
         },
         otherCheckChange: function (value) {
             //console.log(value.length)
