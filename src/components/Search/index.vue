@@ -15,7 +15,7 @@
                     ref="dynamicValidateForm"
                     class="searchWarp"
                     size="mini"
-                    label-width="100px"
+                    label-width="69px"
                 >
                     <el-row :gutter="0" class="query">
                         <el-col
