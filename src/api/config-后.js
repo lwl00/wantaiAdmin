@@ -18,13 +18,13 @@ switch (VERSION) {
     api = '/api'
     break
   case 'pre': // 预部署环境,同域名下不用跨域https://jifenpre.cmyynet.com
-    httpUrl = ''  // 服务器
-    // httpUrl = 'http://localhost:8086'     // 本地开发--李汶龙
+    // httpUrl = ''
+    httpUrl = 'http://localhost:8086'
     api = ''
     break
   case 'prod': // 正式环境,同域名下不用跨域https://jifen.cmyynet.com
-    httpUrl = ''  // 服务器
-    // httpUrl = 'http://localhost:8086'    // 本地开发--李汶龙
+    // httpUrl = ''
+    httpUrl = 'http://localhost:8086'
     api = ''
     break
   default:

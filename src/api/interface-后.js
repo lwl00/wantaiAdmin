@@ -20,11 +20,7 @@ import { httpUrl, api } from './config'
 const base = '/base'
 const system = '/system'
 
-// ========2020.11.25======
-// 开发阶段, [导出,导入]  api换为httpUrl      // 本地开发--李汶龙
-// 服务器阶段, [导出,导入]  httpUrl换为api    // 服务器
-
-
+// ==================后期,当前页面中(主要指导出功能)的httpUrl将全部替换为api========2020.11.25======buttonList
 
 /* 登录
  * 相关数据接口*/
@@ -134,7 +130,7 @@ export function getCustomerList(params) {
   if (params.export) {
     // 导出表格数据(跨域添加 /api)
     return (
-      api +
+      httpUrl +
       url +
       '?export=' +
       params.export +
@@ -245,7 +241,7 @@ export function getProductList(params) {
   if (params.export) {
     // 导出表格数据(跨域添加 /api)
     return (
-      api +
+      httpUrl +
       url +
       '?export=' +
       params.export +
@@ -297,7 +293,7 @@ export function getProjectList(params) {
   if (params.export) {
     // 导出表格数据(跨域添加 /api)
     return (
-      api +
+      httpUrl +
       url +
       '?export=' +
       params.export +
@@ -347,7 +343,7 @@ export function getSpaceList(params) {
   if (params.export) {
     // 导出表格数据(跨域添加 /api)
     return (
-      api +
+      httpUrl +
       url +
       '?export=' +
       params.export +
@@ -396,17 +392,17 @@ export function getSpace(id) {
 export function imageUploadAction() {
   const url = `${base}/upload/uploadImage`
 
-  return api + url
+  return httpUrl + url
 }
 // 多图
 export function imagesUploadAction() {
   const url = `/${base}/upload/uploadImages`
 
-  return api + url
+  return httpUrl + url
 }
 // 产品批量上传
 export function productImportAPPOINTAction() {
-  const url = api + `/${base}/upload/productImport`
+  const url = httpUrl + `/${base}/upload/productImport`
 
   return url
 }

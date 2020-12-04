@@ -67,8 +67,7 @@ export function ajaxPost(url) {
 
 // axios Get
 export function ajaxGet(url) {
-  var url = api + url  // 服务器
-  // var url = httpUrl + url  // 本地开发--李汶龙
+  var url = httpUrl + url
   return axios
     .get(url, {
       headers: {
