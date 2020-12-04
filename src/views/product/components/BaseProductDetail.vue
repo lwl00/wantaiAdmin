@@ -93,7 +93,7 @@
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
             <el-form-item label="单位" prop="unitName" :label-width="formLabelWidth">
               <el-input
-                v-model="addForm.color"
+                v-model="addForm.unitName"
                 disabled></el-input>
             </el-form-item>
           </el-col>
