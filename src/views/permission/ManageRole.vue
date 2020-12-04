@@ -424,7 +424,7 @@ export default {
                         width: '200',
                         type: 'operat',
                         options: [
-                            { name: '编辑', type: 'update', show: true, click: this._getEdit }
+                            { name: '编辑', type: 'update', show: true, click: this.handleEdit },
                         ]
                     },
                 ],
@@ -548,7 +548,7 @@ export default {
         hide: function (type) {      //隐藏弹出框
             this.$refs[type].hideModel();
         },
-        _getEdit(e) {
+        handleEdit(e) {
             this.editForm = Object.assign({}, e)
             this.editRole.name = e.name
             this.editRole.companyCode = ''

@@ -687,8 +687,8 @@ export default {
           if(res.data.product.specificationList.length > 0) {
             res.data.product.specificationList.forEach(function(item, index) {
               item.isEdit = false
-              if(item.imgMain) {
-                item.imgMain = item.imgMainSrc
+              if(item.image) {
+                item.url = item.imageSrc
               }
             })
             this.detail.tableData = res.data.product.specificationList
@@ -906,7 +906,7 @@ export default {
         if(row.image) {
           // 明细图
           let obj = {
-            data: row.imgMainSrc
+            data: row.imageSrc
           }
           this.upload.detailImage = obj.data
           this.upload.detailFileList.push(obj)

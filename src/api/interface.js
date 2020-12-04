@@ -22,13 +22,6 @@ const system = '/system'
 
 // ==================后期,当前页面中(主要指导出功能)的httpUrl将全部替换为api========2020.11.25======buttonList
 
-// 图片FTP地址
-export function imageHttpsUrlPTF() {
-  let imageHttpsUrlPTF = `https://point.cmyynet.com/images/`
-
-  return imageHttpsUrlPTF
-}
-
 /* 登录
  * 相关数据接口*/
 // 登录

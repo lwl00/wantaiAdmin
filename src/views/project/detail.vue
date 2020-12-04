@@ -77,7 +77,7 @@ import ButtonGroup from '@/components/ButtonGroup'
 import Table from '@/components/Table'
 import Dialog from 'base/Dialog';
 import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissions, routerLinkPage,  } from 'common/js/dom';
-import { getProject, imageHttpsUrlPTF } from 'api/interface';
+import { getProject } from 'api/interface';
 
 export default {
   components: {
@@ -96,7 +96,7 @@ export default {
       buttonList: [
         {
           name: 'back',
-          type: 'primary',
+          type: '',
           icon: '',
           text: '返回',
           class: '',
@@ -188,34 +188,6 @@ export default {
         tableHeight: '450px',
         selectionChange: [],  // 多选行数据
       },
-
-      // 新增json,创建时，需先调用详情接口/base/project/id=  生成方案编号，再保存传number
-// {
-//   "amount": 30000,
-//   "companyName": "创美药业有限公司",
-//   "contact": "李汶龙2",
-//   "createdTime": "2020-12-01T09:09:58.950Z",
-//   "creator": "string",
-//   "customerName": "业务员名称",
-//   "name": "创美药业会议室方案",
-//   "number": "2",
-//   "phone": "18924540017",
-//   "productSpecifiList": [],
-//   "projectDetailList": [
-//     {
-//       "productId": 23,
-//       "quantity": 10,
-//       "subtotal": 10000
-//     },
-//     {
-//       "productId": 20,
-//       "quantity": 2,
-//       "subtotal": 20000
-//     }
-//   ],
-//   "remark": "string"
-// }
-
     }
   },
   created() {
@@ -235,15 +207,13 @@ export default {
       getProject(this.id).then(res => {
         this.loading = false
         if (res.status == 200) {
-          console.log(res)
           this.addForm = res.data.project
-          // this.table.tableData = res.data.project.productSpecifiList
 
           // 明细表
           if(res.data.project.productSpecifiList.length > 0) {
             res.data.project.productSpecifiList.forEach(function(item, index) {
-              if(item.imgMain) {
-                item.imgMain = imageHttpsUrlPTF()+item.imgMain
+              if(item.image) {
+                item.imageUrl = item.imageSrc
               }
             })
             this.table.tableData = res.data.project.productSpecifiList

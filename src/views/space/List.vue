@@ -92,13 +92,13 @@ export default {
       // 搜索栏
       searchOptions: [
         {
-          label: '产品名称',
+          label: '空间名称',
           field: 'name',
           value: '',
           type: 'input',
         },
         {
-          label: '产品编号',
+          label: '空间编号',
           field: 'number',
           value: '',
           type: 'input',

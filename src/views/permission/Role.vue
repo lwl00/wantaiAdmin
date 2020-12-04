@@ -157,8 +157,8 @@ export default {
                         field: '',
                         type: 'operat',
                         options: [
-                            { name: '查看', type: 'view', show: true },
-                            { name: '编辑', type: 'update', show: true, click: this.handleUpdate }
+                            { name: '编辑', type: 'update', show: true, click: this.handleEdit },
+                            { name: '查看', type: 'view', show: true, click: this.handleView },
                         ]
                     },
                 ],
@@ -230,28 +230,6 @@ export default {
                 setTimeout(function () {
                     calculateTableHeight(_this)
                 }, 500)
-            })
-        },
-        //点击查看(跳到编辑详情)
-        handleEditDetail(index, row) {
-            //this.$router.push(index)
-            this.$router.push({
-                path: index,
-                query: {
-                    id: row.id,
-                    code: row.code
-                }
-            })
-        },
-        //点击编辑(跳到编辑页面)
-        handleEdit(index, row) {
-            //this.$router.push(index)
-            this.$router.push({
-                path: index,
-                query: {
-                    id: row.id,
-                    code: row.code
-                }
             })
         },
         //跳转新增
@@ -361,12 +339,21 @@ export default {
             }
             routerLinkPage(this, 'RoleDetail', query)
         },
-        handleUpdate(row, option) {
+        // 编辑
+        handleEdit(row, option) {
             let query = {
                 id: row.id,
                 code: row.code
             }
             routerLinkPage(this, 'EditRole', query)
+        },
+        // 查看
+        handleView(row) {
+          let query = {
+            id: row.id,
+            code: row.code
+          }
+          routerLinkPage(this, 'RoleDetail', query)
         },
         //状态
         handleSwitch(e) {

@@ -63,7 +63,7 @@
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
+          <!-- <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
             <el-form-item label="是否折扣" prop="" :label-width="formLabelWidth">
               <el-radio-group v-model="addForm.discount" disabled>
                 <el-radio
@@ -75,7 +75,7 @@
                 </el-radio>
               </el-radio-group>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
             <el-form-item label="材质说明" prop="instructions" :label-width="formLabelWidth">
               <el-input
@@ -347,8 +347,8 @@ export default {
           if(res.data.product.specificationList.length > 0) {
             res.data.product.specificationList.forEach(function(item, index) {
               item.isEdit = false
-              if(item.imgMain) {
-                item.imgMain = item.imgMainSrc
+              if(item.image) {
+                item.imageUrl = item.imageSrc
               }
             })
             this.table.tableData = res.data.product.specificationList

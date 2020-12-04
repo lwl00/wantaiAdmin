@@ -266,7 +266,7 @@ export default {
             if(res.data.space.productList.length > 0) {
               res.data.space.productList.forEach(function(item, index) {
                 if(item.imgMain) {
-                  item.imgMain = item.imgMainSrc
+                  item.imageUrl = item.imgMainSrc
                 }
               })
               this.table.tableData = res.data.space.productList

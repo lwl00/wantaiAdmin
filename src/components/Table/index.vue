@@ -76,7 +76,7 @@
 
                     <!-- image -->
                     <div v-else-if="item.type == 'image'">
-                        <img v-if="row.imgMain" :src="row.imgMain" class="avatar">
+                        <img v-if="row.imageUrl" :src="row.imageUrl" class="avatar">
                     </div>
 
                     <!-- 其他正常 -->
