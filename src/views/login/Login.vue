@@ -45,14 +45,14 @@
                     </div>
                 </div>
             </div>
-            <div class="icpText">
+            <!-- <div class="icpText">
                 <a
                     target="_blank"
                     href="http://www.beian.miit.gov.cn/"
                     style="color: #606266;margin-bottom:10px;"
                 >粤ICP备05008078号</a>
                 <p style="margin-top:6px;">Copyright © CHARMACY PHARMACEUTICAL CO., LTD.</p>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
