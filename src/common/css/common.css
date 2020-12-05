@@ -306,3 +306,10 @@
   color: #666;
   margin: 20px 0;
 }
+
+/* 图片展示 */
+.avatar {
+  width: 100px;
+  height: 62px;
+  display: block;
+}

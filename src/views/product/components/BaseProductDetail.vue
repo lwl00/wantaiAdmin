@@ -269,6 +269,7 @@ export default {
             label: '图片',
             field: 'image',
             type: 'image',
+            width: 150,
           },
 
         ],
@@ -412,11 +413,6 @@ export default {
     height: 100px;
     line-height: 100px;
     text-align: center;
-  }
-  .avatar {
-    width: 100px;
-    height: 100px;
-    display: block;
   }
   .el-upload-list--picture-card .el-upload-list__item,
   .el-upload--picture-card {

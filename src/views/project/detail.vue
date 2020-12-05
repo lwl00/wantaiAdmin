@@ -160,11 +160,6 @@ export default {
             width: 200,
           },
           {
-            label: '关联产品',
-            field: 'contactNames',
-            width: 200,
-          },
-          {
             label: '商品状态',
             field: 'status',
             type: 'radioProductStatus',
@@ -172,12 +167,30 @@ export default {
           {
             label: '材质说明',
             field: 'instructions',
-            width: '150px',
+            width: 200,
+          },
+          {
+            label: '型号',
+            field: 'modelNumber',
+          },
+          {
+            label: '规格',
+            field: 'size',
+            width: 200,
+          },
+          {
+            label: '单价',
+            field: 'unitPrice',
+          },
+          {
+            label: '体积',
+            field: 'volume',
           },
           {
             label: '图片',
-            field: 'imgMain',
+            field: 'image',
             type: 'image',
+            width: 150,
           },
         ],
         tableData: [],

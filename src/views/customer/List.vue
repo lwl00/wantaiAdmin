@@ -291,7 +291,7 @@ export default {
       buttonList: [
         {
           name: 'add',
-          type: '',
+          type: 'primary',
           icon: 'el-icon-circle-plus-outline',
           text: '新增',
           class: '',
@@ -311,7 +311,7 @@ export default {
         },
         {
           name: 'export',
-          type: 'primary',
+          type: '',
           icon: 'el-icon-download',
           text: '导出',
           class: '',

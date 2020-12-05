@@ -246,7 +246,7 @@ export default {
             editSaveLoading: false,  // 确定编辑
             delSaveLoading: false,   // 确定禁用/启用
             search: {
-                contentSite: '',   //当前站点
+                contentSite: '',   //当前
                 contentName: '',    //当前角色
                 contentLock: '',  //当前按钮
                 contentColor: ''
@@ -351,7 +351,13 @@ export default {
                     click: this.handleAddEdit,
                 },
             ],
-            searchOptions: [{
+            searchOptions: [ {
+                label: '账号名称',
+                field: 'accountName',
+                value: '',
+                type: 'input',
+                options: [],
+            }, {
                 label: '角色',
                 field: 'roleAll',
                 value: '',
@@ -363,13 +369,7 @@ export default {
                 value: '',
                 type: 'select',
                 options: [],
-            }, {
-                label: '账号名称',
-                field: 'accountName',
-                value: '',
-                type: 'input',
-                options: [],
-            }],
+            },],
             newSearch: {},
             table: {
                 title: [
@@ -389,12 +389,10 @@ export default {
                         width: '100',
                     },
                     {
-                        label: '站点',
-                        field: 'companyName',
-                    },
-                    {
                         label: '状态',
-                        field: 'statusName',
+                        field: 'statusFlag',
+                        type: 'operatSwitch',
+                        click: this.handleSwitch
                     },
                     {
                         label: '备注',
@@ -411,12 +409,6 @@ export default {
                         field: 'modifiedTime',
                         width: '150',
                         type: 'dateTime',
-                    },
-                    {
-                        label: '状态',
-                        field: 'statusFlag',
-                        type: 'operatSwitch',
-                        click: this.handleSwitch
                     },
                     {
                         label: '操作',

@@ -203,6 +203,7 @@ export default {
             label: '图片',
             field: 'imgMain',
             type: 'image',
+            width: 150,
           },
         ],
         tableData: [],

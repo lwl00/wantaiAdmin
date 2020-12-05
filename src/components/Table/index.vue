@@ -191,10 +191,5 @@ export default {
     .operatBtn:hover {
         text-decoration: underline;
     }
-    .avatar {
-      display: inline-block;
-      width: 100px;
-      height: 100px;
-    }
 }
 </style>

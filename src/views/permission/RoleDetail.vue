@@ -264,12 +264,6 @@
                             highlight-current-row
                             v-loading="dialog.dialogTableLoading"
                         >
-                            <el-table-column
-                                property="companyName"
-                                label="站点"
-                                align="center"
-                                width="100"
-                            ></el-table-column>
                             <el-table-column property="username" label="用户账号" align="center"></el-table-column>
                             <el-table-column property="name" label="用户名称" align="center"></el-table-column>
                             <el-table-column property="statusName" label="状态" align="center"></el-table-column>

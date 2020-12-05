@@ -730,11 +730,6 @@ export default {
     line-height: 100px;
     text-align: center;
   }
-  .avatar {
-    width: 100px;
-    height: 100px;
-    display: block;
-  }
   .el-upload-list--picture-card .el-upload-list__item,
   .el-upload--picture-card {
     width: 100px;

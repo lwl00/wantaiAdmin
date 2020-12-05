@@ -21,7 +21,7 @@
       title: [     // 表头信息
         <!-- 链接列 -->
         {
-          label: '所属站点',
+          label: '所属',
           field: 'companyName',
           width: '170',    // 设置列宽，不设置此项，默认为100（放6个汉字）
           align: 'center', // left/center/right，不设置此项，默认为center
