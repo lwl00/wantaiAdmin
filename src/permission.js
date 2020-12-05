@@ -36,8 +36,8 @@ router.beforeEach((to, from, next) => {
               'permissionsBtn',
               JSON.stringify(permissionsBtnArr)
             )
-            console.log('菜单权限', permissionsMenuArr)
-            console.log('按钮权限', permissionsBtnArr)
+            // console.log('菜单权限', permissionsMenuArr)
+            // console.log('按钮权限', permissionsBtnArr)
             store
               .dispatch('GenerateRoutes', { permissionsMenuArr })
               .then(() => {
@@ -47,9 +47,13 @@ router.beforeEach((to, from, next) => {
               })
           })
           .catch(err => {
-            store.dispatch('FedLogOut').then(() => {
-              Message.error(err || 'Verification failed, please login again')
-              next({ path: '/' })
+            Message({
+              message: err,
+              type: 'error',
+              duration: 5 * 1000
+            })
+            store.dispatch('LogOut').then(() => {
+              location.reload() // 为了重新实例化vue-router对象 避免bug
             })
           })
       } else {

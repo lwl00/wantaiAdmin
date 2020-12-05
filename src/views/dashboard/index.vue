@@ -27,8 +27,8 @@
             }
         },
         created() {
-			console.log(mapGetters)
-			console.log(this.device)
+			// console.log(mapGetters)
+			// console.log(this.device)
         },
         methods: {
 
