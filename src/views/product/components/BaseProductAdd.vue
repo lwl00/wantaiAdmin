@@ -138,7 +138,7 @@
                   :show-file-list="false"
                   :on-success="handleMianSuccess"
                   :on-error="handleErrorUpload">
-                  <img v-if="upload.mainImage" :src="upload.mainImage" class="avatar">
+                  <img v-if="upload.mainImage" :src="upload.mainImage" class="productAvatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
             </el-form-item>
@@ -214,11 +214,11 @@
                       :show-file-list="false"
                       :on-success="handleDetailSuccess"
                       :on-error="handleErrorUpload">
-                      <img v-if="upload.detailImage" :src="upload.detailImage" class="avatar">
+                      <img v-if="upload.detailImage" :src="upload.detailImage" class="productAvatar">
                       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                   </span>
-                  <span v-if="!scope.row.isEdit"><img v-if="scope.row.url" :src="scope.row.url" class="avatar"></span>
+                  <span v-if="!scope.row.isEdit"><img v-if="scope.row.url" :src="scope.row.url" class="productAvatar"></span>
                 </div>
 
               </template>

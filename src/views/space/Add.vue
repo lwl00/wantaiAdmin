@@ -82,7 +82,7 @@
               :width="item.width">
               <template slot-scope="scope">
                 <!-- 图片 -->
-                <span v-if="item.field == 'imgMain'"><img v-if="scope.row.url" :src="scope.row.url" class="avatar"></span>
+                <span v-if="item.field == 'imgMain'"><img v-if="scope.row.url" :src="scope.row.url" class="productAvatar"></span>
 
                 <!-- 其他 -->
                 <span v-else>{{scope.row[item.field]}}</span>
@@ -446,12 +446,16 @@ export default {
 
           // 明细表
           if(res.data.space.productList.length > 0) {
+            let productList = []
             res.data.space.productList.forEach(function(item, index) {
-              if(item.imgMain) {
-                item.url = item.imgMainSrc
+              if(item) {
+                if(item.imgMain) {
+                  item.url = item.imgMainSrc
+                }
+                productList.push(item)
               }
             })
-            this.detail.tableData = res.data.space.productList
+            this.detail.tableData = productList
           }else {
             this.detail.tableData = []
           }

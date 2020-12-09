@@ -265,12 +265,16 @@ export default {
 
             // 明细表
             if(res.data.space.productList.length > 0) {
+              let productList = []
               res.data.space.productList.forEach(function(item, index) {
-                if(item.imgMain) {
-                  item.imageUrl = item.imgMainSrc
+                if(item) {
+                  if(item.imgMain) {
+                    item.imageUrl = item.imgMainSrc
+                  }
+                  productList.push(item)
                 }
               })
-              this.table.tableData = res.data.space.productList
+              this.table.tableData = productList
             }else {
               this.table.tableData = []
             }

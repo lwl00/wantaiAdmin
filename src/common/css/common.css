@@ -308,8 +308,13 @@
 }
 
 /* 图片展示 */
-.avatar {
+.productAvatar {
   width: 100px;
   height: 62px;
+  display: block;
+}
+.avatar {
+  width: 100px;
+  height: 100px;
   display: block;
 }

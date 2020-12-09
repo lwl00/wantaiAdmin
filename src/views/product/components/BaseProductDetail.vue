@@ -107,7 +107,7 @@
 
           <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
             <el-form-item label="商品主图" prop="imgMain" :label-width="formLabelWidth">
-               <img v-if="upload.mainImage" :src="upload.mainImage" class="avatar">
+               <img v-if="upload.mainImage" :src="upload.mainImage" class="productAvatar">
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
