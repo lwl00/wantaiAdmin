@@ -331,6 +331,22 @@ export function getProject(id) {
 
   return ajaxGet(url)
 }
+// 导出明细
+export function exportProjectDetail(params) {
+  let url = `${base}/project/id=${params.id}/export`
+
+  return (
+    api +
+    url +
+    '?fieldTail=' +
+    params.fieldTail +
+    '&nameStr=' +
+    params.nameStr +
+    '&fieldStr=' +
+    params.fieldStr +
+    ''
+  )
+}
 
 /*
  * 空间管理

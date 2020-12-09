@@ -335,6 +335,23 @@ export function getProject(id) {
 
   return ajaxGet(url)
 }
+// 导出明细
+export function exportProjectDetail(params) {
+  let url = `${base}/project/id=${params.id}/export`
+
+  return (
+    api +
+    url +
+    '?fieldTail=' +
+    params.fieldTail +
+    '&nameStr=' +
+    params.nameStr +
+    '&fieldStr=' +
+    params.fieldStr +
+    ''
+  )
+}
+
 
 /*
  * 空间管理
@@ -386,7 +403,7 @@ export function getSpace(id) {
   return ajaxGet(url)
 }
 
-
+console.log(api)
 
 /*
  * 图片上传
@@ -400,15 +417,15 @@ export function imageUploadAction() {
 }
 // 多图
 export function imagesUploadAction() {
-  const url = `/${base}/upload/uploadImages`
+  const url = `${base}/upload/uploadImages`
 
   return api + url
 }
 // 产品批量上传
 export function productImportAPPOINTAction() {
-  const url = api + `/${base}/upload/productImport`
-
-  return url
+  const url = `${base}/upload/productImport`
+  
+  return api + url
 }
 
 

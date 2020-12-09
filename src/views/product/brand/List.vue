@@ -17,6 +17,9 @@
             <div style="flex: 1;line-height: 28px;padding-right: 10px;">
               ID: {{data.id}}
             </div>
+            <div style="flex: 1;line-height: 28px;padding-right: 10px;">
+              排序: {{data.sort}}
+            </div>
             <div style="text-align: right;padding-right: 10px;">
             <el-button
               type="text"
@@ -88,6 +91,19 @@
                 style="width:200px;"
                 class="pull-left"
                 :placeholder="validationLayerBrand?'请填写品牌名称':'请填写系列名称'"></el-input>
+            </el-form-item>
+
+            <el-form-item
+              :label="validationLayerBrand?'品牌排序':'系列排序'"
+              :label-width="formLabelWidth"
+              size="small"
+              prop="sort"
+              required>
+              <el-input
+                v-model="addForm.sort"
+                style="width:200px;"
+                class="pull-left"
+                :placeholder="validationLayerBrand?'请填写品牌排序':'请填写系列排序'"></el-input>
             </el-form-item>
 
           </el-form>
@@ -162,6 +178,7 @@ export default {
       addForm: {
         brandId: '',
         name: '',
+        sort: '',
       },
       rules: {
         brandId: [
@@ -169,6 +186,9 @@ export default {
         ],
         name: [
           { required: true, message: '请填写名称', trigger: 'blur' }
+        ],
+        sort: [
+          { required: true, message: '请填写排序', trigger: 'blur' }
         ],
       },
 
@@ -313,6 +333,7 @@ export default {
             if(this.isAdd) {  // 新增
               let params = {}
               params.name = this.addForm.name
+              params.sort = this.addForm.sort
               addBrand(params).then(res => {
                 if (res.status == 200) {
                   this._getBrandTree();
@@ -321,6 +342,8 @@ export default {
                     type: 'success'
                   })
 
+                  this.addForm.name = ''
+                  this.addForm.sort = ''
                   this.$refs[formName].resetFields()
                   this.hide(type)
                 } else {
@@ -341,6 +364,8 @@ export default {
                     type: 'success'
                   })
 
+                  this.addForm.name = ''
+                  this.addForm.sort = ''
                   this.$refs[formName].resetFields()
                   this.hide(type)
                 } else {
@@ -358,6 +383,7 @@ export default {
               let params = {}
               params.brandId = this.addForm.brandId
               params.name = this.addForm.name
+              params.sort = this.addForm.sort
               addSeries(params).then(res => {
                 if (res.status == 200) {
                   this._getBrandTree();
@@ -366,6 +392,8 @@ export default {
                     type: 'success'
                   })
 
+                  this.addForm.name = ''
+                  this.addForm.sort = ''
                   this.$refs[formName].resetFields()
                   this.hide(type)
                 } else {
@@ -386,6 +414,8 @@ export default {
                     type: 'success'
                   })
 
+                  this.addForm.name = ''
+                  this.addForm.sort = ''
                   this.$refs[formName].resetFields()
                   this.hide(type)
                 } else {

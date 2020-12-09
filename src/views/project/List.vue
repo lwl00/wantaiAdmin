@@ -35,7 +35,7 @@ import Search from '@/components/Search'
 import Table from '@/components/Table'
 import Dialog from 'base/Dialog';
 import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissions, routerLinkPage, formatBrandTreeData } from 'common/js/dom';
-import { getDictsData, getProjectList, delProject } from 'api/interface';
+import { getDictsData, getProjectList, delProject, exportProjectDetail } from 'api/interface';
 
 export default {
   components: {
@@ -204,6 +204,85 @@ export default {
         selectionChange: [],  // 多选行数据
       },
 
+      exportTitle: [
+        {
+          label: '产品名称',
+          field: 'name',
+          width: 200,
+        },
+        {
+          label: '产品编号',
+          field: 'number',
+          type: 'link',
+          click: this.handleDblclick,
+        },
+        {
+          label: '数量',
+          field: 'quantity',
+        },
+        {
+          label: '小计',
+          field: 'subtotal',
+        },
+        {
+          label: '品牌',
+          field: 'brandName',
+        },
+        {
+          label: '系列',
+          field: 'seriesName',
+        },
+        {
+          label: '工艺',
+          field: 'craftNames',
+          width: 200,
+        },
+        {
+          label: '分类',
+          field: 'categoryNames',
+          width: 200,
+        },
+        {
+          label: '商品状态',
+          field: 'status',
+          type: 'radioProductStatus',
+        },
+        {
+          label: '材质说明',
+          field: 'instructions',
+          width: 200,
+        },
+        {
+          label: '型号',
+          field: 'modelNumber',
+        },
+        {
+          label: '规格',
+          field: 'size',
+          width: 200,
+        },
+        {
+          label: '单价',
+          field: 'unitPrice',
+        },
+        {
+          label: '体积',
+          field: 'volume',
+        },
+        {
+          label: '图片',
+          field: 'image',
+          type: 'image',
+          width: 150,
+        },
+        {
+          label: '图片',
+          field: 'imgMainSrc',
+          type: 'image',
+          width: 150,
+        },
+      ],
+
     }
   },
   created() {
@@ -271,20 +350,45 @@ export default {
     },
     // 导出
     handleExport: function () {
-      let params = this.search
-      params.pageSize = ''
-      params.pageNum = ''
-      params.export = true
-      params.nameStr = ''
-      params.fieldStr = ''
-      this.table.title.forEach(function (item, index) {
-        if(item.type != 'operat') {
-          params.nameStr = params.nameStr + item.label + ','
-          params.fieldStr = params.fieldStr + item.field + ','
-        }
-      });
 
-      window.location.href = getProjectList(params)
+
+      // this.buttonList.filter(item => item.name === 'export')[0].loading = true
+      if(this.table.selectionChange.length == 0) {
+        this.$message({
+          type: 'warning',
+          message: '请先选择数据'
+        })
+        this.buttonList.filter(item => item.name === 'export')[0].loading = false
+        return
+      }else if(this.table.selectionChange.length > 1) {
+        this.$message({
+          type: 'warning',
+          message: '只能选择导出一条数据'
+        })
+         this.buttonList.filter(item => item.name === 'export')[0].loading = false
+         return
+      }
+
+      console.log(this.table.selectionChange)
+
+      let params = {
+        // nameStr: ',商品名称,商品编号,数量,小计,品牌,系列,工艺,分类,,,',
+        // fieldStr: ',name,number,quantity,subtotal,brandName,seriesName,craftNames,categoryNames,,',
+        nameStr: '序号,图片,名称,编号,规格,型号,数量,单位,单价,小计,材质说明',
+        fieldStr: 'indexes,imgMain,name,number,size,modelNumber,quantity,unit,unitPrice,subtotal,instructions',
+        fieldTail: 'amount,name,companyName,contact,phone,customerName',
+        id: this.table.selectionChange[0].id,
+      }
+
+
+       // Long id = 9L;
+       //                fieldStr = "indexes,imgMain,name,number,size,modelNumber,quantity,unit,unitPrice,subtotal,instructions";
+       //                nameStr = "序号,图片,名称,编号,规格,型号,数量,单位,单价,小计,材质说明";
+
+
+      console.log(params)
+
+      window.location.href = exportProjectDetail(params)
     },
     // 每页显示条数
     handleSizeChange: function (val) {
@@ -377,3 +481,27 @@ export default {
 
 <style>
 </style>
+
+<!-- {
+  "amount": 27000,
+  "companyName": "创美老板办公室",
+  "contact": "购买方联系人",
+  "customerName": "万泰业务员",
+  "name": "创美老板办公方案",
+  "phone": "18924540017",
+  "projectDetailList": [
+    {
+      "productId": "143",
+      "quantity": 4,
+      "specificationId": "394",
+      "subtotal": 5000
+    },
+    {
+      "productId": "143",
+      "quantity": 1,
+      "specificationId": "396",
+      "subtotal": 7000
+    }
+  ],
+  "remark": "备注说明"
+} -->

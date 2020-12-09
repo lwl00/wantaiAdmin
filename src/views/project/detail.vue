@@ -76,7 +76,7 @@
 import ButtonGroup from '@/components/ButtonGroup'
 import Table from '@/components/Table'
 import Dialog from 'base/Dialog';
-import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissions, routerLinkPage,  } from 'common/js/dom';
+import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissions, routerLinkPage, dataToString } from 'common/js/dom';
 import { getProject } from 'api/interface';
 
 export default {
@@ -221,6 +221,8 @@ export default {
         this.loading = false
         if (res.status == 200) {
           this.addForm = res.data.project
+          this.addForm.createdTime = dataToString(this.addForm.createdTime)
+          this.addForm.modifiedTime = dataToString(this.addForm.modifiedTime)
 
           // 明细表
           if(res.data.project.productSpecifiList.length > 0) {
