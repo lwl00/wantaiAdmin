@@ -371,15 +371,15 @@ export default {
       },
 
       rules: {
-        name: [{ required: true, message: '请输入产品名称', trigger: 'blur' }],
+        name: [{ required: false, message: '请输入产品名称', trigger: 'blur' }],
         brandId: [{ required: true, message: '请选择品列', trigger: 'change' }],
         crafts: [{ required: true, message: '请选择工艺', trigger: 'change' }],
         categorys: [{ required: true, message: '请选择分类', trigger: 'change' }],
         status: [{ required: true, message: '请选择商品状态', trigger: 'change' }],
         discount: [{ required: true, message: '请选择是否折扣商品', trigger: 'change' }],
         unit: [{ required: true, message: '请选择单位', trigger: 'change' }],
-        imgMain: [{ required: true, message: '请选择上传商品主图', trigger: 'change' }],
-        imgEffectList: [{ required: true, message: '请选择上传场景图', trigger: 'change' }],
+        imgMain: [{ required: false, message: '请选择上传商品主图', trigger: 'change' }],
+        imgEffectList: [{ required: false, message: '请选择上传场景图', trigger: 'change' }],
 
         modelNumber: [{ required: true, message: '请输入型号', trigger: 'blur' }],
         size: [{ required: true, message: '请输入规格', trigger: 'blur' }],

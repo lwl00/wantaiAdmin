@@ -265,7 +265,7 @@ export default {
           {
             label: '材质说明',
             field: 'instructions',
-            width: '150px',
+            width: 300,
           },
           {
             label: '创建人',

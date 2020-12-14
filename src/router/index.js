@@ -87,19 +87,19 @@ export const asyncRouterMap = [
       //   path: '/product/list',
       //   name: 'ProductList',
       //   component: () => import('@/views/product/List'),
-      //   meta: { title: '产品管理', icon: '' }
+      //   meta: { title: '产品管理', noCache: false, icon: '' }
       // },
       // {
       //   path: '/product/add',
       //   name: 'ProductAdd',
       //   component: () => import('@/views/product/Add'),
-      //   meta: { title: '新增产品', icon: '' }
+      //   meta: { title: '新增产品', noCache: false, icon: '' }
       // },
       // {
       //   path: '/product/detail',
       //   name: 'ProductDetail',
       //   component: () => import('@/views/product/Detail'),
-      //   meta: { title: '产品详情', icon: '' }
+      //   meta: { title: '产品详情', noCache: true, icon: '' }
       // },
 
 
@@ -108,7 +108,7 @@ export const asyncRouterMap = [
         path: '/product/normal/list',
         name: 'ProductNormalList',
         component: () => import('@/views/product/normal/List'),
-        meta: { title: '正价产品', icon: '', noCache: true, roles: ['furniture:norProduct:read'] }
+        meta: { title: '正价产品', icon: '', noCache: false, roles: ['furniture:norProduct:read'] }
       },
       {
         path: '/product/normal/add',
@@ -128,7 +128,7 @@ export const asyncRouterMap = [
         path: '/product/discount/list',
         name: 'ProductDiscountList',
         component: () => import('@/views/product/discount/List'),
-        meta: { title: '折扣产品', icon: '', noCache: true, roles: ['furniture:disProduct:read'] }
+        meta: { title: '折扣产品', icon: '', noCache: false, roles: ['furniture:disProduct:read'] }
       },
       {
         path: '/product/discount/add',
@@ -148,7 +148,7 @@ export const asyncRouterMap = [
         path: '/product/brand/list',
         name: 'ProductBrandList',
         component: () => import('@/views/product/brand/List'),
-        meta: { title: '品列管理', icon: '', roles: ['furniture:brandSer:read'] }
+        meta: { title: '品列管理', icon: '', noCache: true, roles: ['furniture:brandSer:read'] }
       },
     ]
   },
@@ -184,7 +184,7 @@ export const asyncRouterMap = [
         path: '/project/list',
         name: 'ProjectList',
         component: () => import('@/views/project/List'),
-        meta: { title: '方案管理', icon: '', noCache: true, roles: ['furniture:project:read'] }
+        meta: { title: '方案管理', icon: '', noCache: false, roles: ['furniture:project:read'] }
       },
       {
         path: '/project/detail',
@@ -208,7 +208,7 @@ export const asyncRouterMap = [
         path: '/space/list',
         name: 'SpaceList',
         component: () => import('@/views/space/List'),
-        meta: { title: '空间管理', icon: '', noCache: true, roles: ['furniture:space:read'] }
+        meta: { title: '空间管理', icon: '', noCache: false, roles: ['furniture:space:read'] }
       },
       {
         path: '/space/add',
@@ -240,7 +240,7 @@ export const asyncRouterMap = [
         path: 'managerrole',
         name: 'ManageRole',
         component: () => import('@/views/permission/ManageRole'),
-        meta: { title: '用户管理', icon: '', roles: ['system:users:read'] }
+        meta: { title: '用户管理', icon: '', noCache: false, roles: ['system:users:read'] }
       },
       {
         path: 'role',
@@ -273,13 +273,13 @@ export const asyncRouterMap = [
         path: 'rolejurisdiction',
         name: 'RoleJurisdiction',
         component: () => import('@/views/permission/RoleJurisdiction'),
-        meta: { title: '权限管理', icon: '', roles: ['system:roles:read'] }
+        meta: { title: '权限管理', icon: '', noCache: false, roles: ['system:roles:read'] }
       },
       {
         path: 'digitaldictionary',
         name: 'DigitalDictionary',
         component: () => import('@/views/permission/DigitalDictionary'),
-        meta: { title: '数据字典管理', icon: '', roles: ['system:dicts:read'] }
+        meta: { title: '数据字典管理', icon: '', noCache: false, roles: ['system:dicts:read'] }
       },
       {
         path: 'digitaldetail',
