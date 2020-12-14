@@ -2,7 +2,6 @@
     <div class="cmyyTable">
         <el-table
             :data="table.tableData"
-            stripe
             highlight-current-row
             v-loading="table.tableLoading"
             :max-height="table.tableHeight"
