@@ -729,24 +729,24 @@ export default {
         if (valid) {
           let params = this.addForm
           console.log(params)
-          // addCustomer(params).then(res => {
-          //   if (res.status == 200) {
-          //     this._getCustomerList(this.table.pageNum, this.table.pageSize);
-          //     this.$message({
-          //       message: '添加成功',
-          //       type: 'success'
-          //     })
+          addCustomer(params).then(res => {
+            if (res.status == 200) {
+              this._getCustomerList(this.table.pageNum, this.table.pageSize);
+              this.$message({
+                message: '添加成功',
+                type: 'success'
+              })
 
-          //     this.$refs[formName].resetFields()
-          //     this.hide(type)
-          //   } else {
-          //     this.$message({
-          //       type: 'error',
-          //       message: res.message
-          //     })
-          //   }
-          //   this.addSaveLoading = false
-          // })
+              this.$refs[formName].resetFields()
+              this.hide(type)
+            } else {
+              this.$message({
+                type: 'error',
+                message: res.message
+              })
+            }
+            this.addSaveLoading = false
+          })
         } else {
           this.$message({
             type: 'warning',
