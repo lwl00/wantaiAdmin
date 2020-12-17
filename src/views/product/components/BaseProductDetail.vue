@@ -37,16 +37,16 @@
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
-            <el-form-item label="工艺" prop="craftNames" :label-width="formLabelWidth">
+            <el-form-item label="工艺" prop="craftsName" :label-width="formLabelWidth">
               <el-input
-                v-model="addForm.craftNames"
+                v-model="addForm.craftsName"
                 disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
-            <el-form-item label="分类" prop="categoryNames" :label-width="formLabelWidth">
+            <el-form-item label="分类" prop="categorysName" :label-width="formLabelWidth">
               <el-input
-                v-model="addForm.categoryNames"
+                v-model="addForm.categorysName"
                 disabled></el-input>
             </el-form-item>
           </el-col>
@@ -98,9 +98,9 @@
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
-            <el-form-item label="关联产品" prop="contactNames" :label-width="formLabelWidth">
+            <el-form-item label="关联产品" prop="contactsName" :label-width="formLabelWidth">
               <el-input
-                v-model="addForm.contactNames"
+                v-model="addForm.contactsName"
                 disabled></el-input>
             </el-form-item>
           </el-col>
@@ -192,7 +192,7 @@ export default {
         instructions: '',  //
         specificationList: [],  // 明细表
         imgEffectList: [],  // 实景效果图表
-        contactNames: '',  // 关联产品名称
+        contactsName: '',  // 关联产品名称
         contactNumbers: '',  // 关联产品编号
       },
 

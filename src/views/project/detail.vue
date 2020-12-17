@@ -151,12 +151,12 @@ export default {
           },
           {
             label: '工艺',
-            field: 'craftNames',
+            field: 'craftsName',
             width: 200,
           },
           {
             label: '分类',
-            field: 'categoryNames',
+            field: 'categorysName',
             width: 200,
           },
           {

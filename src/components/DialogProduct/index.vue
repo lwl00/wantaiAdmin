@@ -179,11 +179,11 @@ import { deleteBlankSpace, formatSearch, calculateTableHeight, tableBtnPermissio
             },
             {
               label: '工艺',
-              field: 'craftNames',
+              field: 'craftsName',
             },
             {
               label: '分类',
-              field: 'categoryNames',
+              field: 'categorysName',
             },
             {
               label: '是否折扣库商品',

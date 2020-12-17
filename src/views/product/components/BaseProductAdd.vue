@@ -114,12 +114,12 @@
           </el-col>
 
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
-            <el-form-item label="关联产品" prop="contactNames" :label-width="formLabelWidth">
+            <el-form-item label="关联产品" prop="contactsName" :label-width="formLabelWidth">
               <el-tooltip class="item" effect="light"  placement="bottom" popper-class="searchWarp_tooltip">
-                <div slot="content">{{addForm.contactNames ? addForm.contactNames : '暂无内容'}}</div>
+                <div slot="content">{{addForm.contactsName ? addForm.contactsName : '暂无内容'}}</div>
                 <el-input
                   placeholder="请选择商品"
-                  v-model="addForm.contactNames"
+                  v-model="addForm.contactsName"
                   disabled>
                   <template slot="append">
                     <el-button @click="showProduct">选择</el-button>
@@ -333,9 +333,9 @@ export default {
         brandId: '',  //
         seriesId: '',  //
         crafts: '',  //
-        craftNames: '',  //
+        craftsName: '',  //
         categorys: '',  //
-        categoryNames: '',  //
+        categorysName: '',  //
         imgMain: '',  //
         status: 'true',  //
         discount: 'false',  //
@@ -343,7 +343,7 @@ export default {
         instructions: '',  //
         specificationList: [],  // 明细表
         imgEffectList: [],  // 实景效果图表
-        contactNames: '',  // 关联产品名称
+        contactsName: '',  // 关联产品名称
         contactNumbers: '',  // 关联产品编号
       },
 
@@ -531,15 +531,15 @@ export default {
           },
           {
             label: '工艺',
-            field: 'craftNames',
+            field: 'craftsName',
           },
           {
             label: '分类',
-            field: 'categoryNames',
+            field: 'categorysName',
           },
           {
             label: '关联产品',
-            field: 'contactNames',
+            field: 'contactsName',
           },
           {
             label: '是否折扣库商品',
@@ -933,13 +933,13 @@ export default {
     handleDialogYes(e) {
       this.hide('dialog-model-product')
       let contactNumbers = ''
-      let contactNames = ''
+      let contactsName = ''
       e.forEach(function(item, index) {
         contactNumbers += item.number+','
-        contactNames += item.name+','
+        contactsName += item.name+','
       })
       this.addForm.contactNumbers = contactNumbers.substring(0, contactNumbers.length - 1)
-      this.addForm.contactNames = contactNames.substring(0, contactNames.length - 1)
+      this.addForm.contactsName = contactsName.substring(0, contactsName.length - 1)
     },
     // 商品弹窗取消
     handleDialogNo(type) {
@@ -1031,7 +1031,7 @@ export default {
         })
       })
       this.addForm.crafts = arrToString(e)
-      this.addForm.craftNames = arrToString(nameArr)
+      this.addForm.craftsName = arrToString(nameArr)
     },
     // 分类选择
     changeCategorys(e) {
@@ -1045,7 +1045,7 @@ export default {
         })
       })
       this.addForm.categorys = arrToString(e)
-      this.addForm.categoryNames = arrToString(nameArr)
+      this.addForm.categorysName = arrToString(nameArr)
     }
   },
   watch: {

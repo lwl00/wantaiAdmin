@@ -234,12 +234,12 @@ export default {
         },
         {
           label: '工艺',
-          field: 'craftNames',
+          field: 'craftsName',
           width: 200,
         },
         {
           label: '分类',
-          field: 'categoryNames',
+          field: 'categorysName',
           width: 200,
         },
         {
@@ -373,7 +373,7 @@ export default {
 
       let params = {
         // nameStr: ',商品名称,商品编号,数量,小计,品牌,系列,工艺,分类,,,',
-        // fieldStr: ',name,number,quantity,subtotal,brandName,seriesName,craftNames,categoryNames,,',
+        // fieldStr: ',name,number,quantity,subtotal,brandName,seriesName,craftsName,categorysName,,',
         nameStr: '序号,图片,名称,编号,规格,型号,数量,单位,单价,小计,材质说明',
         fieldStr: 'indexes,imgMain,name,number,size,modelNumber,quantity,unit,unitPrice,subtotal,instructions',
         fieldTail: 'amount,name,companyName,contact,phone,customerName',

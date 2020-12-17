@@ -355,15 +355,15 @@ export default {
           },
           {
             label: '工艺',
-            field: 'craftNames',
+            field: 'craftsName',
           },
           {
             label: '分类',
-            field: 'categoryNames',
+            field: 'categorysName',
           },
           {
             label: '关联产品',
-            field: 'contactNames',
+            field: 'contactsName',
           },
           {
             label: '是否折扣库商品',
