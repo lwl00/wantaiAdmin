@@ -670,6 +670,8 @@ export default {
           // 工艺
           let crafts = res.data.product.crafts
           if(crafts.indexOf(",") >= 0) {
+            crafts = crafts.substr(0, crafts.length-1);
+            crafts = crafts.substr(1, crafts.length-1);
             this.options.crafts = crafts.split(',')
           }else {
             this.options.crafts.push(crafts)
@@ -678,6 +680,8 @@ export default {
           // 分类
           let categorys = res.data.product.categorys
           if(categorys.indexOf(",") >= 0) {
+            categorys = categorys.substr(0, categorys.length-1);
+            categorys = categorys.substr(1, categorys.length-1);
             this.options.categorys = categorys.split(',')
           }else {
             this.options.categorys.push(categorys)
@@ -932,14 +936,14 @@ export default {
     // 商品弹窗确定
     handleDialogYes(e) {
       this.hide('dialog-model-product')
-      let contactNumbers = ''
-      let contactsName = ''
+      let contactNumbers = ','
+      let contactsName = ','
       e.forEach(function(item, index) {
         contactNumbers += item.number+','
         contactsName += item.name+','
       })
-      this.addForm.contactNumbers = contactNumbers.substring(0, contactNumbers.length - 1)
-      this.addForm.contactsName = contactsName.substring(0, contactsName.length - 1)
+      this.addForm.contactNumbers = contactNumbers
+      this.addForm.contactsName = contactsName
     },
     // 商品弹窗取消
     handleDialogNo(type) {
@@ -1022,29 +1026,33 @@ export default {
     // 工艺选择
     changeCrafts(e) {
       let _this = this
+      let valueArr = []
       let nameArr = []
       e.forEach(function(el, elIndex) {
         _this.options.craftsOptions.forEach(function(item, index) {
           if(item.value == el) {
+            valueArr.push(item.value)
             nameArr.push(item.name)
           }
         })
       })
-      this.addForm.crafts = arrToString(e)
+      this.addForm.crafts = arrToString(valueArr)
       this.addForm.craftsName = arrToString(nameArr)
     },
     // 分类选择
     changeCategorys(e) {
       let _this = this
+      let valueArr = []
       let nameArr = []
       e.forEach(function(el, elIndex) {
         _this.options.categorysOptions.forEach(function(item, index) {
           if(item.value == el) {
+            valueArr.push(item.value)
             nameArr.push(item.name)
           }
         })
       })
-      this.addForm.categorys = arrToString(e)
+      this.addForm.categorys = arrToString(valueArr)
       this.addForm.categorysName = arrToString(nameArr)
     }
   },

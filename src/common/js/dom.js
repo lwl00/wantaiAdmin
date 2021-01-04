@@ -367,13 +367,12 @@ export function uploadDataNoRepeat(_this, str) {
   }
 }
 
-// 数组转字符串  ['1', '2', '3', '4' ]  ==> 1,2,3,4
+// 数组转字符串  ['1', '2', '3', '4' ]  ==> ,1,2,3,4,
 export function arrToString(arr) {
-  var string = ''
+  var string = ','
   arr.forEach(function (el, index) {
     string += el+','
   });
-  string = string.substring(0, string.length - 1)
 
   return string
 }
