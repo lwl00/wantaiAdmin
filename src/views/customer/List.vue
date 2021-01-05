@@ -91,6 +91,18 @@
                 :maxlength="11"></el-input>
             </el-form-item>
             <el-form-item
+              label="地址"
+              :label-width="formLabelWidth"
+              size="small"
+              prop="remark">
+              <el-input
+                v-model="editRole.remark"
+                style="width:200px;"
+                class="pull-left"
+                @input="handleDeleteBlankSpacer($event, 'remark')"
+                placeholder="请输入地址"></el-input>
+            </el-form-item>
+            <el-form-item
               label="失效时间"
               :label-width="formLabelWidth"
               size="small"
@@ -158,7 +170,7 @@
                 style="width:200px;"
                 class="pull-left"
                 @input="handleDeleteBlankSpacer($event, 'username')"
-                placeholder="请输入客户账号11"></el-input>
+                placeholder="请输入客户账号"></el-input>
             </el-form-item>
             <el-form-item
               label="客户名称"
@@ -208,6 +220,18 @@
                 @input="handleDeleteBlankSpacer($event, 'phone')"
                 placeholder="请输入联系电话"
                 :maxlength="11"></el-input>
+            </el-form-item>
+            <el-form-item
+              label="地址"
+              :label-width="formLabelWidth"
+              size="small"
+              prop="remark">
+              <el-input
+                v-model="addForm.remark"
+                style="width:200px;"
+                class="pull-left"
+                @input="handleDeleteBlankSpacer($event, 'remark')"
+                placeholder="请输入地址"></el-input>
             </el-form-item>
             <el-form-item
               label="失效时间"
@@ -362,7 +386,7 @@ export default {
           {
             label: '客户名称',
             field: 'name',
-            width: 200,
+            width: 150,
           },
           {
             label: '公司',
@@ -378,14 +402,15 @@ export default {
             field: 'phone',
           },
           {
+            label: '地址',
+            field: 'remark',
+            width: 200,
+          },
+          {
             label: '失效时间',
             field: 'failureTime',
             type: 'dateTime',
             width: 200,
-          },
-          {
-            label: '备注',
-            field: 'remark',
           },
           {
             label: '状态',
@@ -426,6 +451,7 @@ export default {
         company: '', //公司
         position: '', //职位
         phone: '', //电话
+        remark: '', //地址
         failureTime: '', //失效时间
         status: true, //状态,
         password: '123456',  //默认密码
@@ -438,6 +464,7 @@ export default {
         company: '', //公司
         position: '', //职位
         phone: '', //电话
+        remark: '', //地址
         failureTime: '2099-12-31T15:59:59.000Z',  //失效时间
         status: true, //状态,
         password: '123456',  //默认密码
@@ -502,7 +529,7 @@ export default {
       var permissionsBtnArr = localStorage.getItem("permissionsBtn");
       this.buttonList.filter(item => item.name === 'add')[0].show = this.isAddPermission = permissionsBtnArr.includes("furniture:customer:create")     // 新增功能
       this.buttonList.filter(item => item.name === 'delete')[0].show = this.isAddPermission = permissionsBtnArr.includes("furniture:customer:delete")     // 删除功能
-      
+
       // 表格按钮权限
       tableBtnPermissions(this.table.title, 'update', permissionsBtnArr.includes("furniture:customer:update"))   // 编辑功能
     },
@@ -647,6 +674,7 @@ export default {
       this.editRole.company = e.company
       this.editRole.position = e.position
       this.editRole.phone = e.phone
+      this.editRole.remark = e.remark
       this.editRole.failureTime = e.failureTime
       this.editRole.status = e.status
       this.editRole.oldPassWord = e.password
@@ -693,7 +721,6 @@ export default {
     },
     // 表格编辑状态
     handleSwitch(e) {
-      console.log(e)
       let params = e
       editCustomer(params).then(res => {
         if (res.status == 200) {
@@ -728,7 +755,6 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let params = this.addForm
-          console.log(params)
           addCustomer(params).then(res => {
             if (res.status == 200) {
               this._getCustomerList(this.table.pageNum, this.table.pageSize);
