@@ -102,6 +102,7 @@ export default {
 <style type="text/css" media="screen">
   .el-menu-item.is-active,
   #app .sidebar-container .el-submenu .el-menu-item.is-active {
+    color: #fff !important;
     background-color: #ff6633 !important;
   }
   

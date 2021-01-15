@@ -78,7 +78,7 @@ export default {
             keepMindPassword: true,
             isLogin: false,
             note: {
-                backgroundImage: "url(" + require("../../common/images/login_bg.jpg") + ")",
+                backgroundImage: "url(" + require("../../common/images/login_bg.png") + ")",
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
