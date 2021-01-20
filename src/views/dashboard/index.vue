@@ -89,7 +89,7 @@
                     </div>
                     <div class="spec clear" v-if="item.specificationList.length > 0">
                       <div class="specText pull-left" :title="item.specificationList[0].size">{{item.specificationList[0].size}}</div>
-                      <div class="specTextMore pull-right" @mouseenter="item.isShowProLayer = !item.isShowProLayer">更多规格</div>
+                      <div class="specTextMore pull-right" @mouseenter="item.isShowProLayer = true">更多规格</div>
                     </div>
                     <div class="price clear" v-if="item.specificationList.length > 0">
                       <div class="priceText pull-left">￥<span>{{item.specificationList[0].unitPrice}}</span></div>
@@ -97,12 +97,14 @@
                   </div>
 
                   <!-- 蒙层 -->
-                  <div class="proLayer" v-show="item.isShowProLayer" @mouseleave="item.isShowProLayer = !item.isShowProLayer">
+                  <div class="proLayer" v-show="item.isShowProLayer" @mouseleave="item.isShowProLayer = false">
                     <div class="title">规格</div>
                     <dl v-for="(specItem, specIndex) in item.specificationList">
                       <dt>{{specItem.size}}</dt>
                       <dd>￥<span>{{specItem.unitPrice}}</span></dd>
                     </dl>
+                    <div class="operat" @mouseleave="item.isShowProLayer = false">
+                    </div>
                   </div>
                 </div>
               </el-col>
@@ -483,6 +485,13 @@
                   font-weight: bold;
                 }
               }
+            }
+            .operat {
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              right: 0;
+              height: 26%;
             }
           }
         }
