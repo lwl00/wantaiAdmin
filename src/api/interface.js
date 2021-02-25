@@ -292,7 +292,7 @@ export function getProduct(id) {
  */
 // 列表
 export function getProjectList(params) {
-  let url = `${base}/project/number=${params.number}/name=${params.name}/companyName=${params.companyName}/contact=${params.contact}/createdTime=${params.createdTime}/pageNum=${params.pageNum}/pageSize=${params.pageSize}`
+  let url = `${base}/project/number=${params.number}/name=${params.name}/companyName=${params.companyName}/contact=${params.contact}/creator=${params.creator}/createdTime=${params.createdTime}/pageNum=${params.pageNum}/pageSize=${params.pageSize}`
 
   if (params.export) {
     // 导出表格数据(跨域添加 /api)

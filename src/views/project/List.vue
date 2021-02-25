@@ -120,6 +120,12 @@ export default {
           hide: true,
         },
         {
+          label: '创建人',
+          field: 'creator',
+          value: '',
+          type: 'input',
+        },
+        {
           label: '创建时间',
           field: 'createdTime',
           value: '',
@@ -169,6 +175,7 @@ export default {
           {
             label: '创建人',
             field: 'creator',
+            width: '130px',
           },
           {
             label: '创建时间',
@@ -179,6 +186,7 @@ export default {
           {
             label: '修改人',
             field: 'modifier',
+            width: '130px',
           },
           {
             label: '修改时间',
